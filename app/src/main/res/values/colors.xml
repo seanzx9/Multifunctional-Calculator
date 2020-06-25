@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="light_grey">#F1F1F1</color>
+    <color name="grey">#BABDBD</color>
+    <color name="dark_grey">#514F4F</color>
+    <color name="light_black">#2A2828</color>
+    <color name="black">#1F1E1E</color>
+    <color name="dark_black">#0A0A0A</color>
+    <color name="red">#EC2B09</color>
+    <color name="green">#60C021</color>
+    <color name="green_text">#4F9D1B</color>
+    <color name="light_blue">#43ABC9</color>
+    <color name="dark_blue">#107896</color>
+
+    <color name="background">#FFFFFF</color>
+    <color name="accent">#43ABC9</color>
+    <color name="background_contrast">#FDFDFD</color>
+    <color name="text">#514F4F</color>
+    <color name="hint">#BABDBD</color>
+    <color name="nav_on">#2A2828</color>
+    <color name="nav_off">#BABDBD</color>
+    <color name="toggle_on">#4F9D1B</color>
+    <color name="toggle_off">#BABDBD</color>
+    <color name="button_background">#F1F1F1</color>
+    <color name="button_ripple">#BABDBD</color>
+    <color name="divider">#F1F1F1</color>
+    <color name="spinner">#FDFDFD</color>
+</resources>

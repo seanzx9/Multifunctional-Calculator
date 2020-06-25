@@ -1,0 +1,209 @@
+<resources>
+
+    <string name="app_name">Calculator</string>
+
+    <string name="basic">Basic</string>
+    <string name="clear">C</string>
+    <string name="delete">DEL</string>
+    <string name="answer">ANS</string>
+    <string name="second">2ND</string>
+    <string name="exponent">xⁿ</string>
+    <string name="ee">EE</string>
+    <string name="parentheses">( )</string>
+    <string name="div_symbol">÷</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="mul_symbol">×</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="sub_symbol">-</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="add_symbol">+</string>
+    <string name="pos_neg">+/-</string>
+    <string name="zero">0</string>
+    <string name="decimal">.</string>
+    <string name="equal_symbol">=</string>
+    <string name="sqrt">√</string>
+    <string name="cbrt">³√</string>
+    <string name="pow_two">2ⁿ</string>
+    <string name="first">1ST</string>
+    <string name="sin">sin</string>
+    <string name="cos">cos</string>
+    <string name="tan">tan</string>
+    <string name="pi">π</string>
+    <string name="asin">sin⁻¹</string>
+    <string name="acos">cos⁻¹</string>
+    <string name="atan">tan⁻¹</string>
+    <string name="mod">%</string>
+    <string name="log">log</string>
+    <string name="pow_ten">10ⁿ</string>
+    <string name="ln">ln</string>
+    <string name="e">eⁿ</string>
+    <string name="kilo">k</string>
+    <string name="mega">M</string>
+    <string name="giga">G</string>
+    <string name="terra">T</string>
+    <string name="milli">m</string>
+    <string name="micro">µ</string>
+    <string name="nano">n</string>
+    <string name="pico">p</string>
+    <string name="error">ERROR</string>
+
+    <string name="total">Total</string>
+    <string name="tip">Tip</string>
+    <string name="bill">Bill&#xA;Amount</string>
+    <string name="reset">Reset</string>
+    <string name="tip_percent">Tip Percent</string>
+    <string name="split">Split</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+
+    <string name="stocks">Stocks</string>
+    <string name="quantity">Quantity</string>
+    <string name="original_value">Original</string>
+    <string name="new_value">New</string>
+
+    <string name="bitwise">Bitwise</string>
+    <string name="dec">Decimal</string>
+    <string name="dec_type">Dec</string>
+    <string name="dec_result">Decimal Result</string>
+    <string name="bin">Binary</string>
+    <string name="bin_type">Bin</string>
+    <string name="bin_result">Binary Result</string>
+    <string name="hex">Hex</string>
+    <string name="hex_type">Hex</string>
+    <string name="hex_result">Hex Result</string>
+    <string name="standard">Standard</string>
+    <string name="com">Two\'s Compliment</string>
+    <string name="val1">First Value</string>
+    <string name="val2">Second Value</string>
+    <string name="con">\u21C6</string>
+    <string name="and">\uff06</string>
+    <string name="or">|</string>
+    <string name="xor">\u2303</string>
+    <string name="left_shift">\u003c\u003c</string>
+    <string name="right_shift">\u003e\u003e</string>
+
+    <string name="convert">Convert</string>
+    <string name="temperature">Temperature</string>
+    <string name="length">Length</string>
+    <string name="mass">Mass</string>
+    <string name="area">Area</string>
+    <string name="volume">Volume</string>
+    <string name="speed">Speed</string>
+    <string name="angle">Angle</string>
+    <string name="time">Time</string>
+    <string name="currency">Currency</string>
+    <string-array name="type">
+        <item>Temperature</item>
+        <item>Length</item>
+        <item>Mass</item>
+        <item>Volume</item>
+        <item>Area</item>
+        <item>Speed</item>
+        <item>Angle</item>
+        <item>Time</item>
+        <item>Currency</item>
+    </string-array>
+    <string-array name="temperature">
+        <item>Fahrenheit</item>
+        <item>Celsius</item>
+        <item>Kelvin</item>
+    </string-array>
+    <string-array name="length">
+        <item>Kilometer</item>
+        <item>Meter</item>
+        <item>Centimeter</item>
+        <item>Millimeter</item>
+        <item>Micrometer</item>
+        <item>Nanometer</item>
+        <item>Mile</item>
+        <item>Yard</item>
+        <item>Foot</item>
+        <item>Inch</item>
+        <item>Mil</item>
+    </string-array>
+    <string-array name="mass">
+        <item>Metric Ton</item>
+        <item>Kilogram</item>
+        <item>Gram</item>
+        <item>Milligram</item>
+        <item>Microgram</item>
+        <item>US Ton</item>
+        <item>Pound</item>
+        <item>Ounce</item>
+    </string-array>
+    <string-array name="area">
+        <item>Square Kilometer</item>
+        <item>Square Meter</item>
+        <item>Square Mile</item>
+        <item>Square Yard</item>
+        <item>Square Foot</item>
+        <item>Square Inch</item>
+        <item>Hectare</item>
+        <item>Acre</item>
+    </string-array>
+    <string-array name="volume">
+        <item>Liter</item>
+        <item>Milliliter</item>
+        <item>Cubic Meter</item>
+        <item>Gallon</item>
+        <item>Quart</item>
+        <item>Pint</item>
+        <item>Cup</item>
+        <item>Fluid Ounce</item>
+        <item>Tablespoon</item>
+        <item>Teaspoon</item>
+        <item>Cubic Yard</item>
+        <item>Cubic Foot</item>
+        <item>Cubic Inch</item>
+    </string-array>
+    <string-array name="speed">
+        <item>Miles per Hour</item>
+        <item>Foot per Second</item>
+        <item>Kilometer per Hour</item>
+        <item>Meter per Second</item>
+        <item>Knot</item>
+    </string-array>
+    <string-array name="angle">
+        <item>Radians</item>
+        <item>Degrees</item>
+    </string-array>
+    <string-array name="time">
+        <item>Nanosecond</item>
+        <item>Microsecond</item>
+        <item>Millisecond</item>
+        <item>Second</item>
+        <item>Minute</item>
+        <item>Hour</item>
+        <item>Day</item>
+        <item>Week</item>
+        <item>Month</item>
+        <item>Year</item>
+        <item>Decade</item>
+        <item>Century</item>
+    </string-array>
+    <string-array name="currency">
+        <item>US Dollar (USD)</item>
+        <item>Euro (EUR)</item>
+        <item>British Pound (GBP)</item>
+        <item>Canadian Dollar (CAD)</item>
+        <item>Mexican Peso (MXN)</item>
+        <item>Australian Dollar (AUD)</item>
+        <item>Japanese Yen (JPY)</item>
+        <item>Chinese Yuan (CNY)</item>
+        <item>Korean Won (KRW)</item>
+        <item>Hong Kong Dollar (HKD)</item>
+        <item>Singapore Dollar (SGD)</item>
+        <item>Indian Rupee (INR)</item>
+        <item>Russian Ruble (RUB)</item>
+        <item>Swiss Franc (CHF)</item>
+        <item>New Zealand Dollar (NZD)</item>
+        <item>South African Rand (ZAR)</item>
+    </string-array>
+
+</resources>

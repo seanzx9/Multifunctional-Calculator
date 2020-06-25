@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".StocksFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/result_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.307"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/input_container"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/result_inner_container"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.80"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.75"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent">
+
+            <TextView
+                android:id="@+id/change"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/line"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:textSize="40sp"
+                android:textColor="@color/text"
+                android:typeface="monospace"
+                android:gravity="center" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:layout_constraintTop_toBottomOf="@+id/change"
+                app:layout_constraintBottom_toTopOf="@id/percent_change"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:background="@drawable/divider_gradient" />
+
+            <TextView
+                android:id="@+id/percent_change"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/line"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:textSize="40sp"
+                android:textColor="@color/text"
+                android:typeface="monospace"
+                android:gravity="center" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/input_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.69"
+        app:layout_constraintTop_toBottomOf="@id/result_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/quantity_container"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.92"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/original_container"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:background="@drawable/rounded_corners"
+            android:elevation="3dp">
+
+            <TextView
+                android:id="@+id/quantity_title"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="0.50"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/quantity"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:background="@drawable/left_rounded_corners"
+                android:text="@string/quantity"
+                android:textSize="30sp"
+                android:textColor="@color/background"
+                android:typeface="monospace"
+                android:gravity="center"
+                android:lineSpacingExtra="3dp" />
+
+            <EditText
+                android:id="@+id/quantity"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="0.50"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/quantity_title"
+                android:background="@android:color/transparent"
+                android:textSize="30sp"
+                android:textColor="@color/text"
+                android:typeface="monospace"
+                android:gravity="center"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
+                android:clickable="true"
+                android:inputType="date"
+                android:selectAllOnFocus="true"
+                android:hint="@null"
+                android:importantForAutofill="no" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/original_container"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.92"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintTop_toBottomOf="@id/quantity_container"
+            app:layout_constraintBottom_toTopOf="@id/new_container"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:background="@drawable/rounded_corners"
+            android:elevation="3dp">
+
+            <TextView
+                android:id="@+id/original_title"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="0.50"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/original"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:background="@drawable/left_rounded_corners"
+                android:text="@string/original_value"
+                android:textSize="30sp"
+                android:textColor="@color/background"
+                android:typeface="monospace"
+                android:gravity="center"
+                android:lineSpacingExtra="3dp" />
+
+            <EditText
+                android:id="@+id/original"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="0.50"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/original_title"
+                android:background="@android:color/transparent"
+                android:textSize="30sp"
+                android:textColor="@color/text"
+                android:typeface="monospace"
+                android:gravity="center"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
+                android:clickable="true"
+                android:inputType="date"
+                android:hint="@null"
+                android:importantForAutofill="no" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/new_container"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.92"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintTop_toBottomOf="@id/original_container"
+            app:layout_constraintBottom_toTopOf="@id/reset"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:background="@drawable/rounded_corners"
+            android:elevation="3dp">
+
+            <TextView
+                android:id="@+id/new_title"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="0.50"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/new_val"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:background="@drawable/left_rounded_corners"
+                android:text="@string/new_value"
+                android:textSize="30sp"
+                android:textColor="@color/background"
+                android:typeface="monospace"
+                android:gravity="center"
+                android:lineSpacingExtra="3dp" />
+
+            <EditText
+                android:id="@+id/new_val"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="0.50"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/new_title"
+                android:background="@android:color/transparent"
+                android:textSize="30sp"
+                android:textColor="@color/text"
+                android:typeface="monospace"
+                android:gravity="center"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
+                android:clickable="true"
+                android:inputType="date"
+                android:hint="@null"
+                android:importantForAutofill="no" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/reset"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.92"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.10"
+            app:layout_constraintTop_toBottomOf="@id/new_container"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="@string/reset"
+            android:textSize="22sp"
+            android:textColor="@color/text"
+            android:typeface="monospace"
+            android:textAllCaps="false"
+            android:elevation="1dp"
+            android:background="@drawable/rounded_button"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

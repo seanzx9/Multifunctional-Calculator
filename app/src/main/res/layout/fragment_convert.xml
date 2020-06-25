@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ConvertFragment">
+
+    <RadioGroup
+        android:id="@+id/type"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/input1_container"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <RadioGroup
+            android:id="@+id/radio_row1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:id="@+id/temperature"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:text="@string/temperature"
+                android:textSize="12sp"
+                android:textColor="@color/radio_button_text"
+                android:typeface="sans"
+                android:gravity="center"
+                android:background="@drawable/radio_button"
+                android:button="@drawable/radio_button"
+                android:paddingVertical="10dp"
+                android:drawableTop="@drawable/temperature"
+                android:drawableTint="@color/radio_button_text"
+                android:checked="true" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:id="@+id/angle"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:text="@string/angle"
+                android:textSize="12sp"
+                android:textColor="@color/radio_button_text"
+                android:typeface="sans"
+                android:gravity="center"
+                android:background="@drawable/radio_button"
+                android:button="@drawable/radio_button"
+                android:paddingVertical="10dp"
+                android:drawableTop="@drawable/angle"
+                android:drawableTint="@color/radio_button_text" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:id="@+id/mass"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:text="@string/mass"
+                android:textSize="12sp"
+                android:textColor="@color/radio_button_text"
+                android:typeface="sans"
+                android:gravity="center"
+                android:background="@drawable/radio_button"
+                android:button="@drawable/radio_button"
+                android:paddingVertical="10dp"
+                android:drawableTop="@drawable/mass"
+                android:drawableTint="@color/radio_button_text" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/radio_row2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:id="@+id/length"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:text="@string/length"
+                android:textSize="12sp"
+                android:textColor="@color/radio_button_text"
+                android:typeface="sans"
+                android:gravity="center"
+                android:background="@drawable/radio_button"
+                android:button="@drawable/radio_button"
+                android:paddingVertical="10dp"
+                android:drawableTop="@drawable/length"
+                android:drawableTint="@color/radio_button_text" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:id="@+id/area"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:text="@string/area"
+                android:textSize="12sp"
+                android:textColor="@color/radio_button_text"
+                android:typeface="sans"
+                android:gravity="center"
+                android:background="@drawable/radio_button"
+                android:button="@drawable/radio_button"
+                android:paddingVertical="10dp"
+                android:drawableTop="@drawable/area"
+                android:drawableTint="@color/radio_button_text" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:id="@+id/volume"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:text="@string/volume"
+                android:textSize="12sp"
+                android:textColor="@color/radio_button_text"
+                android:typeface="sans"
+                android:gravity="center"
+                android:background="@drawable/radio_button"
+                android:button="@drawable/radio_button"
+                android:paddingVertical="10dp"
+                android:drawableTop="@drawable/volume"
+                android:drawableTint="@color/radio_button_text" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/radio_row3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:id="@+id/speed"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:text="@string/speed"
+                android:textSize="12sp"
+                android:textColor="@color/radio_button_text"
+                android:typeface="sans"
+                android:gravity="center"
+                android:background="@drawable/radio_button"
+                android:button="@drawable/radio_button"
+                android:paddingVertical="10dp"
+                android:drawableTop="@drawable/speed"
+                android:drawableTint="@color/radio_button_text" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:id="@+id/time"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:text="@string/time"
+                android:textSize="12sp"
+                android:textColor="@color/radio_button_text"
+                android:typeface="sans"
+                android:gravity="center"
+                android:background="@drawable/radio_button"
+                android:button="@drawable/radio_button"
+                android:paddingVertical="10dp"
+                android:drawableTop="@drawable/time"
+                android:drawableTint="@color/radio_button_text" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <RadioButton
+                android:id="@+id/currency"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:text="@string/currency"
+                android:textSize="12sp"
+                android:textColor="@color/radio_button_text"
+                android:typeface="sans"
+                android:gravity="center"
+                android:background="@drawable/radio_button"
+                android:button="@drawable/radio_button"
+                android:paddingVertical="10dp"
+                android:drawableTop="@drawable/currency"
+                android:drawableTint="@color/radio_button_text" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </RadioGroup>
+
+    </RadioGroup>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/input1_container"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.95"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.20"
+        app:layout_constraintTop_toBottomOf="@id/type"
+        app:layout_constraintBottom_toTopOf="@id/input2_container"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/rounded_corners"
+        android:elevation="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/input1_inner_container"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.95"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.70"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/input1_type"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <EditText
+                android:id="@+id/input1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.70"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/input1_clear"
+                android:textSize="40sp"
+                android:textColor="@color/text"
+                android:typeface="sans"
+                android:inputType="numberSigned|numberDecimal"
+                android:selectAllOnFocus="true"
+                android:backgroundTint="@color/hint"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
+                android:clickable="true"
+                android:hint="@null"
+                android:importantForAutofill="no"  />
+
+            <ImageButton
+                android:id="@+id/input1_clear"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:background="@drawable/x"
+                android:backgroundTint="@color/hint" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Spinner
+            android:id="@+id/input1_type"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.95"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.30"
+            app:layout_constraintTop_toBottomOf="@id/input1_inner_container"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            style="spinner_style" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/input2_container"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.95"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.20"
+        app:layout_constraintTop_toBottomOf="@id/input1_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/rounded_corners"
+        android:elevation="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/input2_inner_container"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.95"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.70"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/input2_type"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <EditText
+                android:id="@+id/input2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.70"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/input2_clear"
+                android:textSize="40sp"
+                android:textColor="@color/text"
+                android:typeface="sans"
+                android:inputType="numberSigned|numberDecimal"
+                android:selectAllOnFocus="true"
+                android:backgroundTint="@color/hint"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
+                android:clickable="true"
+                android:hint="@null"
+                android:importantForAutofill="no"  />
+
+            <ImageButton
+                android:id="@+id/input2_clear"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:background="@drawable/x"
+                android:backgroundTint="@color/hint" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Spinner
+            android:id="@+id/input2_type"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.95"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.30"
+            app:layout_constraintTop_toBottomOf="@id/input2_inner_container"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
