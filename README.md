@@ -1,5 +1,5 @@
 # Multifunctional Calculator
-Native android calculator app featuring 5 main functions.
+Native Android calculator app featuring 5 main functions.
 
 - Scientific calculator
 - Tips calculator
