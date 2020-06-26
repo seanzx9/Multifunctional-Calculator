@@ -10,17 +10,21 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-    private BottomNavigationView bottomNavigation;
+    private boolean first;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+
+        //for one time animation
+        first = true;
         openFragment(BasicFragment.newInstance());
 
-        bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigation.setOnNavigationItemSelectedListener(
+        //initialize bottom nav
+        BottomNavigationView bnv = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bnv.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -53,6 +57,13 @@ public class MainActivity extends AppCompatActivity {
      */
     private void openFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        //only animate first fragment
+        if (first) {
+            transaction.setCustomAnimations(R.anim.slide_from_bottom, 0);
+            first = false;
+        }
+
         transaction.replace(R.id.main_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
