@@ -380,6 +380,8 @@ public class BitwiseFragment extends Fragment {
         input2.setClickable(true);
         TextView title = (TextView) view.findViewById(R.id.input2_title);
         title.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
+        for (int i = 0; i < radioType2.getChildCount(); i++)
+            radioType2.getChildAt(i).setEnabled(true);
         radioType2.setOnCheckedChangeListener(type2List);
         if (radioType2.getCheckedRadioButtonId() == -1) radioType2.check(R.id.dec_type2);
         clear2.setClickable(true);
@@ -395,6 +397,8 @@ public class BitwiseFragment extends Fragment {
         title.setTextColor(ContextCompat.getColor(getContext(), R.color.toggle_off));
         radioType2.setOnCheckedChangeListener(null);
         radioType2.clearCheck();
+        for (int i = 0; i < radioType2.getChildCount(); i++)
+            radioType2.getChildAt(i).setEnabled(false);
         clear2.setClickable(false);
     }
 
