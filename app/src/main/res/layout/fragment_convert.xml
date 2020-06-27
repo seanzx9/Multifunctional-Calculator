@@ -280,12 +280,13 @@
                 android:textSize="40sp"
                 android:textColor="@color/text"
                 android:typeface="sans"
-                android:inputType="numberSigned|numberDecimal"
-                android:selectAllOnFocus="true"
                 android:backgroundTint="@color/hint"
                 android:cursorVisible="true"
                 android:textCursorDrawable="@null"
                 android:clickable="true"
+                android:inputType="numberSigned|numberDecimal"
+                android:imeOptions="actionDone"
+                android:selectAllOnFocus="true"
                 android:hint="@null"
                 android:importantForAutofill="no"  />
 
@@ -351,12 +352,13 @@
                 android:textSize="40sp"
                 android:textColor="@color/text"
                 android:typeface="sans"
-                android:inputType="numberSigned|numberDecimal"
-                android:selectAllOnFocus="true"
                 android:backgroundTint="@color/hint"
                 android:cursorVisible="true"
                 android:textCursorDrawable="@null"
                 android:clickable="true"
+                android:inputType="numberSigned|numberDecimal"
+                android:imeOptions="actionDone"
+                android:selectAllOnFocus="true"
                 android:hint="@null"
                 android:importantForAutofill="no"  />
 

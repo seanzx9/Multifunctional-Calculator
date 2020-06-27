@@ -226,7 +226,6 @@ public class BitwiseFragment extends Fragment {
         });
 
         //handle Done button
-        input1.setImeOptions(EditorInfo.IME_ACTION_DONE);
         input1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -309,7 +308,6 @@ public class BitwiseFragment extends Fragment {
         });
 
         //handle Done button
-        input2.setImeOptions(EditorInfo.IME_ACTION_DONE);
         input2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -377,6 +375,7 @@ public class BitwiseFragment extends Fragment {
      */
     private void enableInput2() {
         input2.setEnabled(true);
+        input2.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
         input2.setClickable(true);
         TextView title = (TextView) view.findViewById(R.id.input2_title);
         title.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
@@ -391,6 +390,7 @@ public class BitwiseFragment extends Fragment {
      * Disable input 2 panel.
      */
     private void disableInput2() {
+        input2.setTextColor(ContextCompat.getColor(getContext(), R.color.toggle_off));
         input2.setEnabled(false);
         input2.setClickable(false);
         TextView title = (TextView) view.findViewById(R.id.input2_title);

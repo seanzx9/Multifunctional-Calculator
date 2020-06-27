@@ -373,7 +373,6 @@ public class ConvertFragment extends Fragment {
         input1 = (EditText) view.findViewById(R.id.input1);
 
         //set Done button on input1 keyboard
-        input1.setImeOptions(EditorInfo.IME_ACTION_DONE);
         input1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -415,7 +414,6 @@ public class ConvertFragment extends Fragment {
         input2 = (EditText) view.findViewById(R.id.input2);
 
         //set Done button on input2 keyboard
-        input2.setImeOptions(EditorInfo.IME_ACTION_DONE);
         input2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

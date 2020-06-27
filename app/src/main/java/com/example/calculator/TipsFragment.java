@@ -100,7 +100,6 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
         bill.setText(billAmount);
 
         //handle Done button on bill keyboard
-        bill.setImeOptions(EditorInfo.IME_ACTION_DONE);
         bill.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -131,7 +130,6 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
         tipPercent.setText(tipPercentAmount);
 
         //handle Done button on tip percent keyboard
-        tipPercent.setImeOptions(EditorInfo.IME_ACTION_DONE);
         tipPercent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -174,7 +172,6 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
         splitRight.setOnClickListener(this);
 
         //handle Done button on split keyboard
-        split.setImeOptions(EditorInfo.IME_ACTION_DONE);
         split.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

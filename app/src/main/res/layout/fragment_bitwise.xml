@@ -229,6 +229,7 @@
             android:textCursorDrawable="@null"
             android:clickable="true"
             android:inputType="datetime"
+            android:imeOptions="actionDone"
             android:selectAllOnFocus="true"
             android:hint="@null"
             android:importantForAutofill="no" />
@@ -344,6 +345,7 @@
             android:textCursorDrawable="@null"
             android:clickable="true"
             android:inputType="datetime"
+            android:imeOptions="actionDone"
             android:selectAllOnFocus="true"
             android:hint="@null"
             android:importantForAutofill="no" />

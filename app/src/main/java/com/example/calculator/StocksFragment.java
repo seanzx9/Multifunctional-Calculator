@@ -99,7 +99,6 @@ public class StocksFragment extends Fragment {
         quantity.setText(quantityAmount);
 
         //handle Done button on quantity keyboard
-        quantity.setImeOptions(EditorInfo.IME_ACTION_DONE);
         quantity.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -130,7 +129,6 @@ public class StocksFragment extends Fragment {
         original.setText(originalAmount);
 
         //handle Done button on original keyboard
-        original.setImeOptions(EditorInfo.IME_ACTION_DONE);
         original.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -161,7 +159,6 @@ public class StocksFragment extends Fragment {
         newVal.setText(newValAmount);
 
         //handle Done button on new keyboard
-        newVal.setImeOptions(EditorInfo.IME_ACTION_DONE);
         newVal.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

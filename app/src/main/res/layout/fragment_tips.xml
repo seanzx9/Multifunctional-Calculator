@@ -149,6 +149,7 @@
                 android:textCursorDrawable="@null"
                 android:clickable="true"
                 android:inputType="date"
+                android:imeOptions="actionDone"
                 android:hint="@null"
                 android:importantForAutofill="no" />
 
@@ -226,6 +227,7 @@
                     android:textCursorDrawable="@null"
                     android:clickable="true"
                     android:inputType="date"
+                    android:imeOptions="actionDone"
                     android:hint="@null"
                     android:importantForAutofill="no" />
 
@@ -319,6 +321,7 @@
                     android:textCursorDrawable="@null"
                     android:clickable="true"
                     android:inputType="date"
+                    android:imeOptions="actionDone"
                     android:hint="@null"
                     android:importantForAutofill="no" />
 
