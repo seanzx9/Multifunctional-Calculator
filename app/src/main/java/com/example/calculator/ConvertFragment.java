@@ -5,9 +5,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -22,20 +20,17 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.google.android.material.textfield.TextInputEditText;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -45,18 +40,14 @@ import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.net.InetAddress;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
 import static android.content.Context.VIBRATOR_SERVICE;
 
 public class ConvertFragment extends Fragment {
@@ -290,7 +281,7 @@ public class ConvertFragment extends Fragment {
     private Spinner input1Type;
     private Spinner input2Type;
     private ArrayAdapter<CharSequence> adapter;
-    private EditText input1;
+    private TextInputEditText input1;
     private TextWatcher input1List = new TextWatcher() {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -304,7 +295,7 @@ public class ConvertFragment extends Fragment {
         @Override
         public void afterTextChanged(Editable editable) {}
     };
-    private EditText input2;
+    private TextInputEditText input2;
     private TextWatcher input2List = new TextWatcher() {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -318,8 +309,6 @@ public class ConvertFragment extends Fragment {
         @Override
         public void afterTextChanged(Editable editable) {}
     };
-    private ImageButton clear1;
-    private ImageButton clear2;
     private static HashMap<String, BigDecimal> curList;
     private Animation buttonPress;
 
@@ -370,7 +359,7 @@ public class ConvertFragment extends Fragment {
         radioRow3.setOnCheckedChangeListener(row3);
 
         //initialize input1
-        input1 = (EditText) view.findViewById(R.id.input1);
+        input1 = (TextInputEditText) view.findViewById(R.id.input1_edit);
 
         //set Done button on input1 keyboard
         input1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -396,22 +385,8 @@ public class ConvertFragment extends Fragment {
             }
         });
 
-        //handle clear1 button
-        clear1 = (ImageButton) view.findViewById(R.id.input1_clear);
-        clear1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                vibrate(5, 50);
-                input1.removeTextChangedListener(input1List);
-                input1.setText("0");
-                input1.addTextChangedListener(input1List);
-                clear1.startAnimation(buttonPress);
-                calculate(R.id.input1);
-            }
-        });
-
         //initialize input2
-        input2 = (EditText) view.findViewById(R.id.input2);
+        input2 = (TextInputEditText) view.findViewById(R.id.input2_edit);
 
         //set Done button on input2 keyboard
         input2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -434,20 +409,6 @@ public class ConvertFragment extends Fragment {
                         .trim()));
                 Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
                 return true;
-            }
-        });
-
-        //handle clear2 button
-        clear2 = (ImageButton) view.findViewById(R.id.input2_clear);
-        clear2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                vibrate(5, 50);
-                input2.removeTextChangedListener(input2List);
-                input2.setText("0");
-                input2.addTextChangedListener(input2List);
-                clear2.startAnimation(buttonPress);
-                calculate(R.id.input2);
             }
         });
 

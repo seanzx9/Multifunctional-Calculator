@@ -19,13 +19,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import com.google.android.material.textfield.TextInputEditText;
 import java.text.NumberFormat;
 import static android.content.Context.VIBRATOR_SERVICE;
 
@@ -33,12 +32,10 @@ public class BitwiseFragment extends Fragment {
     private TextView dec;
     private TextView bin;
     private TextView hex;
-    private EditText input1;
-    private ImageButton clear1;
+    private TextInputEditText input1;
     private RadioGroup radioType1;
     private int type1;
-    private EditText input2;
-    private ImageButton clear2;
+    private TextInputEditText input2;
     private RadioGroup radioType2;
     private int type2;
     private int operation;
@@ -204,7 +201,7 @@ public class BitwiseFragment extends Fragment {
 
         //initialize inputs
         //start as dec
-        input1 = (EditText) view.findViewById(R.id.input1);
+        input1 = (TextInputEditText) view.findViewById(R.id.input1_edit);
         input1.setInputType(InputType.TYPE_CLASS_DATETIME);
         type1 = 0;
 
@@ -275,20 +272,8 @@ public class BitwiseFragment extends Fragment {
             }
         });
 
-        //handle clear1 button
-        clear1 = (ImageButton) view.findViewById(R.id.input1_clear);
-        clear1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                vibrate(5, 50);
-                input1.setText("");
-                clear1.startAnimation(buttonPress);
-                calculate();
-            }
-        });
-
         //start as dec
-        input2 = (EditText) view.findViewById(R.id.input2);
+        input2 = (TextInputEditText) view.findViewById(R.id.input2_edit);
         input2.setInputType(InputType.TYPE_CLASS_DATETIME);
         type2 = 0;
 
@@ -320,19 +305,6 @@ public class BitwiseFragment extends Fragment {
         //handle type from radio group
         radioType2 = (RadioGroup) view.findViewById(R.id.input2_type);
         radioType2.setOnCheckedChangeListener(type2List);
-
-        //handle clear2 button
-        clear2 = (ImageButton) view.findViewById(R.id.input2_clear);
-        clear2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                vibrate(5, 50);
-                input2.setText("");
-                clear2.startAnimation(buttonPress);
-                calculate();
-            }
-        });
-
 
         //initialize radio groups for operation
         operation = 0;
@@ -383,7 +355,6 @@ public class BitwiseFragment extends Fragment {
             radioType2.getChildAt(i).setEnabled(true);
         radioType2.setOnCheckedChangeListener(type2List);
         if (radioType2.getCheckedRadioButtonId() == -1) radioType2.check(R.id.dec_type2);
-        clear2.setClickable(true);
     }
 
     /**
@@ -399,7 +370,6 @@ public class BitwiseFragment extends Fragment {
         radioType2.clearCheck();
         for (int i = 0; i < radioType2.getChildCount(); i++)
             radioType2.getChildAt(i).setEnabled(false);
-        clear2.setClickable(false);
     }
 
     /**
