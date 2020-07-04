@@ -666,7 +666,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
                 .append(str.substring(index)).toString();
 
         //adjust font size depending on length of string
-        if (str.length() < 16) {
+        if (str.length() <= 16) {
             result.setText(str);
             result.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
             result.setSelection(index + string.length());
@@ -692,9 +692,9 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
             String evalStr = formatExpression(raw);
             if (!evalStr.trim().equals("")) {
                 //try BigDecimal calculation
-                double num = evalLow(evalStr).doubleValue();
+                double num = evalLow(evalStr).setScale(15, ROUNDING_MODE).doubleValue();
                 //if value is large
-                if (num > Math.pow(10, 9) - 1) num = evalHigh(evalStr);
+                if (num >= Integer.MAX_VALUE) num = round(evalHigh(evalStr), 15);
                 //remove decimals if none needed
                 String ans = (num % 1 == 0 && num < Math.pow(10, 9))?
                         Integer.toString((int)(num)) : Double.toString(num);
@@ -733,7 +733,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
         if (index > 0) {
             String str = result.getText().toString();
             str = str.substring(0, index - 1) + str.substring(index);
-            result.setTextSize((str.length() < 16)? 40 : 32);
+            result.setTextSize((str.length() <= 16)? 40 : 32);
             result.setText(str);
             result.setSelection(index - 1);
         }
@@ -751,15 +751,15 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
             String evalStr = formatExpression(raw);
             if (!evalStr.trim().equals("")) {
                 //try BigDecimal calculation
-                double num = evalLow(evalStr).doubleValue();
+                double num = evalLow(evalStr).setScale(15, ROUNDING_MODE).doubleValue();
                 //if value is large
-                if (num > Math.pow(10, 9) - 1) num = evalHigh(evalStr);
+                if (num >= Integer.MAX_VALUE) num = round(evalHigh(evalStr), 15);
                 //remove decimals if none needed
                 String ans = (num % 1 == 0 && num < Math.pow(10, 9))?
                         Integer.toString((int)(num)) : Double.toString(num);
 
                 //add to edit text and history array
-                result.setTextSize((ans.length() < 16)? 40 : 32);
+                result.setTextSize((ans.length() <= 16)? 40 : 32);
                 result.setText(ans);
                 pendingResult.setText("");
                 result.setTextColor(ContextCompat.getColor(getContext(), R.color.green_text));
@@ -809,6 +809,21 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
         }
 
         return formatted;
+    }
+
+    /**
+     * Rounds double value to desired precision.
+     *
+     * @param value value to round
+     * @param places places to round to
+     * @return rounded decimal
+     */
+    private double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     /**
