@@ -351,7 +351,6 @@ public class ConvertFragment extends Fragment {
 
         //initialize animations
         buttonPress = AnimationUtils.loadAnimation(getContext(), R.anim.button_press);
-        buttonPress.reset();
 
         //set radio group listeners
         radioRow1.setOnCheckedChangeListener(row1);

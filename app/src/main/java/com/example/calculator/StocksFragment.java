@@ -193,10 +193,7 @@ public class StocksFragment extends Fragment {
         });
 
         //initialize animations
-        Animation buttonPress = AnimationUtils.loadAnimation(getContext(), R.anim.button_press);
-        buttonPress.reset();
         grow = AnimationUtils.loadAnimation(getContext(), R.anim.grow_from_bottom);
-        grow.reset();
         grow.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationEnd(Animation animation) {

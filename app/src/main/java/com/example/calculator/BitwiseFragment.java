@@ -332,7 +332,6 @@ public class BitwiseFragment extends Fragment {
 
         //initialize animations
         buttonPress = AnimationUtils.loadAnimation(getContext(), R.anim.button_press);
-        buttonPress.reset();
 
         //set listeners and start convert operation
         disableInput2();

@@ -231,7 +231,6 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
 
         //initialize animation
         buttonPress = AnimationUtils.loadAnimation(getContext(), R.anim.button_press);
-        buttonPress.reset();
 
         return view;
     }
