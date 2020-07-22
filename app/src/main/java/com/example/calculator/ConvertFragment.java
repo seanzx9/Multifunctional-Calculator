@@ -2177,8 +2177,8 @@ public class ConvertFragment extends Fragment {
      * @param amplitude amplitude of vibration
      */
     private void vibrate(int length, int amplitude) {
-        ((Vibrator) getActivity().getSystemService(VIBRATOR_SERVICE)).
-                vibrate(VibrationEffect.createOneShot(length,amplitude));
+        ((Vibrator) getActivity().getSystemService(VIBRATOR_SERVICE))
+                .vibrate(VibrationEffect.createOneShot(length,amplitude));
     }
 
     /**

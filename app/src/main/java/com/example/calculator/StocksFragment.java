@@ -22,7 +22,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import static android.content.Context.VIBRATOR_SERVICE;
@@ -326,7 +325,7 @@ public class StocksFragment extends Fragment {
      * @param amplitude amplitude of vibration
      */
     private void vibrate(int length, int amplitude) {
-        ((Vibrator) getActivity().getSystemService(VIBRATOR_SERVICE)).
-                vibrate(VibrationEffect.createOneShot(length,amplitude));
+        ((Vibrator) getActivity().getSystemService(VIBRATOR_SERVICE))
+                .vibrate(VibrationEffect.createOneShot(length,amplitude));
     }
 }
