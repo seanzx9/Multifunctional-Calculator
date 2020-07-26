@@ -691,9 +691,9 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
             String evalStr = formatExpression(raw);
             if (!evalStr.trim().equals("")) {
                 //try BigDecimal calculation
-                double num = evalLow(evalStr).setScale(15, ROUNDING_MODE).doubleValue();
+                double num = evalLow(evalStr).setScale(12, ROUNDING_MODE).doubleValue();
                 //if value is large
-                if (num >= Integer.MAX_VALUE) num = round(evalHigh(evalStr), 15);
+                if (num >= Integer.MAX_VALUE) num = round(evalHigh(evalStr), 12);
                 //remove decimals if none needed
                 String ans = (num % 1 == 0 && num < Math.pow(10, 9))?
                         Integer.toString((int)(num)) : Double.toString(num);
@@ -750,9 +750,9 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
             String evalStr = formatExpression(raw);
             if (!evalStr.trim().equals("")) {
                 //try BigDecimal calculation
-                double num = evalLow(evalStr).setScale(15, ROUNDING_MODE).doubleValue();
+                double num = evalLow(evalStr).setScale(12, ROUNDING_MODE).doubleValue();
                 //if value is large
-                if (num >= Integer.MAX_VALUE) num = round(evalHigh(evalStr), 15);
+                if (num >= Integer.MAX_VALUE) num = round(evalHigh(evalStr), 12);
                 //remove decimals if none needed
                 String ans = (num % 1 == 0 && num < Math.pow(10, 9))?
                         Integer.toString((int)(num)) : Double.toString(num);
