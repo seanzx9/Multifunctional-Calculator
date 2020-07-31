@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {

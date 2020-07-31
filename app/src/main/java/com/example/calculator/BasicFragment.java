@@ -66,17 +66,6 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_basic, container, false);
 
-        //back button ends activity
-        view.setFocusableInTouchMode(true);
-        view.requestFocus();
-        view.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                getActivity().finish();
-                return keyCode == KeyEvent.KEYCODE_BACK;
-            }
-        });
-
         //equation and results edit text
         result = (EditText) view.findViewById(R.id.result);
         result.setShowSoftInputOnFocus(false);
