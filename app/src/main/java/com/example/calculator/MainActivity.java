@@ -9,7 +9,13 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Stack;
+
 public class MainActivity extends AppCompatActivity {
+    private BottomNavigationView bnv;
+    private Stack<Integer> fragments;
+    private int curFragmentId;
+    private boolean backPressed;
     private boolean first;
 
     @Override
@@ -20,10 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
         //for one time animation
         first = true;
+
+        fragments = new Stack<>();
         openFragment(BasicFragment.newInstance());
+        curFragmentId = R.id.basic;
+        backPressed = false;
 
         //initialize bottom nav
-        BottomNavigationView bnv = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bnv = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bnv.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -31,23 +41,44 @@ public class MainActivity extends AppCompatActivity {
                         switch (item.getItemId()) {
                             case R.id.basic:
                                 openFragment(BasicFragment.newInstance());
+                                curFragmentId = R.id.basic;
                                 return true;
                             case R.id.tip:
                                 openFragment(TipsFragment.newInstance());
+                                curFragmentId = R.id.tip;
                                 return true;
                             case R.id.stocks:
                                 openFragment(StocksFragment.newInstance());
+                                curFragmentId = R.id.stocks;
                                 return true;
                             case R.id.bitwise:
                                 openFragment(BitwiseFragment.newInstance());
+                                curFragmentId = R.id.bitwise;
                                 return true;
                             case R.id.convert:
                                 openFragment(ConvertFragment.newInstance());
+                                curFragmentId = R.id.convert;
                                 return true;
                         }
                         return false;
                     }
                 });
+    }
+
+    /**
+     * Navigate through app with back button.
+     */
+    @Override
+    public void onBackPressed() {
+        if (fragments.isEmpty()) {
+            finish();
+        }
+        else {
+            int id = fragments.pop();
+            backPressed = true;
+            bnv.setSelectedItemId(id);
+            curFragmentId = id;
+        }
     }
 
     /**
@@ -67,5 +98,8 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.main_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+
+        if (!backPressed) fragments.push(curFragmentId);
+        else backPressed = false;
     }
 }
