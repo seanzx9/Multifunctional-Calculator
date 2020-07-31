@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
-        if (fragments.isEmpty()) {
+        if (fragments.isEmpty() || curFragmentId == R.id.basic) {
             finish();
         }
         else {
