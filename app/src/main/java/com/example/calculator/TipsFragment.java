@@ -39,8 +39,6 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
     private ImageButton splitLeft;
     private ImageButton splitRight;
     private Animation buttonPress;
-    private ConstraintLayout inputContainer;
-    private Animation grow;
 
     public TipsFragment() {}
 
@@ -200,12 +198,41 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
         Button resetButton = (Button) view.findViewById(R.id.reset);
         resetButton.setOnClickListener(this);
 
-        //initialize animations
+        //initialize animation
         buttonPress = AnimationUtils.loadAnimation(getContext(), R.anim.button_press);
-        grow = AnimationUtils.loadAnimation(getContext(), R.anim.grow_from_bottom);
-        grow.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationEnd(Animation animation) {
+
+        return view;
+    }
+
+    /**
+     * Listener for all buttons.
+     *
+     * @param view current view
+     */
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tip_left:
+                vibrate(5, 50);
+                decTip();
+                calculate();
+                break;
+            case R.id.tip_right:
+                vibrate(5, 50);
+                incTip();
+                calculate();
+                break;
+            case R.id.split_left:
+                vibrate(5, 50);
+                decSplit();
+                calculate();
+                break;
+            case R.id.split_right:
+                vibrate(5, 50);
+                incSplit();
+                calculate();
+                break;
+            case R.id.reset:
                 billAmount = "$0.00";
                 bill.setText(billAmount);
                 tipPercentAmount = "15%";
@@ -213,19 +240,8 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
                 splitAmount = "1";
                 split.setText(splitAmount);
                 vibrate(5, 25);
-            }
-
-            @Override
-            public void onAnimationStart(Animation animation) {}
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {}
-        });
-
-        //initialize container
-        inputContainer = (ConstraintLayout) view.findViewById(R.id.input_container);
-
-        return view;
+                break;
+        }
     }
 
     /**
@@ -301,40 +317,6 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
         split.setSelection(splitAmount.length());
 
         split.addTextChangedListener(textWatcher);
-    }
-
-    /**
-     * Listener for all buttons.
-     *
-     * @param view current view
-     */
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tip_left:
-                vibrate(5, 50);
-                decTip();
-                calculate();
-                break;
-            case R.id.tip_right:
-                vibrate(5, 50);
-                incTip();
-                calculate();
-                break;
-            case R.id.split_left:
-                vibrate(5, 50);
-                decSplit();
-                calculate();
-                break;
-            case R.id.split_right:
-                vibrate(5, 50);
-                incSplit();
-                calculate();
-                break;
-            case R.id.reset:
-                inputContainer.startAnimation(grow);
-                break;
-        }
     }
 
     /**

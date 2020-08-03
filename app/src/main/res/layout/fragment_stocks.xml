@@ -183,6 +183,7 @@
                 android:clickable="true"
                 android:inputType="date"
                 android:imeOptions="actionDone"
+                android:selectAllOnFocus="true"
                 android:hint="@null"
                 android:importantForAutofill="no" />
 
@@ -237,6 +238,7 @@
                 android:clickable="true"
                 android:inputType="date"
                 android:imeOptions="actionDone"
+                android:selectAllOnFocus="true"
                 android:hint="@null"
                 android:importantForAutofill="no" />
 

@@ -35,8 +35,6 @@ public class StocksFragment extends Fragment {
     private String originalAmount;
     private EditText newVal;
     private String newValAmount;
-    private ConstraintLayout inputContainer;
-    private Animation grow;
 
     public StocksFragment() {}
 
@@ -74,7 +72,7 @@ public class StocksFragment extends Fragment {
 
         //initialize percent change amount
         percentChange = (TextView) view.findViewById(R.id.percent_change);
-        String percentChangeAmount = "0.00%";
+        String percentChangeAmount = "0%";
         percentChange.setText(percentChangeAmount);
         percentChange.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
 
@@ -187,15 +185,6 @@ public class StocksFragment extends Fragment {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                inputContainer.startAnimation(grow);
-            }
-        });
-
-        //initialize animations
-        grow = AnimationUtils.loadAnimation(getContext(), R.anim.grow_from_bottom);
-        grow.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationEnd(Animation animation) {
                 quantityAmount = "1";
                 quantity.setText(quantityAmount);
                 originalAmount = "$0.00";
@@ -204,16 +193,7 @@ public class StocksFragment extends Fragment {
                 newVal.setText(newValAmount);
                 vibrate(5, 25);
             }
-
-            @Override
-            public void onAnimationStart(Animation animation) {}
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {}
         });
-
-        //initialize container
-        inputContainer = (ConstraintLayout) view.findViewById(R.id.input_container);
 
         return view;
     }

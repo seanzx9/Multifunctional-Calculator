@@ -212,6 +212,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
                 if (mode) {
                     Arrays.fill(history, "");
                     writeToFile();
+                    Toast.makeText(getContext(), "History cleared", Toast.LENGTH_SHORT).show();
                     vibrate(40, 75);
                 }
                 return true;
