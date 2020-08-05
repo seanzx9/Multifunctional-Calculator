@@ -15,8 +15,8 @@
         app:layout_constraintHeight_percent="0.27"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/pending_result"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:background="@android:color/transparent"
         android:paddingTop="20dp"
         android:textSize="40sp"
@@ -26,7 +26,7 @@
         android:textCursorDrawable="@null"
         android:clickable="true"
         android:gravity="end"
-        android:inputType="numberDecimal"
+        android:inputType="textMultiLine"
         android:hint="@null"
         android:importantForAutofill="no" />
 
@@ -38,8 +38,8 @@
         app:layout_constraintHeight_percent="0.07"
         app:layout_constraintTop_toBottomOf="@id/result"
         app:layout_constraintBottom_toTopOf="@id/line_basic"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:textSize="30sp"
         android:typeface="sans"
         android:gravity="end"
