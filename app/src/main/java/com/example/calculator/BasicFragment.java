@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +31,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Arrays;
 import static android.content.Context.VIBRATOR_SERVICE;
 
@@ -43,7 +43,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
     private TextView pendingResult;
     private boolean mode;
     private boolean solved;
-    private String[] history;
+    private ArrayList<String> history;
     private Animation buttonPress;
     private Button b00, b01, b02, b03,
                    b10, b11, b12, b13,
@@ -99,8 +99,8 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
         pendingResult = (TextView) view.findViewById(R.id.pending_result);
 
         //initialize history array
-        history = new String[20];
-        Arrays.fill(history, "");
+        history = new ArrayList<>();
+//        Arrays.fill(history, "");
         readFromFile();
 
         //buttons
@@ -210,7 +210,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
             @Override
             public boolean onLongClick(View view) {
                 if (mode) {
-                    Arrays.fill(history, "");
+                    history.clear();
                     writeToFile();
                     Toast.makeText(getContext(), "History cleared", Toast.LENGTH_SHORT).show();
                     vibrate(40, 75);
@@ -569,6 +569,11 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
      * Get a previous answer from history (max 20)
      */
     private void selectPrevAns() {
+        if (history.isEmpty()) {
+            Toast.makeText(getContext(), "No calculations made yet!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         final BottomSheetDialog dialog = new BottomSheetDialog(getContext());
         dialog.setContentView(R.layout.bottom_sheet_view);
         dialog.getWindow().setDimAmount((float) 0.25);
@@ -577,15 +582,15 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (!history[i].equals("")) {
+                if (!history.get(i).equals("")) {
                     vibrate(5, 50);
-                    String ans = history[i].substring(history[i].indexOf("\n") + 1);
+                    String ans = history.get(i).substring(history.get(i).indexOf("\n") + 1);
                     addStr(ans, 0);
                     dialog.dismiss();
                 }
             }
         });
-        lv.setAdapter(new ArrayAdapter<String>(getContext(),
+        lv.setAdapter(new ArrayAdapter<>(getContext(),
                 R.layout.listview_wrapper, R.id.listview_item, history));
         dialog.show();
     }
@@ -643,7 +648,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
         else if (string.equals(".")) //add leading 0
             string = "0.";
         else if (type == 1) { //use last ans
-            String lastAns = history[0].substring(history[0].indexOf("\n") + 1);
+            String lastAns = history.get(0).substring(history.get(0).indexOf("\n") + 1);
             if (!lastAns.equals(""))
                 string = sb.append(lastAns).append(string).toString();
         }
@@ -665,7 +670,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
             result.setText(str);
             result.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
             result.setSelection(index + string.length());
-            result.setTextSize(32);
+            result.setTextSize(31);
         }
 
         processPending();
@@ -722,7 +727,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
         if (index > 0) {
             String str = result.getText().toString();
             str = str.substring(0, index - 1) + str.substring(index);
-            result.setTextSize((str.length() <= 16)? 40 : 32);
+            result.setTextSize((str.length() <= 16)? 40 : 31);
             result.setText(str);
             result.setSelection(index - 1);
         }
@@ -748,7 +753,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
                         Integer.toString((int)(num)) : Double.toString(num);
 
                 //add to edit text and history array
-                result.setTextSize((ans.length() <= 16)? 40 : 32);
+                result.setTextSize((ans.length() <= 16)? 40 : 31);
                 result.setText(ans);
                 pendingResult.setText("");
                 result.setTextColor(ContextCompat.getColor(getContext(), R.color.green_text));
@@ -811,7 +816,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
         if (places < 0) throw new IllegalArgumentException();
 
         BigDecimal bd = BigDecimal.valueOf(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        bd = bd.setScale(places, ROUNDING_MODE);
         return bd.doubleValue();
     }
 
@@ -821,9 +826,10 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
      * @param str new element to add
      */
     private void addHistory(String str) {
-        for (int i = history.length - 2; i >= 0; i--)
-            history[i+1] = history[i];
-        history[0] = str;
+//        for (int i = history.length - 2; i >= 0; i--)
+//            history[i+1] = history[i];
+//        history[0] = str;
+        history.add(0, str);
     }
 
     /**
@@ -1389,13 +1395,11 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
                 String data;
                 StringBuilder sb = new StringBuilder();
 
-                int index = 0;
                 while ((data = bufferedReader.readLine()) != null) {
                     String formattedData = sb.append(data).toString();
                     formattedData = formattedData.substring(0, formattedData.indexOf("=") + 1) +
                             "\n" + formattedData.substring(formattedData.indexOf("=") + 1);
-                    history[index] = formattedData;
-                    index++;
+                    history.add(formattedData);
                     sb = new StringBuilder();
                 }
 
