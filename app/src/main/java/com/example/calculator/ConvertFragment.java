@@ -1841,6 +1841,11 @@ public class ConvertFragment extends Fragment {
      * @param editTextId id of changing edit text
      */
     private void convertCurrency(int editTextId) {
+        if (curList.isEmpty()) {
+            Toast.makeText(getContext(), "Please connect to internet to get currency rates",
+                    Toast.LENGTH_SHORT).show();
+        }
+
         BigDecimal orig, mid = new BigDecimal(0), con = new BigDecimal(0);
 
         //if input1 is being changed
@@ -2186,86 +2191,8 @@ public class ConvertFragment extends Fragment {
      */
     private void loadRatesFromXml() {
         curList = new HashMap<>();
+        readFromFile();
 
-        //load live rate from internet or read existing file
-        if (isInternetAvailable()) {
-            CurrencyRequest request = new CurrencyRequest();
-            request.execute();
-        }
-        else {
-            readFromFile();
-        }
-    }
-
-    /**
-     * Makes the request to load the xml file using okhttp.
-     */
-    private class CurrencyRequest extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String[] params) {
-            try {
-                String url = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url(url)
-                        .get()
-                        .build();
-
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-                return "";
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String xml) {
-            try {
-                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                DocumentBuilder db = dbf.newDocumentBuilder();
-                Document doc = db.parse(new InputSource(new StringReader(xml)));
-                doc.getDocumentElement().normalize();
-
-                NodeList nList = doc.getElementsByTagName("Cube");
-
-                //add elements to map of currency and rates
-                for (int temp = 0; temp < nList.getLength(); temp++) {
-                    Node nNode = nList.item(temp);
-                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                        Element eElement = (Element) nNode;
-                        if (!eElement.getAttribute("currency").equals(""))
-                            curList.put(eElement.getAttribute("currency"),
-                                    new BigDecimal(eElement.getAttribute("rate")));
-
-                    }
-                }
-                writeToFile();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     * Saves the current curList to file
-     */
-    private void writeToFile() {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
-                    getContext().openFileOutput("rates.txt", Context.MODE_PRIVATE));
-
-            for (Map.Entry<String, BigDecimal> entry : curList.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue().toString();
-                outputStreamWriter.write(key + ":" + value + "\n");
-            }
-
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
     }
 
     /**
@@ -2294,19 +2221,5 @@ public class ConvertFragment extends Fragment {
         } catch (IOException e) {
             Log.e("Exception", "Can not read file: " + e.toString());
         }
-    }
-
-    /**
-     * Checks if internet is available.
-     *
-     * @return true if internet is available and false otherwise
-     */
-    public boolean isInternetAvailable() {
-        Runtime runtime = Runtime.getRuntime();
-        try {
-            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-            int     exitValue = ipProcess.waitFor();
-            return (exitValue == 0);
-        } catch (Exception e) { return false; }
     }
 }
