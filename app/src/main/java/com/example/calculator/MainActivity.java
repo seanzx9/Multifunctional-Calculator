@@ -128,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
             transaction.setCustomAnimations(R.anim.slide_from_bottom, 0);
             first = false;
         }
+        else {
+            transaction.setCustomAnimations(R.anim.enter_fragment, 0);
+        }
 
         transaction.replace(R.id.main_container, fragment);
         transaction.addToBackStack(null);
