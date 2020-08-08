@@ -62,7 +62,10 @@ public class MainActivity extends AppCompatActivity {
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
+                        int id = item.getItemId();
+                        if (id == curFragmentId) return true;
+
+                        switch (id) {
                             case R.id.basic:
                                 openFragment(BasicFragment.newInstance());
                                 curFragmentId = R.id.basic;
