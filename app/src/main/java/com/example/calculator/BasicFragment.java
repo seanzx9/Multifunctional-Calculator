@@ -100,7 +100,6 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
 
         //initialize history array
         history = new ArrayList<>();
-//        Arrays.fill(history, "");
         readFromFile();
 
         //buttons
@@ -826,9 +825,6 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
      * @param str new element to add
      */
     private void addHistory(String str) {
-//        for (int i = history.length - 2; i >= 0; i--)
-//            history[i+1] = history[i];
-//        history[0] = str;
         history.add(0, str);
     }
 
