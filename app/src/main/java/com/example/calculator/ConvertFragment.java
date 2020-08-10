@@ -1842,8 +1842,8 @@ public class ConvertFragment extends Fragment {
      */
     private void convertCurrency(int editTextId) {
         if (curList.isEmpty()) {
-            Toast.makeText(getContext(), "Please connect to internet to get currency rates",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Please connect to internet and allow file access permissions to get currency rates",
+                    Toast.LENGTH_LONG).show();
         }
 
         BigDecimal orig, mid = new BigDecimal(0), con = new BigDecimal(0);
