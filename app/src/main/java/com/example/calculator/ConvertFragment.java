@@ -2192,7 +2192,6 @@ public class ConvertFragment extends Fragment {
     private void loadRatesFromXml() {
         curList = new HashMap<>();
         readFromFile();
-
     }
 
     /**
