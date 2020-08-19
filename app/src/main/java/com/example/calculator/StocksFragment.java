@@ -249,7 +249,7 @@ public class StocksFragment extends Fragment {
         quantity.removeTextChangedListener(textWatcher);
 
         String str = charSequence.toString();
-        int x = (str.equals(""))? 0 : Integer.parseInt(str) % 100000;
+        int x = (str.equals(""))? 0 : Integer.parseInt(str) % 100000000;
         quantityAmount = Integer.toString(x);
 
         quantity.setText(quantityAmount);

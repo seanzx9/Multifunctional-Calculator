@@ -21,7 +21,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/result_inner_container"
             android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.75"
+            app:layout_constraintWidth_percent="0.88"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.70"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,13 +31,11 @@
 
             <TextView
                 android:id="@+id/total_title"
-                android:layout_width="0dp"
-                app:layout_constraintWidth_percent="0.37"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/tip_title"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/total"
                 android:text="@string/total"
                 android:textSize="35sp"
                 android:textColor="@color/text"
@@ -46,12 +44,10 @@
 
             <TextView
                 android:id="@+id/total"
-                android:layout_width="0dp"
-                app:layout_constraintWidth_percent="0.63"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/tip"
-                app:layout_constraintLeft_toRightOf="@+id/total_title"
                 app:layout_constraintRight_toRightOf="parent"
                 android:textSize="35sp"
                 android:textColor="@color/green_text"
@@ -60,13 +56,11 @@
 
             <TextView
                 android:id="@+id/tip_title"
-                android:layout_width="0dp"
-                app:layout_constraintWidth_percent="0.37"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/total_title"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/tip"
                 android:text="@string/tip"
                 android:textSize="35sp"
                 android:textColor="@color/text"
@@ -75,12 +69,10 @@
 
             <TextView
                 android:id="@+id/tip"
-                android:layout_width="0dp"
-                app:layout_constraintWidth_percent="0.63"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/total"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/tip_title"
                 app:layout_constraintRight_toRightOf="parent"
                 android:textSize="35sp"
                 android:textColor="@color/green_text"

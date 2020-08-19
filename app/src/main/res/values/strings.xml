@@ -55,7 +55,7 @@
 
     <string name="total">Total</string>
     <string name="tip">Tip</string>
-    <string name="bill">Bill&#xA;Amount</string>
+    <string name="bill">Bill\nAmount</string>
     <string name="reset">Reset</string>
     <string name="tip_percent">Tip Percent</string>
     <string name="split">Split</string>
