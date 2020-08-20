@@ -105,7 +105,7 @@
                 android:text="@string/quantity"
                 android:textSize="30sp"
                 android:textColor="@color/background"
-                android:typeface="monospace"
+                android:typeface="sans"
                 android:gravity="center"
                 android:lineSpacingExtra="3dp" />
 
@@ -160,7 +160,7 @@
                 android:text="@string/original_value"
                 android:textSize="30sp"
                 android:textColor="@color/background"
-                android:typeface="monospace"
+                android:typeface="sans"
                 android:gravity="center"
                 android:lineSpacingExtra="3dp" />
 
@@ -215,7 +215,7 @@
                 android:text="@string/new_value"
                 android:textSize="30sp"
                 android:textColor="@color/background"
-                android:typeface="monospace"
+                android:typeface="sans"
                 android:gravity="center"
                 android:lineSpacingExtra="3dp" />
 
@@ -257,7 +257,7 @@
             android:text="@string/reset"
             android:textSize="22sp"
             android:textColor="@color/text"
-            android:typeface="monospace"
+            android:typeface="sans"
             android:textAllCaps="false"
             android:elevation="1dp"
             android:background="@drawable/rounded_button"/>
