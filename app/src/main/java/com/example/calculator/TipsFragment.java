@@ -38,6 +38,7 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
     private String splitAmount;
     private ImageButton splitLeft;
     private ImageButton splitRight;
+    private Button resetButton;
     private Animation buttonPress;
 
     public TipsFragment() {}
@@ -195,7 +196,7 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
         });
 
         //initialize reset button
-        Button resetButton = (Button) view.findViewById(R.id.reset);
+        resetButton = (Button) view.findViewById(R.id.reset);
         resetButton.setOnClickListener(this);
 
         //initialize animation
@@ -233,6 +234,7 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
                 calculate();
                 break;
             case R.id.reset:
+                resetButton.startAnimation(buttonPress);
                 billAmount = "$0.00";
                 bill.setText(billAmount);
                 tipPercentAmount = "15%";

@@ -181,10 +181,12 @@ public class StocksFragment extends Fragment {
         });
 
         //initialize reset button
-        Button resetButton = (Button) view.findViewById(R.id.reset);
+        final Button resetButton = (Button) view.findViewById(R.id.reset);
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Animation press = AnimationUtils.loadAnimation(getContext(), R.anim.button_press);
+                resetButton.startAnimation(press);
                 quantityAmount = "1";
                 quantity.setText(quantityAmount);
                 originalAmount = "$0.00";

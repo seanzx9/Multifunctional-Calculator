@@ -311,10 +311,14 @@ public class BitwiseFragment extends Fragment {
         radioRow1 = (RadioGroup) view.findViewById(R.id.radio_row1);
         radioRow2 = (RadioGroup) view.findViewById(R.id.radio_row2);
 
+        //initialize animations
+        buttonPress = AnimationUtils.loadAnimation(getContext(), R.anim.button_press);
+
         //initialize 2's compliment
         twoCom = (ToggleButton) view.findViewById(R.id.com);
         twoCom.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                twoCom.startAnimation(buttonPress);
                 vibrate(5, 10);
                 if (twoCom.isChecked()) {
                     input1.setInputType(InputType.TYPE_CLASS_NUMBER |
@@ -329,9 +333,6 @@ public class BitwiseFragment extends Fragment {
                 calculate();
             }
         });
-
-        //initialize animations
-        buttonPress = AnimationUtils.loadAnimation(getContext(), R.anim.button_press);
 
         //set listeners and start convert operation
         disableInput2();
