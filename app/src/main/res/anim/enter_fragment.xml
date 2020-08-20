@@ -9,8 +9,8 @@
 
     <scale
         android:duration="200"
-        android:fromXScale="96%"
-        android:fromYScale="96%"
+        android:fromXScale="98%"
+        android:fromYScale="98%"
         android:toXScale="100%"
         android:toYScale="100%"
         android:pivotX="50%"
