@@ -31,15 +31,15 @@
 
             <RadioButton
                 android:id="@+id/temperature"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
                 android:paddingVertical="10dp"
                 android:drawableTop="@drawable/temperature"
                 android:drawableTint="@color/radio_button"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/temperature"
                 android:textSize="12sp"
                 android:textColor="@color/radio_button"
-                android:typeface="sans"
                 android:gravity="center"
                 android:button="@drawable/radio_button"
                 android:background="@drawable/radio_button"
@@ -52,15 +52,15 @@
 
             <RadioButton
                 android:id="@+id/angle"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
                 android:paddingVertical="10dp"
                 android:drawableTop="@drawable/angle"
                 android:drawableTint="@color/radio_button"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/angle"
                 android:textSize="12sp"
                 android:textColor="@color/radio_button"
-                android:typeface="sans"
                 android:gravity="center"
                 android:button="@drawable/radio_button"
                 android:background="@drawable/radio_button" />
@@ -72,16 +72,16 @@
 
             <RadioButton
                 android:id="@+id/mass"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
                 android:paddingTop="14dp"
                 android:paddingBottom="5dp"
                 android:drawableTop="@drawable/mass"
                 android:drawableTint="@color/radio_button"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/mass"
                 android:textSize="12sp"
                 android:textColor="@color/radio_button"
-                android:typeface="sans"
                 android:gravity="center"
                 android:button="@drawable/radio_button"
                 android:background="@drawable/radio_button" />
@@ -108,16 +108,16 @@
 
             <RadioButton
                 android:id="@+id/length"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="5dp"
                 android:drawableTop="@drawable/length"
                 android:drawableTint="@color/radio_button"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/length"
                 android:textSize="12sp"
                 android:textColor="@color/radio_button"
-                android:typeface="sans"
                 android:gravity="center"
                 android:button="@drawable/radio_button"
                 android:background="@drawable/radio_button" />
@@ -129,16 +129,16 @@
 
             <RadioButton
                 android:id="@+id/area"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
                 android:paddingTop="12dp"
                 android:paddingBottom="5dp"
                 android:drawableTop="@drawable/area"
                 android:drawableTint="@color/radio_button"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/area"
                 android:textSize="12sp"
                 android:textColor="@color/radio_button"
-                android:typeface="sans"
                 android:gravity="center"
                 android:button="@drawable/radio_button"
                 android:background="@drawable/radio_button" />
@@ -150,16 +150,16 @@
 
             <RadioButton
                 android:id="@+id/volume"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
                 android:paddingTop="14dp"
                 android:paddingBottom="5dp"
                 android:drawableTop="@drawable/volume"
                 android:drawableTint="@color/radio_button"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/volume"
                 android:textSize="12sp"
                 android:textColor="@color/radio_button"
-                android:typeface="sans"
                 android:gravity="center"
                 android:button="@drawable/radio_button"
                 android:background="@drawable/radio_button" />
@@ -186,15 +186,15 @@
 
             <RadioButton
                 android:id="@+id/speed"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
                 android:paddingVertical="10dp"
                 android:drawableTop="@drawable/speed"
                 android:drawableTint="@color/radio_button"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/speed"
                 android:textSize="12sp"
                 android:textColor="@color/radio_button"
-                android:typeface="sans"
                 android:gravity="center"
                 android:button="@drawable/radio_button"
                 android:background="@drawable/radio_button" />
@@ -206,15 +206,15 @@
 
             <RadioButton
                 android:id="@+id/time"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
                 android:paddingVertical="10dp"
                 android:drawableTop="@drawable/time"
                 android:drawableTint="@color/radio_button"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/time"
                 android:textSize="12sp"
                 android:textColor="@color/radio_button"
-                android:typeface="sans"
                 android:gravity="center"
                 android:button="@drawable/radio_button"
                 android:background="@drawable/radio_button" />
@@ -226,15 +226,15 @@
 
             <RadioButton
                 android:id="@+id/currency"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
                 android:paddingVertical="10dp"
                 android:drawableTop="@drawable/currency"
                 android:drawableTint="@color/radio_button"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/currency"
                 android:textSize="12sp"
                 android:textColor="@color/radio_button"
-                android:typeface="sans"
                 android:gravity="center"
                 android:button="@drawable/radio_button"
                 android:background="@drawable/radio_button" />

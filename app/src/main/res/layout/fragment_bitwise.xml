@@ -28,10 +28,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            android:fontFamily="@font/open_sans"
             android:text="@string/dec_result"
             android:textSize="12sp"
-            android:textColor="@color/hint"
-            android:typeface="sans" />
+            android:textColor="@color/hint" />
 
         <TextView
             android:id="@+id/dec_result"
@@ -69,10 +69,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            android:fontFamily="@font/open_sans"
             android:text="@string/bin_result"
             android:textSize="12sp"
-            android:textColor="@color/hint"
-            android:typeface="sans" />
+            android:textColor="@color/hint" />
 
         <TextView
             android:id="@+id/bin_result"
@@ -110,10 +110,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            android:fontFamily="@font/open_sans"
             android:text="@string/hex_result"
             android:textSize="12sp"
-            android:textColor="@color/hint"
-            android:typeface="sans" />
+            android:textColor="@color/hint" />
 
         <TextView
             android:id="@+id/hex_result"
@@ -148,10 +148,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/input1"
             app:layout_constraintLeft_toLeftOf="parent"
+            android:fontFamily="@font/open_sans"
             android:text="@string/val1"
             android:textSize="18sp"
             android:textColor="@color/text"
-            android:typeface="sans"
             android:layout_marginStart="5dp"/>
 
         <RadioGroup
@@ -169,10 +169,10 @@
                 android:id="@+id/dec_type1"
                 android:layout_width="40dp"
                 android:layout_height="22dp"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/dec_type"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textColor="@color/radio_button"
-                android:typeface="sans"
                 android:gravity="center"
                 android:button="@drawable/radio_button"
                 android:background="@drawable/radio_button"
@@ -188,10 +188,10 @@
                 android:id="@+id/bin_type1"
                 android:layout_width="40dp"
                 android:layout_height="22dp"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/bin_type"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textColor="@color/radio_button"
-                android:typeface="sans"
                 android:gravity="center"
                 android:button="@drawable/radio_button"
                 android:background="@drawable/radio_button" />
@@ -205,10 +205,10 @@
                 android:id="@+id/hex_type1"
                 android:layout_width="40dp"
                 android:layout_height="22dp"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/hex_type"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textColor="@color/radio_button"
-                android:typeface="sans"
                 android:gravity="center"
                 android:button="@drawable/radio_button"
                 android:background="@drawable/radio_button" />
@@ -259,10 +259,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/input2"
             app:layout_constraintLeft_toLeftOf="parent"
+            android:fontFamily="@font/open_sans"
             android:text="@string/val2"
             android:textSize="18sp"
             android:textColor="@color/text"
-            android:typeface="sans"
             android:layout_marginStart="5dp"/>
 
         <RadioGroup
@@ -280,10 +280,10 @@
                 android:id="@+id/dec_type2"
                 android:layout_width="40dp"
                 android:layout_height="22dp"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/dec_type"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textColor="@color/radio_button"
-                android:typeface="sans"
                 android:gravity="center"
                 android:button="@drawable/radio_button"
                 android:background="@drawable/radio_button"
@@ -299,10 +299,10 @@
                 android:id="@+id/bin_type2"
                 android:layout_width="40dp"
                 android:layout_height="22dp"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/bin_type"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textColor="@color/radio_button"
-                android:typeface="sans"
                 android:gravity="center"
                 android:button="@drawable/radio_button"
                 android:background="@drawable/radio_button" />
@@ -316,13 +316,13 @@
                 android:id="@+id/hex_type2"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/radio_button"
-                android:button="@drawable/radio_button"
                 android:gravity="center"
+                android:fontFamily="@font/open_sans"
                 android:text="@string/hex_type"
                 android:textColor="@color/radio_button"
-                android:textSize="15sp"
-                android:typeface="sans" />
+                android:textSize="14sp"
+                android:button="@drawable/radio_button"
+                android:background="@drawable/radio_button" />
 
         </RadioGroup>
 
@@ -557,11 +557,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:fontFamily="@font/open_sans"
         android:textOn="@string/com"
         android:textOff="@string/com"
         android:textSize="15sp"
         android:textColor="@color/radio_button"
-        android:typeface="sans"
         android:textAllCaps="false"
         android:paddingHorizontal="10dp"
         android:background="@drawable/radio_button"/>
