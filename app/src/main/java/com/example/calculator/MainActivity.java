@@ -71,10 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        int id = item.getItemId();
-                        if (id == curFragmentId) return true;
-
-                        switch (id) {
+                        switch (item.getItemId()) {
                             case R.id.basic:
                                 openFragment(BasicFragment.newInstance());
                                 curFragmentId = R.id.basic;
@@ -99,6 +96,13 @@ public class MainActivity extends AppCompatActivity {
                         return false;
                     }
                 });
+
+        bnv.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+                //do nothing
+            }
+        });
 
         //load currency rates
         if (isInternetAvailable()) {
