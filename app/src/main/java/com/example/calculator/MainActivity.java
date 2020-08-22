@@ -60,9 +60,8 @@ public class MainActivity extends AppCompatActivity {
         //for one time animation
         first = true;
 
+        //for navbar behavior
         fragments = new Stack<>();
-        openFragment(BasicFragment.newInstance());
-        curFragmentId = R.id.basic;
         backPressed = false;
 
         //initialize bottom nav
@@ -97,12 +96,17 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+        //start with basic calculator
+        bnv.setSelectedItemId(R.id.basic);
+
+        //disable reselection
         bnv.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected(@NonNull MenuItem item) {
                 //do nothing
             }
         });
+
 
         //load currency rates
         if (isInternetAvailable()) {
