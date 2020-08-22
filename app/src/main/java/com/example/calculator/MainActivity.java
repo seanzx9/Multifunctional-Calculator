@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         backPressed = false;
 
         //initialize bottom nav
-        bnv = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bnv = (BottomNavigationView) findViewById(R.id.bnv);
         bnv.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
