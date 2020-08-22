@@ -107,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         //load currency rates
         if (isInternetAvailable()) {
             curList = new HashMap<>();
@@ -132,6 +131,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Checks if the user allowed certain permissions.
+     *
+     * @param context current context
+     * @param permissions permissions to check
+     * @return true if allowed, false if not
+     */
     public static boolean hasPermissions(Context context, String... permissions) {
         if (context != null && permissions != null) {
             for (String permission : permissions) {
