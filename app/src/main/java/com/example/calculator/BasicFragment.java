@@ -32,7 +32,6 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import static android.content.Context.VIBRATOR_SERVICE;
 
 public class BasicFragment extends Fragment implements View.OnClickListener {
@@ -690,11 +689,10 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
                 double num = evalLow(evalStr).setScale(12, ROUNDING_MODE).doubleValue();
 
                 //if value is large
-                if (num >= Integer.MAX_VALUE)
-                    num = round(evalHigh(evalStr), 12);
+                if (num >= Integer.MAX_VALUE) num = round(evalHigh(evalStr), 12);
 
-                //overflow handling
-
+                //negative overflow handling
+                if (num < Integer.MIN_VALUE) throw new Exception("Negative Overflow");
 
                 //remove decimals if none needed
                 String ans = (num % 1 == 0 && num < Math.pow(10, 9))?
@@ -758,7 +756,8 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
                 if (num >= Integer.MAX_VALUE)
                     num = round(evalHigh(evalStr), 12);
 
-                //
+                //negative overflow handling
+                if (num < Integer.MIN_VALUE) throw new Exception("Negative Overflow");
 
                 //remove decimals if none needed
                 String ans = (num % 1 == 0 && num < Math.pow(10, 9))?
