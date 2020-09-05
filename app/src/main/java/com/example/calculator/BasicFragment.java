@@ -111,7 +111,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
         b00.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
         b01 = (Button) view.findViewById(R.id.b01);
         b01.setOnClickListener(this);
-        b01.setText(R.string.delete);
+        b01.setText(R.string.second);
         b01.setTextSize(25);
         b02 = (Button) view.findViewById(R.id.b02);
         b02.setOnClickListener(this);
@@ -119,7 +119,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
         b02.setTextSize(25);
         b03 = (Button) view.findViewById(R.id.b03);
         b03.setOnClickListener(this);
-        b03.setText(R.string.second);
+        b03.setText(R.string.delete);
         b03.setTextSize(25);
         b10 = (Button) view.findViewById(R.id.b10);
         b10.setOnClickListener(this);
@@ -267,7 +267,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
                 if (mode)
                     removeChar();
                 else {
-                    mode = !mode;
+                    mode = true;
                     switchMode();
                 }
                 break;
@@ -688,8 +688,14 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
             if (!evalStr.trim().equals("")) {
                 //try BigDecimal calculation
                 double num = evalLow(evalStr).setScale(12, ROUNDING_MODE).doubleValue();
+
                 //if value is large
-                if (num >= Integer.MAX_VALUE) num = round(evalHigh(evalStr), 12);
+                if (num >= Integer.MAX_VALUE)
+                    num = round(evalHigh(evalStr), 12);
+
+                //overflow handling
+
+
                 //remove decimals if none needed
                 String ans = (num % 1 == 0 && num < Math.pow(10, 9))?
                         Integer.toString((int)(num)) : Double.toString(num);
@@ -747,8 +753,13 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
             if (!evalStr.trim().equals("")) {
                 //try BigDecimal calculation
                 double num = evalLow(evalStr).setScale(12, ROUNDING_MODE).doubleValue();
+
                 //if value is large
-                if (num >= Integer.MAX_VALUE) num = round(evalHigh(evalStr), 12);
+                if (num >= Integer.MAX_VALUE)
+                    num = round(evalHigh(evalStr), 12);
+
+                //
+
                 //remove decimals if none needed
                 String ans = (num % 1 == 0 && num < Math.pow(10, 9))?
                         Integer.toString((int)(num)) : Double.toString(num);
