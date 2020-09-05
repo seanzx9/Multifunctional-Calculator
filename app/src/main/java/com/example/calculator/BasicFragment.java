@@ -246,13 +246,11 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.b01:
-                if (mode)
-                    removeChar();
-                else {
+                if (!mode) {
                     addStr("\u00B3\u221a(", 2);
-                    mode = !mode;
-                    switchMode();
                 }
+                mode = !mode;
+                switchMode();
                 break;
             case R.id.b02:
                 if (mode) {
@@ -266,8 +264,12 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.b03:
-                mode = !mode;
-                switchMode();
+                if (mode)
+                    removeChar();
+                else {
+                    mode = !mode;
+                    switchMode();
+                }
                 break;
             case R.id.b10:
                 if (mode)
@@ -459,11 +461,11 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
             b00.setText(R.string.clear);
             b00.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
             b00.setTextSize(27);
-            b01.setText(R.string.delete);
+            b01.setText(R.string.second);
             b01.setTextSize(25);
             b02.setText(R.string.answer);
             b02.setTextSize(25);
-            b03.setText(R.string.second);
+            b03.setText(R.string.delete);
             b03.setTextSize(25);
             b10.setText(R.string.exponent);
             b10.setTextSize(25);
