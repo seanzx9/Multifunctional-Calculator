@@ -950,7 +950,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * Conputes result for numbers greater than or equal to (2^31) to raise cap.
+     * Computes result for numbers greater than or equal to (2^31) to raise cap.
      *
      * @param str Expression to calculate.
      * @return The result as a double.
