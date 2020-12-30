@@ -710,6 +710,9 @@ public class BitwiseFragment extends Fragment {
     private String twosCompliment(String bin) {
         String twos = "", ones = "";
 
+        if (bin.charAt(0) == '1' && Integer.parseInt(bin.substring(1)) == 0)
+            return bin;
+
         for (int i = 0; i < bin.length(); i++) {
             ones += onesCompliment(bin.charAt(i));
         }
