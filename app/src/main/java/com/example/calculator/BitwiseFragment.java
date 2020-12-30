@@ -722,7 +722,8 @@ public class BitwiseFragment extends Fragment {
         for (int i = ones.length() - 1; i > 0; i--) {
             if (ones.charAt(i) == '1') {
                 builder.setCharAt(i, '0');
-            } else {
+            }
+            else {
                 builder.setCharAt(i, '1');
                 b = true;
                 break;
