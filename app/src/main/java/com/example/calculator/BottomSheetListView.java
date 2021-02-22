@@ -36,6 +36,6 @@ public class BottomSheetListView extends ListView {
             }
         }
 
-        return  canScroll;
+        return canScroll;
     }
 }

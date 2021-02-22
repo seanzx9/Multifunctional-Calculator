@@ -32,16 +32,16 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Objects;
+
 import static android.content.Context.VIBRATOR_SERVICE;
 
 public class BasicFragment extends Fragment implements View.OnClickListener {
-    private final int SCALE = 18;
-    private final int ROUNDING_MODE = BigDecimal.ROUND_HALF_EVEN;
+    private final int SCALE = 18, ROUNDING_MODE = BigDecimal.ROUND_HALF_EVEN;
     private final MathContext RANGE = MathContext.DECIMAL128;
     private EditText result;
     private TextView pendingResult;
-    private boolean mode;
-    private boolean solved;
+    private boolean mode, solved;
     private ArrayList<String> history;
     private Animation buttonPress;
     private Button b00, b01, b02, b03,
@@ -61,8 +61,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_basic, container, false);
 
         //equation and results edit text
@@ -75,7 +74,9 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 if (result.getText().toString().equals("ERROR")) result.setText("");
+
                 result.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
+
                 solved = false;
             }
         });
@@ -84,12 +85,13 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
         result.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                ClipboardManager cm =
-                        (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("Result", result.getText().toString()
-                        .trim()));
+                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                cm.setPrimaryClip(ClipData.newPlainText("Result", result.getText().toString().trim()));
+
                 Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
                 vibrate(40, 75);
+
                 return true;
             }
         });
@@ -231,7 +233,9 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         vibrate(5, 50);
+
         view.findViewById(view.getId()).startAnimation(buttonPress);
+
         switch (view.getId()) {
             case R.id.b00:
                 if (mode) {
@@ -590,8 +594,8 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
-        lv.setAdapter(new ArrayAdapter<>(getContext(),
-                R.layout.listview_wrapper, R.id.listview_item, history));
+        lv.setAdapter(new ArrayAdapter<>(getContext(), R.layout.listview_wrapper, R.id.listview_item, history));
+
         dialog.show();
     }
 
@@ -602,7 +606,8 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
      * @param amplitude amplitude of vibration
      */
     private void vibrate(int length, int amplitude) {
-        ((Vibrator) getActivity().getSystemService(VIBRATOR_SERVICE))
+        ((Vibrator) Objects.requireNonNull(Objects.requireNonNull(getActivity())
+                .getSystemService(VIBRATOR_SERVICE)))
                 .vibrate(VibrationEffect.createOneShot(length,amplitude));
     }
 
@@ -641,12 +646,12 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
                     (type == 0 && prevChar == '\u03c0'))
                 string = sb.append("\u00d7").append(string).toString();
             //add leading 0 to '.'
-            else if (string.equals(".") &&
-                    !(prevChar >= '0' && prevChar <= '9'))
+            else if (string.equals(".") && !(prevChar >= '0' && prevChar <= '9'))
                 string = "0.";
         }
-        else if (string.equals(".")) //add leading 0
+        else if (string.equals(".")) { //add leading 0
             string = "0.";
+        }
         else if (type == 1) { //use last ans
             String lastAns = history.get(0).substring(history.get(0).indexOf("\n") + 1);
             if (!lastAns.equals(""))
@@ -701,8 +706,9 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
                 //update pending result
                 pendingResult.setText(ans);
             }
-            else
+            else {
                 pendingResult.setText("");
+            }
         } catch (Exception e) {
             pendingResult.setText("");
         }
@@ -716,11 +722,13 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
      */
     private int getParenCount(String str) {
         int count = 0;
+
         for (int i = 0; i < str.length(); i++)
             if (str.charAt(i) == '(')
                 count++;
             else if (str.charAt(i) ==')')
                 count--;
+
         return count;
     }
 
@@ -729,6 +737,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
      */
     private void removeChar() {
         int index = result.getSelectionStart();
+
         if (index > 0) {
             String str = result.getText().toString();
             str = str.substring(0, index - 1) + str.substring(index);
@@ -748,6 +757,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
             //string to evaluate
             String raw = result.getText().toString();
             String evalStr = formatExpression(raw);
+
             if (!evalStr.trim().equals("")) {
                 //try BigDecimal calculation
                 double num = evalLow(evalStr).setScale(12, ROUNDING_MODE).doubleValue();
@@ -760,8 +770,8 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
                 if (num < Integer.MIN_VALUE) throw new Exception("Negative Overflow");
 
                 //remove decimals if none needed
-                String ans = (num % 1 == 0 && num < Math.pow(10, 9))?
-                        Integer.toString((int)(num)) : Double.toString(num);
+                boolean isWhole = num % 1 == 0 && num < Math.pow(10, 9);
+                String ans = (isWhole)? Integer.toString((int)(num)) : Double.toString(num);
 
                 //add to edit text and history array
                 result.setTextSize((ans.length() <= 16)? 40 : 31);
@@ -769,9 +779,12 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
                 pendingResult.setText("");
                 result.setTextColor(ContextCompat.getColor(getContext(), R.color.green_text));
                 result.setSelection(ans.length());
+
                 solved = true;
+
                 StringBuilder sb = new StringBuilder();
                 addHistory(sb.append(raw).append("=\n").append(ans).toString());
+
                 writeToFile();
             }
         } catch (Exception e) {
@@ -828,6 +841,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
 
         BigDecimal bd = BigDecimal.valueOf(value);
         bd = bd.setScale(places, ROUNDING_MODE);
+
         return bd.doubleValue();
     }
 
@@ -856,10 +870,12 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
 
             boolean eat(int charToEat) {
                 while (ch == ' ') nextChar();
+
                 if (ch == charToEat) {
                     nextChar();
                     return true;
                 }
+
                 return false;
             }
 
@@ -895,6 +911,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
 
                 BigDecimal x;
                 int startPos = this.pos;
+
                 if (eat('(')) { //parentheses
                     x = parseExpression();
                     eat(')');
@@ -963,10 +980,12 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
 
             boolean eat(int charToEat) {
                 while (ch == ' ') nextChar();
+
                 if (ch == charToEat) {
                     nextChar();
                     return true;
                 }
+
                 return false;
             }
 
@@ -1010,6 +1029,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
 
                 double x;
                 int startPos = this.pos;
+
                 if (eat('(')) { // parentheses
                     x = parseExpression();
                     eat(')');
@@ -1082,7 +1102,8 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
 
         for (int i = 0; i < 1000; i++)
             x = x.subtract(x.pow(3, mc).subtract(b, mc)
-                    .divide(new BigDecimal("3", mc).multiply(x.pow(2, mc), mc), mc), mc);
+                 .divide(new BigDecimal("3", mc)
+                 .multiply(x.pow(2, mc), mc), mc), mc);
 
         return x;
     }
@@ -1099,12 +1120,16 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
 
         int magnitude = x.toString().length() - x.scale() - 1;
 
-        if (magnitude < 3) return lnNewton(x, scale);
+        if (magnitude < 3) {
+            return lnNewton(x, scale);
+        }
         else {
             BigDecimal root = intRoot(x, magnitude, scale);
             BigDecimal lnRoot = lnNewton(root, scale);
-            return BigDecimal.valueOf(magnitude).multiply(lnRoot)
-                    .setScale(scale, BigDecimal.ROUND_HALF_EVEN);
+            return BigDecimal
+                   .valueOf(magnitude)
+                   .multiply(lnRoot)
+                   .setScale(scale, BigDecimal.ROUND_HALF_EVEN);
         }
     }
 
@@ -1120,8 +1145,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
 
         if (b.signum() <= 0) throw new ArithmeticException("log of a negative number! (or zero)");
         else if(b.compareTo(BigDecimal.ONE) == 0) return BigDecimal.ZERO;
-        else if(b.compareTo(BigDecimal.ONE) < 0)
-            return (log10((BigDecimal.ONE).divide(b,mc))).negate();
+        else if(b.compareTo(BigDecimal.ONE) < 0) return (log10((BigDecimal.ONE).divide(b,mc))).negate();
 
         StringBuilder sb = new StringBuilder();
         int leftDigits = b.precision() - b.scale();
@@ -1136,8 +1160,8 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
         }
 
         BigDecimal ans = new BigDecimal(sb.toString());
-        ans = ans.round(new MathContext(
-                ans.precision() - ans.scale() + SCALE, RoundingMode.HALF_EVEN));
+        ans = ans.round(new MathContext(ans.precision() - ans.scale() + SCALE, RoundingMode.HALF_EVEN));
+
         return ans;
     }
 
@@ -1181,13 +1205,13 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
         BigDecimal im1 = BigDecimal.valueOf(index-1);
         BigDecimal tolerance = BigDecimal.valueOf(5).movePointLeft(sp1);
         BigDecimal xPrev;
+
         x = x.divide(i, scale, BigDecimal.ROUND_HALF_EVEN);
 
         do {
             BigDecimal xToIm1 = intPower(x, index-1, sp1);
             BigDecimal xToI = x.multiply(xToIm1).setScale(sp1, BigDecimal.ROUND_HALF_EVEN);
-            BigDecimal numerator =
-                    n.add(im1.multiply(xToI)).setScale(sp1, BigDecimal.ROUND_HALF_EVEN);
+            BigDecimal numerator = n.add(im1.multiply(xToI)).setScale(sp1, BigDecimal.ROUND_HALF_EVEN);
             BigDecimal denominator = i.multiply(xToIm1).setScale(sp1, BigDecimal.ROUND_HALF_EVEN);
             xPrev = x;
             x = numerator.divide(denominator, sp1, BigDecimal.ROUND_DOWN);
@@ -1207,9 +1231,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
      */
     private BigDecimal intPower(BigDecimal x, long exponent, int scale) {
         if (exponent < 0) {
-            return BigDecimal.valueOf(1)
-                    .divide(intPower(x, -exponent, scale), scale,
-                            BigDecimal.ROUND_HALF_EVEN);
+            return BigDecimal.valueOf(1).divide(intPower(x, -exponent, scale), scale, BigDecimal.ROUND_HALF_EVEN);
         }
         BigDecimal power = BigDecimal.valueOf(1);
 
@@ -1233,9 +1255,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
      * @return result of the inputs
      */
     private BigDecimal pow(BigDecimal savedValue, BigDecimal value) {
-        BigDecimal result = null;
-        result = exp(ln(savedValue, 32).multiply(value), 32);
-        return result;
+        return exp(ln(savedValue, 32).multiply(value), 32);
     }
 
     /**
@@ -1249,8 +1269,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
         if (x.signum() == 0) return BigDecimal.valueOf(1);
 
         else if (x.signum() == -1) {
-            return BigDecimal.valueOf(1).divide(exp(x.negate(), scale), scale,
-                    BigDecimal.ROUND_HALF_EVEN);
+            return BigDecimal.valueOf(1).divide(exp(x.negate(), scale), scale, BigDecimal.ROUND_HALF_EVEN);
         }
 
         BigDecimal xWhole = x.setScale(0, BigDecimal.ROUND_DOWN);
@@ -1271,8 +1290,9 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
             xWhole = xWhole.subtract(maxLong);
             Thread.yield();
         }
-        return result.multiply(intPower(t, xWhole.longValue(), scale))
-                .setScale(scale, BigDecimal.ROUND_HALF_EVEN);
+        return result
+               .multiply(intPower(t, xWhole.longValue(), scale))
+               .setScale(scale, BigDecimal.ROUND_HALF_EVEN);
     }
 
     /**
@@ -1284,7 +1304,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
      */
     private BigDecimal expTaylor(BigDecimal x, int scale) {
         BigDecimal factorial = BigDecimal.valueOf(1);
-        BigDecimal xPower    = x;
+        BigDecimal xPower = x;
         BigDecimal sumPrev;
         BigDecimal sum  = x.add(BigDecimal.valueOf(1));
         int i = 2;
@@ -1376,8 +1396,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
      */
     private void writeToFile() {
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
-                    getContext().openFileOutput("history.txt", Context.MODE_PRIVATE));
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(getContext().openFileOutput("history.txt", Context.MODE_PRIVATE));
 
             for (String data : history) {
                 if (data.equals("")) break;

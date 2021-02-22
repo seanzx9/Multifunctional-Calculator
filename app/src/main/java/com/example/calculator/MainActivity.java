@@ -36,8 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bnv;
     private Stack<Integer> fragments;
     private int curFragmentId;
-    private boolean backPressed;
-    private boolean first;
+    private boolean backPressed, first;
     private static HashMap<String, BigDecimal> curList;
 
     @Override
@@ -53,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.INTERNET,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         };
+
         if (!hasPermissions(this, PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
         }
@@ -170,8 +170,10 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
 
-        if (!backPressed) fragments.push(curFragmentId);
-        else backPressed = false;
+        if (!backPressed)
+            fragments.push(curFragmentId);
+        else
+            backPressed = false;
     }
 
     /**

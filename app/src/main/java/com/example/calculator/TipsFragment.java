@@ -4,7 +4,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -23,27 +22,25 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.text.NumberFormat;
+import java.util.Objects;
+
 import static android.content.Context.VIBRATOR_SERVICE;
 
 public class TipsFragment extends Fragment implements View.OnClickListener {
-    private TextView total;
-    private TextView tip;
-    private EditText bill;
-    private String billAmount;
-    private EditText tipPercent;
-    private String tipPercentAmount;
-    private ImageButton tipLeft;
-    private ImageButton tipRight;
-    private EditText split;
-    private String splitAmount;
-    private ImageButton splitLeft;
-    private ImageButton splitRight;
+    private TextView total, tip;
+    private EditText bill, tipPercent, split;
+    private String billAmount, tipPercentAmount, splitAmount;
+    private ImageButton tipLeft, tipRight;
+    private ImageButton splitLeft, splitRight;
     private Button resetButton;
     private Animation buttonPress;
 
-    public TipsFragment() {}
+    public TipsFragment() {
+    }
 
-    public static TipsFragment newInstance() { return new TipsFragment(); }
+    public static TipsFragment newInstance() {
+        return new TipsFragment();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,8 +48,7 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tips, container, false);
 
         //initialize total
@@ -65,11 +61,15 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
             @Override
             public boolean onLongClick(View view) {
                 vibrate(40, 50);
-                ClipboardManager cm =
-                        (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("Total", total.getText().toString()
-                        .trim()));
+
+                ClipboardManager cm = (ClipboardManager) Objects
+                        .requireNonNull(getContext())
+                        .getSystemService(Context.CLIPBOARD_SERVICE);
+                assert cm != null;
+                cm.setPrimaryClip(ClipData.newPlainText("Total", total.getText().toString().trim()));
+
                 Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
                 return true;
             }
         });
@@ -84,11 +84,14 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
             @Override
             public boolean onLongClick(View view) {
                 vibrate(40, 50);
-                ClipboardManager cm =
-                        (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("Tip", tip.getText().toString()
-                        .trim()));
+                ClipboardManager cm = (ClipboardManager) Objects
+                        .requireNonNull(getContext())
+                        .getSystemService(Context.CLIPBOARD_SERVICE);
+                assert cm != null;
+                cm.setPrimaryClip(ClipData.newPlainText("Tip", tip.getText().toString().trim()));
+
                 Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
                 return true;
             }
         });
@@ -102,7 +105,7 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
         bill.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE)
+                if (actionId == EditorInfo.IME_ACTION_DONE)
                     bill.clearFocus();
                 return false;
             }
@@ -117,10 +120,12 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
             }
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+            }
         });
 
         //initialize tip percent
@@ -132,7 +137,7 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
         tipPercent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE)
+                if (actionId == EditorInfo.IME_ACTION_DONE)
                     tipPercent.clearFocus();
                 return false;
             }
@@ -147,16 +152,18 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
             }
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+            }
         });
 
         //initialize tip buttons
         tipLeft = (ImageButton) view.findViewById(R.id.tip_left);
         tipLeft.setOnClickListener(this);
-        tipRight = (ImageButton) view.findViewById(R.id.tip_right);
+        tipRight = view.findViewById(R.id.tip_right);
         tipRight.setOnClickListener(this);
 
         //initialize split
@@ -174,7 +181,7 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
         split.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE)
+                if (actionId == EditorInfo.IME_ACTION_DONE)
                     split.clearFocus();
                 return false;
             }
@@ -189,10 +196,12 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
             }
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+            }
         });
 
         //initialize reset button
@@ -213,34 +222,33 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            //decrement tip percent button
             case R.id.tip_left:
-                vibrate(5, 50);
                 decTip();
                 calculate();
-                break;
-            case R.id.tip_right:
                 vibrate(5, 50);
+                break;
+            //increment tip button
+            case R.id.tip_right:
                 incTip();
                 calculate();
-                break;
-            case R.id.split_left:
                 vibrate(5, 50);
+                break;
+            //decrement split button
+            case R.id.split_left:
                 decSplit();
                 calculate();
-                break;
-            case R.id.split_right:
                 vibrate(5, 50);
+                break;
+            //increment split button
+            case R.id.split_right:
                 incSplit();
                 calculate();
+                vibrate(5, 50);
                 break;
+            //reset button
             case R.id.reset:
-                resetButton.startAnimation(buttonPress);
-                billAmount = "$0.00";
-                bill.setText(billAmount);
-                tipPercentAmount = "15%";
-                tipPercent.setText(tipPercentAmount);
-                splitAmount = "1";
-                split.setText(splitAmount);
+                reset();
                 vibrate(5, 25);
                 break;
         }
@@ -253,7 +261,6 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
         double cost = Double.parseDouble(billAmount.replaceAll("[$,]", ""));
         double percent = Double.parseDouble(tipPercentAmount.replaceAll("%", ""));
         double people = Double.parseDouble(splitAmount);
-
         double totalTip = cost * percent / 100;
         double totalPrice = cost + totalTip;
 
@@ -265,13 +272,12 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
      * Add number to the bill.
      *
      * @param charSequence EditText content
-     * @param textWatcher current TextWatcher
+     * @param textWatcher  current TextWatcher
      */
     private void updateBill(CharSequence charSequence, TextWatcher textWatcher) {
         bill.removeTextChangedListener(textWatcher);
 
-        String cleanString =
-                charSequence.toString().replaceAll("[$,.]", "");
+        String cleanString = charSequence.toString().replaceAll("[$,.]", "");
         double parsed = Double.parseDouble(cleanString);
         billAmount = NumberFormat.getCurrencyInstance().format((parsed / 100) % 100000);
 
@@ -285,14 +291,13 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
      * Add number to tip.
      *
      * @param charSequence EditText content
-     * @param textWatcher current TextWatcher
+     * @param textWatcher  current TextWatcher
      */
     private void updateTipPercent(CharSequence charSequence, TextWatcher textWatcher) {
         tipPercent.removeTextChangedListener(textWatcher);
 
-        String str =
-                charSequence.toString().replaceAll("%", "");
-        int x = (str.equals(""))? 0 : Integer.parseInt(str) % 100;
+        String str = charSequence.toString().replaceAll("%", "");
+        int x = (str.equals("")) ? 0 : Integer.parseInt(str) % 100;
         StringBuilder sb = new StringBuilder();
         tipPercentAmount = sb.append(x).append("%").toString();
 
@@ -306,13 +311,13 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
      * Add number to split.
      *
      * @param charSequence EditText content
-     * @param textWatcher current TextWatcher
+     * @param textWatcher  current TextWatcher
      */
     private void updateSplit(CharSequence charSequence, TextWatcher textWatcher) {
         split.removeTextChangedListener(textWatcher);
 
         String str = charSequence.toString();
-        int x = (str.equals(""))? 1 : Integer.parseInt(str) % 100;
+        int x = (str.equals("")) ? 1 : Integer.parseInt(str) % 100;
         splitAmount = Integer.toString(x);
 
         split.setText(splitAmount);
@@ -326,9 +331,12 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
      */
     private void decTip() {
         int x = Integer.parseInt(tipPercentAmount.replaceAll("%", ""));
+
         if (x > 0) x -= 1;
+
         StringBuilder sb = new StringBuilder();
         tipPercentAmount = sb.append(x).append("%").toString();
+
         tipPercent.setText(tipPercentAmount);
         tipLeft.startAnimation(buttonPress);
     }
@@ -338,9 +346,12 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
      */
     private void incTip() {
         int x = Integer.parseInt(tipPercentAmount.replaceAll("%", ""));
+
         if (x < 99) x += 1;
+
         StringBuilder sb = new StringBuilder();
         tipPercentAmount = sb.append(x).append("%").toString();
+
         tipPercent.setText(tipPercentAmount);
         tipRight.startAnimation(buttonPress);
     }
@@ -350,8 +361,11 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
      */
     private void decSplit() {
         int x = Integer.parseInt(splitAmount);
+
         if (x > 1) x -= 1;
+
         splitAmount = Integer.toString(x);
+
         split.setText(splitAmount);
         splitLeft.startAnimation(buttonPress);
     }
@@ -361,20 +375,40 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
      */
     private void incSplit() {
         int x = Integer.parseInt(splitAmount);
+
         if (x < 99) x += 1;
+
         splitAmount = Integer.toString(x);
+
         split.setText(splitAmount);
         splitRight.startAnimation(buttonPress);
     }
 
     /**
+     * Resets all values.
+     */
+    private void reset() {
+        resetButton.startAnimation(buttonPress);
+
+        billAmount = "$0.00";
+        bill.setText(billAmount);
+
+        tipPercentAmount = "15%";
+        tipPercent.setText(tipPercentAmount);
+
+        splitAmount = "1";
+        split.setText(splitAmount);
+    }
+
+    /**
      * Vibrates for certain length and amplitude.
      *
-     * @param length length in ms
+     * @param length    length in ms
      * @param amplitude amplitude of vibration
      */
     private void vibrate(int length, int amplitude) {
-        ((Vibrator) getActivity().getSystemService(VIBRATOR_SERVICE))
-                .vibrate(VibrationEffect.createOneShot(length,amplitude));
+        ((Vibrator) Objects.requireNonNull(Objects.requireNonNull(getActivity())
+                .getSystemService(VIBRATOR_SERVICE)))
+                .vibrate(VibrationEffect.createOneShot(length, amplitude));
     }
 }

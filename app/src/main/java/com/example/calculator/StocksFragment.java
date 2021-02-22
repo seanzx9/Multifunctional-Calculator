@@ -4,7 +4,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import android.os.VibrationEffect;
@@ -24,17 +23,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Objects;
+
 import static android.content.Context.VIBRATOR_SERVICE;
 
 public class StocksFragment extends Fragment {
-    private TextView change;
-    private TextView percentChange;
-    private EditText quantity;
-    private String quantityAmount;
-    private EditText original;
-    private String originalAmount;
-    private EditText newVal;
-    private String newValAmount;
+    private TextView change, percentChange;
+    private EditText quantity, original, newVal;
+    private String quantityAmount, originalAmount, newValAmount;
 
     public StocksFragment() {}
 
@@ -46,8 +42,7 @@ public class StocksFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_stocks, container, false);
 
         //initialize change amount
@@ -61,11 +56,12 @@ public class StocksFragment extends Fragment {
             @Override
             public boolean onLongClick(View view) {
                 vibrate(40, 50);
-                ClipboardManager cm =
-                        (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("Change", change.getText().toString()
-                        .trim()));
+
+                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                cm.setPrimaryClip(ClipData.newPlainText("Change", change.getText().toString().trim()));
+
                 Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
                 return true;
             }
         });
@@ -81,11 +77,12 @@ public class StocksFragment extends Fragment {
             @Override
             public boolean onLongClick(View view) {
                 vibrate(40, 50);
-                ClipboardManager cm =
-                        (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("Percent Change",
-                        percentChange.getText().toString().trim()));
+
+                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                cm.setPrimaryClip(ClipData.newPlainText("Percent Change", percentChange.getText().toString().trim()));
+
                 Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
                 return true;
             }
         });
@@ -185,14 +182,7 @@ public class StocksFragment extends Fragment {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Animation press = AnimationUtils.loadAnimation(getContext(), R.anim.button_press);
-                resetButton.startAnimation(press);
-                quantityAmount = "1";
-                quantity.setText(quantityAmount);
-                originalAmount = "$0.00";
-                original.setText(originalAmount);
-                newValAmount = "$0.00";
-                newVal.setText(newValAmount);
+                reset(resetButton);
                 vibrate(5, 25);
             }
         });
@@ -208,11 +198,12 @@ public class StocksFragment extends Fragment {
         double v0 = Double.parseDouble(originalAmount.replaceAll("[$,]", ""));
         double v1 = Double.parseDouble(newValAmount.replaceAll("[$,]", ""));
         StringBuilder sb = new StringBuilder();
-
         double result = num * (v1 - v0);
         double percent = 100 * ((v1 - v0) / v0);
+
         if (Double.isNaN(result)) result = 0;
         if (Double.isNaN(percent)) percent = 0;
+
         if (num == 0) {
             result = 0;
             percent = 0;
@@ -269,8 +260,7 @@ public class StocksFragment extends Fragment {
     private void updateOriginal(CharSequence charSequence, TextWatcher textWatcher) {
         original.removeTextChangedListener(textWatcher);
 
-        String cleanString =
-                charSequence.toString().replaceAll("[$,.]", "");
+        String cleanString = charSequence.toString().replaceAll("[$,.]", "");
         double parsed = Double.parseDouble(cleanString);
         originalAmount = NumberFormat.getCurrencyInstance().format((parsed / 100) % 100000);
 
@@ -289,8 +279,7 @@ public class StocksFragment extends Fragment {
     private void updateNew(CharSequence charSequence, TextWatcher textWatcher) {
         newVal.removeTextChangedListener(textWatcher);
 
-        String cleanString =
-                charSequence.toString().replaceAll("[$,.]", "");
+        String cleanString = charSequence.toString().replaceAll("[$,.]", "");
         double parsed = Double.parseDouble(cleanString);
         newValAmount = NumberFormat.getCurrencyInstance().format((parsed / 100) % 100000);
 
@@ -300,6 +289,17 @@ public class StocksFragment extends Fragment {
         newVal.addTextChangedListener(textWatcher);
     }
 
+    private void reset(Button resetButton) {
+        Animation press = AnimationUtils.loadAnimation(getContext(), R.anim.button_press);
+        resetButton.startAnimation(press);
+        quantityAmount = "1";
+        quantity.setText(quantityAmount);
+        originalAmount = "$0.00";
+        original.setText(originalAmount);
+        newValAmount = "$0.00";
+        newVal.setText(newValAmount);
+    }
+
     /**
      * Vibrates for certain length and amplitude.
      *
@@ -307,7 +307,8 @@ public class StocksFragment extends Fragment {
      * @param amplitude amplitude of vibration
      */
     private void vibrate(int length, int amplitude) {
-        ((Vibrator) getActivity().getSystemService(VIBRATOR_SERVICE))
+        ((Vibrator) Objects.requireNonNull(Objects.requireNonNull(getActivity())
+                .getSystemService(VIBRATOR_SERVICE)))
                 .vibrate(VibrationEffect.createOneShot(length,amplitude));
     }
 }

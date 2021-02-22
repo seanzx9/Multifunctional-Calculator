@@ -3,7 +3,6 @@ package com.example.calculator;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.os.VibrationEffect;
@@ -26,28 +25,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.StringReader;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.DecimalFormat;
 import java.util.HashMap;
-import java.util.Map;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import java.util.Objects;
 import static android.content.Context.VIBRATOR_SERVICE;
 
 public class ConvertFragment extends Fragment {
@@ -55,7 +42,14 @@ public class ConvertFragment extends Fragment {
     private final MathContext RANGE = MathContext.DECIMAL128;
     private int operation;
     private View view;
-    private RadioGroup radioRow1;
+    private RadioGroup radioRow1, radioRow2, radioRow3;
+    private Spinner input1Type, input2Type;
+    private ArrayAdapter<CharSequence> adapter;
+    private TextInputEditText input1, input2;
+    private static HashMap<String, BigDecimal> curList;
+    private Animation buttonPress;
+
+    //radio group listeners
     private RadioGroup.OnCheckedChangeListener row1 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -66,19 +60,18 @@ public class ConvertFragment extends Fragment {
             radioRow3.clearCheck();
             radioRow2.setOnCheckedChangeListener(row2);
             radioRow3.setOnCheckedChangeListener(row3);
+
             vibrate(5, 10);
 
             switch (i) {
                 case R.id.temperature:
                     operation = 0;
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.temperature, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.temperature, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input1Type.setAdapter(adapter);
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.temperature, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.temperature, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input2Type.setAdapter(adapter);
                     input2Type.setSelection(1);
@@ -90,13 +83,11 @@ public class ConvertFragment extends Fragment {
                 case R.id.angle:
                     operation = 1;
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.angle, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.angle, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input1Type.setAdapter(adapter);
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.angle, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.angle, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input2Type.setAdapter(adapter);
                     input2Type.setSelection(1);
@@ -108,14 +99,12 @@ public class ConvertFragment extends Fragment {
                 case R.id.mass:
                     operation = 2;
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.mass, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.mass, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input1Type.setAdapter(adapter);
                     input1Type.setSelection(1);
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.mass, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.mass, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input2Type.setAdapter(adapter);
                     input2Type.setSelection(6);
@@ -125,11 +114,11 @@ public class ConvertFragment extends Fragment {
 
                     break;
             }
+
             RadioButton bt = (RadioButton) view.findViewById(radioRow1.getCheckedRadioButtonId());
             bt.startAnimation(buttonPress);
         }
     };
-    private RadioGroup radioRow2;
     private RadioGroup.OnCheckedChangeListener row2 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -140,20 +129,19 @@ public class ConvertFragment extends Fragment {
             radioRow3.clearCheck();
             radioRow1.setOnCheckedChangeListener(row1);
             radioRow3.setOnCheckedChangeListener(row3);
+
             vibrate(5, 10);
 
             switch (i) {
                 case R.id.length:
                     operation = 3;
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.length, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.length, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input1Type.setAdapter(adapter);
                     input1Type.setSelection(1);
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.length, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.length, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input2Type.setAdapter(adapter);
                     input2Type.setSelection(8);
@@ -165,14 +153,12 @@ public class ConvertFragment extends Fragment {
                 case R.id.area:
                     operation = 4;
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.area, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.area, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input1Type.setAdapter(adapter);
                     input1Type.setSelection(1);
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.area, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.area, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input2Type.setAdapter(adapter);
                     input2Type.setSelection(3);
@@ -184,13 +170,11 @@ public class ConvertFragment extends Fragment {
                 case R.id.volume:
                     operation = 5;
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.volume, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.volume, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input1Type.setAdapter(adapter);
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.volume, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.volume, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input2Type.setAdapter(adapter);
                     input2Type.setSelection(6);
@@ -204,7 +188,6 @@ public class ConvertFragment extends Fragment {
             bt.startAnimation(buttonPress);
         }
     };
-    private RadioGroup radioRow3;
     private RadioGroup.OnCheckedChangeListener row3 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -215,19 +198,18 @@ public class ConvertFragment extends Fragment {
             radioRow2.clearCheck();
             radioRow1.setOnCheckedChangeListener(row1);
             radioRow2.setOnCheckedChangeListener(row2);
+
             vibrate(5, 10);
 
             switch (i) {
                 case R.id.speed:
                     operation = 6;
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.speed, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.speed, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input1Type.setAdapter(adapter);
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.speed, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.speed, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input2Type.setAdapter(adapter);
                     input2Type.setSelection(2);
@@ -239,14 +221,12 @@ public class ConvertFragment extends Fragment {
                 case R.id.time:
                     operation = 7;
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.time, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.time, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input1Type.setAdapter(adapter);
                     input1Type.setSelection(3);
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.time, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.time, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input2Type.setAdapter(adapter);
                     input2Type.setSelection(4);
@@ -258,13 +238,11 @@ public class ConvertFragment extends Fragment {
                 case R.id.currency:
                     operation = 8;
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.currency, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.currency, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input1Type.setAdapter(adapter);
 
-                    adapter = ArrayAdapter.createFromResource(getContext(),
-                            R.array.currency, R.layout.spinner_item);
+                    adapter = ArrayAdapter.createFromResource(getContext(), R.array.currency, R.layout.spinner_item);
                     adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     input2Type.setAdapter(adapter);
                     input2Type.setSelection(1);
@@ -274,15 +252,14 @@ public class ConvertFragment extends Fragment {
 
                     break;
             }
+
             RadioButton bt = (RadioButton) view.findViewById(radioRow3.getCheckedRadioButtonId());
             bt.startAnimation(buttonPress);
         }
     };
-    private Spinner input1Type;
-    private Spinner input2Type;
-    private ArrayAdapter<CharSequence> adapter;
-    private TextInputEditText input1;
-    private TextWatcher input1List = new TextWatcher() {
+
+    //text watchers
+    private final TextWatcher input1List = new TextWatcher() {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             updateInput1(charSequence, this);
@@ -295,8 +272,7 @@ public class ConvertFragment extends Fragment {
         @Override
         public void afterTextChanged(Editable editable) {}
     };
-    private TextInputEditText input2;
-    private TextWatcher input2List = new TextWatcher() {
+    private final TextWatcher input2List = new TextWatcher() {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             updateInput2(charSequence, this);
@@ -309,8 +285,6 @@ public class ConvertFragment extends Fragment {
         @Override
         public void afterTextChanged(Editable editable) {}
     };
-    private static HashMap<String, BigDecimal> curList;
-    private Animation buttonPress;
 
     public ConvertFragment() {}
 
@@ -322,8 +296,7 @@ public class ConvertFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_convert, container, false);
 
         //update with today's currency rates
@@ -336,15 +309,13 @@ public class ConvertFragment extends Fragment {
 
         //initialize input 1 spinner
         input1Type = (Spinner) view.findViewById(R.id.input1_type);
-        adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.temperature, R.layout.spinner_item);
+        adapter = ArrayAdapter.createFromResource(getContext(), R.array.temperature, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         input1Type.setAdapter(adapter);
 
         //initialize input 2 spinner
         input2Type = (Spinner) view.findViewById(R.id.input2_type);
-        adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.temperature, R.layout.spinner_item);
+        adapter = ArrayAdapter.createFromResource(getContext(), R.array.temperature, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         input2Type.setAdapter(adapter);
         input2Type.setSelection(1);
@@ -375,11 +346,12 @@ public class ConvertFragment extends Fragment {
             @Override
             public boolean onLongClick(View view) {
                 vibrate(40, 50);
-                ClipboardManager cm =
-                        (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("Value", input1.getText().toString()
-                        .trim()));
+
+                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                cm.setPrimaryClip(ClipData.newPlainText("Value", input1.getText().toString().trim()));
+
                 Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
                 return true;
             }
         });
@@ -402,11 +374,12 @@ public class ConvertFragment extends Fragment {
             @Override
             public boolean onLongClick(View view) {
                 vibrate(40, 50);
-                ClipboardManager cm =
-                        (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("Value", input2.getText().toString()
-                        .trim()));
+
+                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                cm.setPrimaryClip(ClipData.newPlainText("Value", input2.getText().toString().trim()));
+
                 Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+
                 return true;
             }
         });
@@ -418,10 +391,7 @@ public class ConvertFragment extends Fragment {
         //listen for changes in input1 type
         input1Type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parentView,
-                                       View selectedItemView,
-                                       int position,
-                                       long id) {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 calculate(R.id.input1);
             }
 
@@ -433,10 +403,7 @@ public class ConvertFragment extends Fragment {
         //listen for changes in input2 type
         input2Type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parentView,
-                                       View selectedItemView,
-                                       int position,
-                                       long id) {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 calculate(R.id.input1);
             }
 
@@ -557,7 +524,7 @@ public class ConvertFragment extends Fragment {
             switch (input1Type.getSelectedItem().toString()) {
                 case "Fahrenheit":
                     mid = (orig.subtract(BigDecimal.valueOf(32.0), RANGE))
-                            .multiply(BigDecimal.valueOf(5.0 / 9.0), RANGE);
+                               .multiply(BigDecimal.valueOf(5.0 / 9.0), RANGE);
                     break;
                 case "Celsius":
                     mid = orig;
@@ -571,7 +538,7 @@ public class ConvertFragment extends Fragment {
             switch (input2Type.getSelectedItem().toString()) {
                 case "Fahrenheit":
                     con = (mid.multiply(BigDecimal.valueOf(9.0 / 5.0), RANGE))
-                            .add(BigDecimal.valueOf(32.0), RANGE);
+                               .add(BigDecimal.valueOf(32.0), RANGE);
                     break;
                 case "Celsius":
                     con = mid;
@@ -583,13 +550,9 @@ public class ConvertFragment extends Fragment {
 
             //display in opposite EditText
             input2.removeTextChangedListener(input2List);
-
             BigDecimal ans = new BigDecimal(con.toString()).setScale(2, ROUNDING_MODE);
-
             input2.setTextSize((ans.toString().length() > 15)? 35 : 40);
-
             input2.setText(String.format("%s", ans.stripTrailingZeros().toPlainString()));
-
             input2.addTextChangedListener(input2List);
         }
         else {
@@ -600,7 +563,7 @@ public class ConvertFragment extends Fragment {
             switch (input2Type.getSelectedItem().toString()) {
                 case "Fahrenheit":
                     mid = (orig.subtract(BigDecimal.valueOf(32.0), RANGE))
-                            .multiply(BigDecimal.valueOf(5.0 / 9.0), RANGE);
+                               .multiply(BigDecimal.valueOf(5.0 / 9.0), RANGE);
                     break;
                 case "Celsius":
                     mid = orig;
@@ -614,7 +577,7 @@ public class ConvertFragment extends Fragment {
             switch (input1Type.getSelectedItem().toString()) {
                 case "Fahrenheit":
                     con = (mid.multiply(BigDecimal.valueOf(9.0 / 5.0), RANGE))
-                            .add(BigDecimal.valueOf(32.0), RANGE);
+                               .add(BigDecimal.valueOf(32.0), RANGE);
                     break;
                 case "Celsius":
                     con = mid;
@@ -626,13 +589,9 @@ public class ConvertFragment extends Fragment {
 
             //display in opposite EditText
             input1.removeTextChangedListener(input1List);
-
             BigDecimal ans = new BigDecimal(con.toString()).setScale(2, ROUNDING_MODE);
-
             input1.setTextSize((ans.toString().length() > 15)? 35 : 40);
-
             input1.setText(String.format("%s", ans.stripTrailingZeros().toPlainString()));
-
             input1.addTextChangedListener(input1List);
         }
     }
@@ -666,11 +625,8 @@ public class ConvertFragment extends Fragment {
 
             //display in opposite edit text
             input2.removeTextChangedListener(input2List);
-
             input2.setTextSize((df.format(con).length() > 15)? 35 : 40);
-
             input2.setText(df.format(con));
-
             input2.addTextChangedListener(input2List);
         }
         else {
@@ -692,11 +648,8 @@ public class ConvertFragment extends Fragment {
 
             //display in opposite edit text
             input1.removeTextChangedListener(input1List);
-
             input1.setTextSize((df.format(con).length() > 15)? 35 : 40);
-
             input1.setText(df.format(con));
-
             input1.addTextChangedListener(input1List);
         }
     }
@@ -1997,13 +1950,9 @@ public class ConvertFragment extends Fragment {
 
             //display in opposite edit text
             input2.removeTextChangedListener(input2List);
-
             BigDecimal ans = new BigDecimal(con.toString()).setScale(2, ROUNDING_MODE);
-
             input2.setTextSize((ans.toString().length() > 15)? 35 : 40);
-
             input2.setText(String.format("%s", ans.toPlainString()));
-
             input2.addTextChangedListener(input2List);
         }
         else {
@@ -2154,13 +2103,9 @@ public class ConvertFragment extends Fragment {
 
             //display in opposite edit text
             input1.removeTextChangedListener(input1List);
-
             BigDecimal ans = new BigDecimal(con.toString()).setScale(2, ROUNDING_MODE);
-
             input1.setTextSize((ans.toString().length() > 15)? 35 : 40);
-
             input1.setText(String.format("%s", ans.toPlainString()));
-
             input1.addTextChangedListener(input1List);
         }
     }
@@ -2182,7 +2127,8 @@ public class ConvertFragment extends Fragment {
      * @param amplitude amplitude of vibration
      */
     private void vibrate(int length, int amplitude) {
-        ((Vibrator) getActivity().getSystemService(VIBRATOR_SERVICE))
+        ((Vibrator) Objects.requireNonNull(Objects.requireNonNull(getActivity())
+                .getSystemService(VIBRATOR_SERVICE)))
                 .vibrate(VibrationEffect.createOneShot(length,amplitude));
     }
 
