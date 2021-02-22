@@ -35,8 +35,7 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
     private Button resetButton;
     private Animation buttonPress;
 
-    public TipsFragment() {
-    }
+    public TipsFragment() {}
 
     public static TipsFragment newInstance() {
         return new TipsFragment();
