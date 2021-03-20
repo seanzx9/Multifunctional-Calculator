@@ -31,13 +31,14 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
 public class BasicFragment extends Fragment implements View.OnClickListener {
-    private final int SCALE = 18, ROUNDING_MODE = BigDecimal.ROUND_HALF_EVEN;
+    private final int SCALE = 16, ROUNDING_MODE = BigDecimal.ROUND_HALF_EVEN;
     private final MathContext RANGE = MathContext.DECIMAL128;
     private EditText result;
     private TextView pendingResult;
@@ -691,17 +692,17 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
             String evalStr = formatExpression(raw);
             if (!evalStr.trim().equals("")) {
                 //try BigDecimal calculation
-                double num = evalLow(evalStr).setScale(12, ROUNDING_MODE).doubleValue();
+                double num = evalLow(evalStr).doubleValue();
 
                 //if value is large
-                if (num >= Integer.MAX_VALUE) num = round(evalHigh(evalStr), 12);
+                if (num >= Integer.MAX_VALUE) num = round(evalHigh(evalStr));
 
                 //negative overflow handling
                 if (num < Integer.MIN_VALUE) throw new Exception("Negative Overflow");
 
                 //remove decimals if none needed
-                String ans = (num % 1 == 0 && num < Math.pow(10, 9))?
-                        Integer.toString((int)(num)) : Double.toString(num);
+                boolean isWhole = num % 1 == 0 && num < Math.pow(10, 9);
+                String ans = (isWhole)? Integer.toString((int)(num)) : Double.toString(num);
 
                 //update pending result
                 pendingResult.setText(ans);
@@ -760,11 +761,11 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
 
             if (!evalStr.trim().equals("")) {
                 //try BigDecimal calculation
-                double num = evalLow(evalStr).setScale(12, ROUNDING_MODE).doubleValue();
+                double num = evalLow(evalStr).doubleValue();
 
                 //if value is large
                 if (num >= Integer.MAX_VALUE)
-                    num = round(evalHigh(evalStr), 12);
+                    num = round(evalHigh(evalStr));
 
                 //negative overflow handling
                 if (num < Integer.MIN_VALUE) throw new Exception("Negative Overflow");
@@ -833,14 +834,11 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
      * Rounds double value to desired precision.
      *
      * @param value value to round
-     * @param places places to round to
      * @return rounded decimal
      */
-    private double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
+    private double round(double value) {
         BigDecimal bd = BigDecimal.valueOf(value);
-        bd = bd.setScale(places, ROUNDING_MODE);
+        bd = bd.setScale(SCALE, ROUNDING_MODE);
 
         return bd.doubleValue();
     }
