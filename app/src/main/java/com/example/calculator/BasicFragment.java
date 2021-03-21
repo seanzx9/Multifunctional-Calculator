@@ -39,7 +39,7 @@ import static android.content.Context.VIBRATOR_SERVICE;
 
 public class BasicFragment extends Fragment implements View.OnClickListener {
     private final int SCALE = 16, ROUNDING_MODE = BigDecimal.ROUND_HALF_EVEN;
-    private final MathContext RANGE = MathContext.DECIMAL128;
+    private final MathContext RANGE = MathContext.DECIMAL64;
     private EditText result;
     private TextView pendingResult;
     private boolean mode, solved;
