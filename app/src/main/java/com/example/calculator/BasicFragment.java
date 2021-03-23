@@ -692,7 +692,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
             String evalStr = formatExpression(raw);
             if (!evalStr.trim().equals("")) {
                 //try BigDecimal calculation
-                double num = evalLow(evalStr).doubleValue();
+                double num = evalLow(evalStr).setScale(15, ROUNDING_MODE).doubleValue();
 
                 //if value is large
                 if (num >= Integer.MAX_VALUE) num = round(evalHigh(evalStr));
@@ -761,7 +761,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
 
             if (!evalStr.trim().equals("")) {
                 //try BigDecimal calculation
-                double num = evalLow(evalStr).doubleValue();
+                double num = evalLow(evalStr).setScale(15, ROUNDING_MODE).doubleValue();
 
                 //if value is large
                 if (num >= Integer.MAX_VALUE)
@@ -838,7 +838,7 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
      */
     private double round(double value) {
         BigDecimal bd = BigDecimal.valueOf(value);
-        bd = bd.setScale(SCALE, ROUNDING_MODE);
+        bd = bd.setScale(15, ROUNDING_MODE);
 
         return bd.doubleValue();
     }
