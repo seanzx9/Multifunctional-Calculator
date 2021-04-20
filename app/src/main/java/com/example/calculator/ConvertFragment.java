@@ -4,7 +4,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -24,7 +23,11 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+
 import com.google.android.material.textfield.TextInputEditText;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -35,6 +38,7 @@ import java.math.MathContext;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Objects;
+
 import static android.content.Context.VIBRATOR_SERVICE;
 
 public class ConvertFragment extends Fragment {
