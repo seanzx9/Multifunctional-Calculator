@@ -1,6 +1,7 @@
 package com.example.calculator;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -55,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
         int PERMISSION_ALL = 1;
         String[] PERMISSIONS = {
                 Manifest.permission.VIBRATE,
-                Manifest.permission.INTERNET,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                Manifest.permission.INTERNET
         };
 
         if (!hasPermissions(this, PERMISSIONS)) {
@@ -71,9 +71,10 @@ public class MainActivity extends AppCompatActivity {
         backPressed = false;
 
         //initialize bottom nav
-        bnv = (BottomNavigationView) findViewById(R.id.bnv);
+        bnv = findViewById(R.id.bnv);
         bnv.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @SuppressLint("NonConstantResourceId")
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
@@ -114,11 +115,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //load currency rates
-        if (isInternetAvailable()) {
-            curList = new HashMap<>();
-            CurrencyRequest request = new CurrencyRequest();
-            request.execute();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (isInternetAvailable()) {
+                    curList = new HashMap<>();
+                    CurrencyRequest request = new CurrencyRequest();
+                    request.execute();
+                }
+            }
+        }).start();
     }
 
     /**
@@ -211,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
                         .build();
 
                 Response response = client.newCall(request).execute();
+                assert response.body() != null;
                 return response.body().string();
             } catch (IOException ioe) {
                 ioe.printStackTrace();
