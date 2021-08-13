@@ -51,7 +51,7 @@ public class BitwiseFragment extends Fragment {
             radioRow2.clearCheck();
             radioRow2.setOnCheckedChangeListener(row2);
 
-            vibrate(5, 10);
+            vibrate(5, 75);
 
             switch (i) {
                 case R.id.con:
@@ -84,7 +84,7 @@ public class BitwiseFragment extends Fragment {
             radioRow1.clearCheck();
             radioRow1.setOnCheckedChangeListener(row1);
 
-            vibrate(5, 10);
+            vibrate(5, 75);
 
             switch (i) {
                 case R.id.and:
@@ -115,7 +115,7 @@ public class BitwiseFragment extends Fragment {
         public void onCheckedChanged(RadioGroup radioGroup, int i) {
             RadioButton bt;
 
-            vibrate(5, 10);
+            vibrate(5, 75);
 
             switch (i) {
                 case R.id.dec_type2:
@@ -256,7 +256,7 @@ public class BitwiseFragment extends Fragment {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 RadioButton bt;
 
-                vibrate(5, 10);
+                vibrate(5, 75);
 
                 switch (i) {
                     case R.id.dec_type1:
@@ -344,7 +344,7 @@ public class BitwiseFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 twoCom.startAnimation(buttonPress);
 
-                vibrate(5, 10);
+                vibrate(5, 75);
 
                 if (twoCom.isChecked()) {
                     input1.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);

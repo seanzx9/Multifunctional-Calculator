@@ -185,7 +185,7 @@ public class StocksFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 reset(resetButton);
-                vibrate(5, 25);
+                vibrate(100, 50);
             }
         });
 

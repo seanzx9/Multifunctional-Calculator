@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -28,7 +29,7 @@ import java.util.Objects;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
-public class TipsFragment extends Fragment implements View.OnClickListener {
+public class TipsFragment extends Fragment implements View.OnTouchListener {
     private TextView total, tip;
     private EditText bill, tipPercent, split;
     private String billAmount, tipPercentAmount, splitAmount;
@@ -163,9 +164,9 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
 
         //initialize tip buttons
         tipLeft = (ImageButton) view.findViewById(R.id.tip_left);
-        tipLeft.setOnClickListener(this);
+        tipLeft.setOnTouchListener(this);
         tipRight = view.findViewById(R.id.tip_right);
-        tipRight.setOnClickListener(this);
+        tipRight.setOnTouchListener(this);
 
         //initialize split
         split = (EditText) view.findViewById(R.id.split);
@@ -174,9 +175,9 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
 
         //initialize split buttons
         splitLeft = (ImageButton) view.findViewById(R.id.split_left);
-        splitLeft.setOnClickListener(this);
+        splitLeft.setOnTouchListener(this);
         splitRight = (ImageButton) view.findViewById(R.id.split_right);
-        splitRight.setOnClickListener(this);
+        splitRight.setOnTouchListener(this);
 
         //handle Done button on split keyboard
         split.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -207,7 +208,7 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
 
         //initialize reset button
         resetButton = (Button) view.findViewById(R.id.reset);
-        resetButton.setOnClickListener(this);
+        resetButton.setOnTouchListener(this);
 
         //initialize animation
         buttonPress = AnimationUtils.loadAnimation(getContext(), R.anim.button_press);
@@ -221,38 +222,42 @@ public class TipsFragment extends Fragment implements View.OnClickListener {
      * @param view current view
      */
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            //decrement tip percent button
-            case R.id.tip_left:
-                decTip();
-                calculate();
-                vibrate(5, 50);
-                break;
-            //increment tip button
-            case R.id.tip_right:
-                incTip();
-                calculate();
-                vibrate(5, 50);
-                break;
-            //decrement split button
-            case R.id.split_left:
-                decSplit();
-                calculate();
-                vibrate(5, 50);
-                break;
-            //increment split button
-            case R.id.split_right:
-                incSplit();
-                calculate();
-                vibrate(5, 50);
-                break;
-            //reset button
-            case R.id.reset:
-                reset();
-                vibrate(5, 25);
-                break;
+    public boolean onTouch(View view, MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            switch (view.getId()) {
+                //decrement tip percent button
+                case R.id.tip_left:
+                    decTip();
+                    calculate();
+                    vibrate(5, 75);
+                    break;
+                //increment tip button
+                case R.id.tip_right:
+                    incTip();
+                    calculate();
+                    vibrate(5, 75);
+                    break;
+                //decrement split button
+                case R.id.split_left:
+                    decSplit();
+                    calculate();
+                    vibrate(5, 75);
+                    break;
+                //increment split button
+                case R.id.split_right:
+                    incSplit();
+                    calculate();
+                    vibrate(5, 75);
+                    break;
+                //reset button
+                case R.id.reset:
+                    reset();
+                    vibrate(100, 50);
+                    break;
+            }
         }
+        
+        return true;
     }
 
     /**

@@ -65,7 +65,7 @@ public class ConvertFragment extends Fragment {
             radioRow2.setOnCheckedChangeListener(row2);
             radioRow3.setOnCheckedChangeListener(row3);
 
-            vibrate(5, 10);
+            vibrate(5, 75);
 
             switch (i) {
                 case R.id.temperature:
@@ -134,7 +134,7 @@ public class ConvertFragment extends Fragment {
             radioRow1.setOnCheckedChangeListener(row1);
             radioRow3.setOnCheckedChangeListener(row3);
 
-            vibrate(5, 10);
+            vibrate(5, 75);
 
             switch (i) {
                 case R.id.length:
@@ -203,7 +203,7 @@ public class ConvertFragment extends Fragment {
             radioRow1.setOnCheckedChangeListener(row1);
             radioRow2.setOnCheckedChangeListener(row2);
 
-            vibrate(5, 10);
+            vibrate(5, 75);
 
             switch (i) {
                 case R.id.speed:

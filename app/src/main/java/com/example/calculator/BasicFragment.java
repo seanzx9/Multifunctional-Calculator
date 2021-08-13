@@ -8,6 +8,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -39,7 +40,7 @@ import java.util.Objects;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
-public class BasicFragment extends Fragment implements View.OnClickListener {
+public class BasicFragment extends Fragment implements View.OnTouchListener {
     private final int SCALE = 16, ROUNDING_MODE = BigDecimal.ROUND_HALF_EVEN;
     private final MathContext RANGE = MathContext.DECIMAL64;
     private EditText result;
@@ -109,100 +110,100 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
         //buttons
         mode = true;
         b00 = (Button) view.findViewById(R.id.b00);
-        b00.setOnClickListener(this);
+        b00.setOnTouchListener(this);
         b00.setText(R.string.clear);
         b00.setTextSize(27);
         b00.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
         b01 = (Button) view.findViewById(R.id.b01);
-        b01.setOnClickListener(this);
+        b01.setOnTouchListener(this);
         b01.setText(R.string.second);
         b01.setTextSize(25);
         b02 = (Button) view.findViewById(R.id.b02);
-        b02.setOnClickListener(this);
+        b02.setOnTouchListener(this);
         b02.setText(R.string.answer);
         b02.setTextSize(25);
         b03 = (Button) view.findViewById(R.id.b03);
-        b03.setOnClickListener(this);
+        b03.setOnTouchListener(this);
         b03.setText(R.string.delete);
         b03.setTextSize(25);
         b10 = (Button) view.findViewById(R.id.b10);
-        b10.setOnClickListener(this);
+        b10.setOnTouchListener(this);
         b10.setText(R.string.exponent);
         b10.setTextSize(25);
         b11 = (Button) view.findViewById(R.id.b11);
-        b11.setOnClickListener(this);
+        b11.setOnTouchListener(this);
         b11.setText(R.string.ee);
         b11.setTextSize(25);
         b12 = (Button) view.findViewById(R.id.b12);
-        b12.setOnClickListener(this);
+        b12.setOnTouchListener(this);
         b12.setText(R.string.parentheses);
         b12.setTextSize(25);
         b13 = (Button) view.findViewById(R.id.b13);
-        b13.setOnClickListener(this);
+        b13.setOnTouchListener(this);
         b13.setText(R.string.div_symbol);
         b13.setTextSize(35);
         b20 = (Button) view.findViewById(R.id.b20);
-        b20.setOnClickListener(this);
+        b20.setOnTouchListener(this);
         b20.setText(R.string.seven);
         b20.setTextSize(35);
         b21 = (Button) view.findViewById(R.id.b21);
-        b21.setOnClickListener(this);
+        b21.setOnTouchListener(this);
         b21.setText(R.string.eight);
         b21.setTextSize(35);
         b22 = (Button) view.findViewById(R.id.b22);
-        b22.setOnClickListener(this);
+        b22.setOnTouchListener(this);
         b22.setText(R.string.nine);
         b22.setTextSize(35);
         b23 = (Button) view.findViewById(R.id.b23);
-        b23.setOnClickListener(this);
+        b23.setOnTouchListener(this);
         b23.setText(R.string.mul_symbol);
         b23.setTextSize(35);
         b30 = (Button) view.findViewById(R.id.b30);
-        b30.setOnClickListener(this);
+        b30.setOnTouchListener(this);
         b30.setText(R.string.four);
         b30.setTextSize(35);
         b31 = (Button) view.findViewById(R.id.b31);
-        b31.setOnClickListener(this);
+        b31.setOnTouchListener(this);
         b31.setText(R.string.five);
         b31.setTextSize(35);
         b32 = (Button) view.findViewById(R.id.b32);
-        b32.setOnClickListener(this);
+        b32.setOnTouchListener(this);
         b32.setText(R.string.six);
         b32.setTextSize(35);
         b33 = (Button) view.findViewById(R.id.b33);
-        b33.setOnClickListener(this);
+        b33.setOnTouchListener(this);
         b33.setText(R.string.sub_symbol);
         b33.setTextSize(45);
         b40 = (Button) view.findViewById(R.id.b40);
-        b40.setOnClickListener(this);
+        b40.setOnTouchListener(this);
         b40.setText(R.string.one);
         b40.setTextSize(35);
         b41 = (Button) view.findViewById(R.id.b41);
-        b41.setOnClickListener(this);
+        b41.setOnTouchListener(this);
         b41.setText(R.string.two);
         b41.setTextSize(35);
         b42 = (Button) view.findViewById(R.id.b42);
-        b42.setOnClickListener(this);
+        b42.setOnTouchListener(this);
         b42.setText(R.string.three);
         b42.setTextSize(35);
         b43 = (Button) view.findViewById(R.id.b43);
-        b43.setOnClickListener(this);
+        b43.setOnTouchListener(this);
         b43.setText(R.string.add_symbol);
         b43.setTextSize(35);
         b50 = (Button) view.findViewById(R.id.b50);
-        b50.setOnClickListener(this);
+        b50.setOnTouchListener(this);
         b50.setText(R.string.pos_neg);
         b50.setTextSize(30);
         b51 = (Button) view.findViewById(R.id.b51);
-        b51.setOnClickListener(this);
+        b51.setOnTouchListener(this);
         b51.setText(R.string.zero);
         b51.setTextSize(35);
         b52 = (Button) view.findViewById(R.id.b52);
-        b52.setOnClickListener(this);
+        b52.setOnTouchListener(this);
         b52.setText(R.string.decimal);
         b52.setTextSize(40);
         b53 = (Button) view.findViewById(R.id.b53);
-        b53.setOnClickListener(this);
+        b53.setOnTouchListener(this);
         b53.setText(R.string.equal_symbol);
         b53.setTextSize(40);
         b53.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
@@ -234,229 +235,231 @@ public class BasicFragment extends Fragment implements View.OnClickListener {
      * @param view current view
      */
     @Override
-    public void onClick(View view) {
-        vibrate(5, 50);
+    public boolean onTouch(View view,  MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            vibrate(5, 75);
 
-        view.findViewById(view.getId()).startAnimation(buttonPress);
+            view.findViewById(view.getId()).startAnimation(buttonPress);
 
-        switch (view.getId()) {
-            case R.id.b00:
-                if (mode) {
-                    result.setText("");
-                    pendingResult.setText("");
-                }
-                else {
-                    addStr("\u221a(", 2);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b01:
-                if (!mode) {
-                    addStr("\u00B3\u221a(", 2);
-                }
-                mode = !mode;
-                switchMode();
-                break;
-            case R.id.b02:
-                if (mode) {
-                    selectPrevAns();
+            switch (view.getId()) {
+                case R.id.b00:
+                    if (mode) {
+                        result.setText("");
+                        pendingResult.setText("");
+                    } else {
+                        addStr("\u221a(", 2);
+                        mode = !mode;
+                        switchMode();
+                    }
                     break;
-                }
-                else {
-                    addStr("2^(", 2);
+                case R.id.b01:
+                    if (!mode) {
+                        addStr("\u00B3\u221a(", 2);
+                    }
                     mode = !mode;
                     switchMode();
-                }
-                break;
-            case R.id.b03:
-                if (mode)
-                    removeChar();
-                else {
-                    mode = true;
-                    switchMode();
-                }
-                break;
-            case R.id.b10:
-                if (mode)
-                    addStr("^(", 1);
-                else {
-                    addStr("sin(", 2);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b11:
-                if (mode)
-                    addStr("E", 1);
-                else {
-                    addStr("cos(", 2);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b12:
-                if (mode)
-                    addStr("(", 2);
-                else {
-                    addStr("tan(", 2);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b13:
-                if (mode)
-                    addStr("\u00f7", 1);
-                else {
-                    addStr("\u03C0", 2);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b20:
-                if (mode)
-                    addStr("7", 0);
-                else {
-                    addStr("asin(", 2);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b21:
-                if (mode)
-                    addStr("8", 0);
-                else {
-                    addStr("acos(", 2);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b22:
-                if (mode) addStr("9", 0);
-                else {
-                    addStr("atan(", 2);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b23:
-                if (mode)
-                    addStr("\u00d7", 1);
-                else {
-                    addStr("%", 1);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b30:
-                if (mode)
-                    addStr("4", 0);
-                else {
-                    addStr("log(", 2);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b31:
-                if (mode)
-                    addStr("5", 0);
-                else {
-                    addStr("10^(", 2);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b32:
-                if (mode)
-                    addStr("6", 0);
-                else {
-                    addStr("ln(", 2);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b33:
-                if (mode)
-                    addStr("-", 1);
-                else {
-                    addStr("e^(", 2);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b40:
-                if (mode)
-                    addStr("1", 0);
-                else {
-                    addStr("k", 1);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b41:
-                if (mode)
-                    addStr("2", 0);
-                else {
-                    addStr("M", 1);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b42:
-                if (mode)
-                    addStr("3", 0);
-                else {
-                    addStr("G", 1);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b43:
-                if (mode)
-                    addStr("+", 1);
-                else {
-                    addStr("T", 1);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b50:
-                if (mode)
-                    addStr("(-", 2);
-                else {
-                    addStr("m", 1);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b51:
-                if (mode)
-                    addStr("0", 0);
-                else {
-                    addStr("\u00b5", 1);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b52:
-                if (mode)
-                    addStr(".", 0);
-                else {
-                    addStr("n", 1);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
-            case R.id.b53:
-                if (mode)
-                    calculate();
-                else {
-                    addStr("p", 1);
-                    mode = !mode;
-                    switchMode();
-                }
-                break;
+                    break;
+                case R.id.b02:
+                    if (mode) {
+                        selectPrevAns();
+                        break;
+                    } else {
+                        addStr("2^(", 2);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b03:
+                    if (mode)
+                        removeChar();
+                    else {
+                        mode = true;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b10:
+                    if (mode)
+                        addStr("^(", 1);
+                    else {
+                        addStr("sin(", 2);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b11:
+                    if (mode)
+                        addStr("E", 1);
+                    else {
+                        addStr("cos(", 2);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b12:
+                    if (mode)
+                        addStr("(", 2);
+                    else {
+                        addStr("tan(", 2);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b13:
+                    if (mode)
+                        addStr("\u00f7", 1);
+                    else {
+                        addStr("\u03C0", 2);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b20:
+                    if (mode)
+                        addStr("7", 0);
+                    else {
+                        addStr("asin(", 2);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b21:
+                    if (mode)
+                        addStr("8", 0);
+                    else {
+                        addStr("acos(", 2);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b22:
+                    if (mode) addStr("9", 0);
+                    else {
+                        addStr("atan(", 2);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b23:
+                    if (mode)
+                        addStr("\u00d7", 1);
+                    else {
+                        addStr("%", 1);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b30:
+                    if (mode)
+                        addStr("4", 0);
+                    else {
+                        addStr("log(", 2);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b31:
+                    if (mode)
+                        addStr("5", 0);
+                    else {
+                        addStr("10^(", 2);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b32:
+                    if (mode)
+                        addStr("6", 0);
+                    else {
+                        addStr("ln(", 2);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b33:
+                    if (mode)
+                        addStr("-", 1);
+                    else {
+                        addStr("e^(", 2);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b40:
+                    if (mode)
+                        addStr("1", 0);
+                    else {
+                        addStr("k", 1);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b41:
+                    if (mode)
+                        addStr("2", 0);
+                    else {
+                        addStr("M", 1);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b42:
+                    if (mode)
+                        addStr("3", 0);
+                    else {
+                        addStr("G", 1);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b43:
+                    if (mode)
+                        addStr("+", 1);
+                    else {
+                        addStr("T", 1);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b50:
+                    if (mode)
+                        addStr("(-", 2);
+                    else {
+                        addStr("m", 1);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b51:
+                    if (mode)
+                        addStr("0", 0);
+                    else {
+                        addStr("\u00b5", 1);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b52:
+                    if (mode)
+                        addStr(".", 0);
+                    else {
+                        addStr("n", 1);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+                case R.id.b53:
+                    if (mode)
+                        calculate();
+                    else {
+                        addStr("p", 1);
+                        mode = !mode;
+                        switchMode();
+                    }
+                    break;
+            }
         }
+
+        return true;
     }
 
     /**
