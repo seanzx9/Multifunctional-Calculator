@@ -104,7 +104,9 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:background="@drawable/rounded_corners"
-            android:elevation="3dp">
+            android:elevation="5dp"
+            android:outlineSpotShadowColor="@color/text"
+            android:outlineAmbientShadowColor="@color/text">
 
             <TextView
                 android:id="@+id/bill_title"
@@ -114,13 +116,23 @@
                 android:gravity="center"
                 android:fontFamily="@font/open_sans"
                 android:text="@string/bill"
-                android:textColor="@color/background"
+                android:textColor="@color/text"
                 android:textSize="30sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/bill"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.50" />
+
+            <View
+                android:id="@+id/bill_divider"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                app:layout_constraintLeft_toRightOf="@+id/bill_title"
+                app:layout_constraintRight_toLeftOf="@+id/bill"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@drawable/divider_gradient_vertical" />
 
             <EditText
                 android:id="@+id/bill"
@@ -158,7 +170,9 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:background="@drawable/rounded_corners"
-            android:elevation="3dp">
+            android:elevation="4dp"
+            android:outlineSpotShadowColor="@color/text"
+            android:outlineAmbientShadowColor="@color/text">
 
             <TextView
                 android:id="@+id/percent_title"
@@ -253,7 +267,9 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:background="@drawable/rounded_corners"
-            android:elevation="3dp">
+            android:elevation="3dp"
+            android:outlineSpotShadowColor="@color/text"
+            android:outlineAmbientShadowColor="@color/text">
 
             <TextView
                 android:id="@+id/split_title"
@@ -339,9 +355,9 @@
 
         <Button
             android:id="@+id/reset"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/rounded_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
             android:elevation="1dp"
             android:fontFamily="@font/open_sans"
             android:text="@string/reset"

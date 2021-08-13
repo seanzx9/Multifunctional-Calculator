@@ -50,7 +50,7 @@
                 app:layout_constraintBottom_toTopOf="@id/percent_change"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:background="@drawable/divider_gradient" />
+                android:background="@drawable/divider_gradient_horizontal" />
 
             <TextView
                 android:id="@+id/percent_change"
@@ -90,7 +90,9 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:background="@drawable/rounded_corners"
-            android:elevation="3dp">
+            android:elevation="5dp"
+            android:outlineSpotShadowColor="@color/text"
+            android:outlineAmbientShadowColor="@color/text">
 
             <TextView
                 android:id="@+id/quantity_title"
@@ -105,9 +107,19 @@
                 android:fontFamily="@font/open_sans"
                 android:text="@string/quantity"
                 android:textSize="30sp"
-                android:textColor="@color/background"
+                android:textColor="@color/text"
                 android:gravity="center"
                 android:lineSpacingExtra="3dp" />
+
+            <View
+                android:id="@+id/quantity_divider"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                app:layout_constraintLeft_toRightOf="@+id/quantity_title"
+                app:layout_constraintRight_toLeftOf="@+id/quantity"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@drawable/divider_gradient_vertical" />
 
             <EditText
                 android:id="@+id/quantity"
@@ -145,7 +157,9 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:background="@drawable/rounded_corners"
-            android:elevation="3dp">
+            android:elevation="4dp"
+            android:outlineSpotShadowColor="@color/text"
+            android:outlineAmbientShadowColor="@color/text">
 
             <TextView
                 android:id="@+id/original_title"
@@ -160,9 +174,19 @@
                 android:fontFamily="@font/open_sans"
                 android:text="@string/original_value"
                 android:textSize="30sp"
-                android:textColor="@color/background"
+                android:textColor="@color/text"
                 android:gravity="center"
                 android:lineSpacingExtra="3dp" />
+
+            <View
+                android:id="@+id/original_divider"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                app:layout_constraintLeft_toRightOf="@+id/original_title"
+                app:layout_constraintRight_toLeftOf="@+id/original"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@drawable/divider_gradient_vertical" />
 
             <EditText
                 android:id="@+id/original"
@@ -200,7 +224,9 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:background="@drawable/rounded_corners"
-            android:elevation="3dp">
+            android:elevation="3dp"
+            android:outlineSpotShadowColor="@color/text"
+            android:outlineAmbientShadowColor="@color/text">
 
             <TextView
                 android:id="@+id/new_title"
@@ -215,9 +241,19 @@
                 android:fontFamily="@font/open_sans"
                 android:text="@string/new_value"
                 android:textSize="30sp"
-                android:textColor="@color/background"
+                android:textColor="@color/text"
                 android:gravity="center"
                 android:lineSpacingExtra="3dp" />
+
+            <View
+                android:id="@+id/new_divider"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                app:layout_constraintLeft_toRightOf="@+id/new_title"
+                app:layout_constraintRight_toLeftOf="@+id/new_val"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@drawable/divider_gradient_vertical" />
 
             <EditText
                 android:id="@+id/new_val"
@@ -246,21 +282,21 @@
 
         <Button
             android:id="@+id/reset"
-            android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.92"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/new_container"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintWidth_percent="0.92"
+            app:layout_constraintHeight_percent="0.10"
             android:fontFamily="@font/open_sans"
             android:text="@string/reset"
             android:textSize="22sp"
             android:textColor="@color/text"
             android:textAllCaps="false"
             android:elevation="1dp"
-            android:background="@drawable/rounded_button"/>
+            android:background="@android:color/transparent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
