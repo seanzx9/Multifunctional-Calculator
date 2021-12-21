@@ -1799,7 +1799,8 @@ public class ConvertFragment extends Fragment {
      */
     private void convertCurrency(int editTextId) {
         if (curList.isEmpty()) {
-            Toast.makeText(getContext(), "Please connect to internet and allow file access permissions to get currency rates",
+            Toast.makeText(getContext(), "Please connect to internet and allow file access " +
+                            "permissions to get currency rates, then close and open the app to see changes!",
                     Toast.LENGTH_LONG).show();
         }
 
@@ -2166,7 +2167,7 @@ public class ConvertFragment extends Fragment {
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
-            Log.e("Exception", "File not found: " + e.toString());
+            Log.e("Exception", "File 'rates.txt' not found: " + e.toString());
         } catch (IOException e) {
             Log.e("Exception", "Can not read file: " + e.toString());
         }

@@ -1,5 +1,10 @@
 package com.example.calculator;
 
+import static android.Manifest.permission.INTERNET;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.VIBRATE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +34,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.math.BigDecimal;
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -55,8 +62,10 @@ public class MainActivity extends AppCompatActivity {
         //ask for permissions
         int PERMISSION_ALL = 1;
         String[] PERMISSIONS = {
-                Manifest.permission.VIBRATE,
-                Manifest.permission.INTERNET
+                VIBRATE,
+                INTERNET,
+                READ_EXTERNAL_STORAGE,
+                WRITE_EXTERNAL_STORAGE
         };
 
         if (!hasPermissions(this, PERMISSIONS)) {
@@ -122,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
                     curList = new HashMap<>();
                     CurrencyRequest request = new CurrencyRequest();
                     request.execute();
+                } else {
+                    Log.e("Exception", "Internet not available");
                 }
             }
         }).start();
@@ -194,12 +205,22 @@ public class MainActivity extends AppCompatActivity {
      * @return true if internet is available and false otherwise
      */
     public boolean isInternetAvailable() {
+        /*
         Runtime runtime = Runtime.getRuntime();
         try {
             Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
             int exitValue = ipProcess.waitFor();
             return exitValue == 0;
         } catch (Exception e) { return false; }
+         */
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com");
+            //You can replace it with your name
+            return !ipAddr.equals("");
+
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -220,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                 assert response.body() != null;
                 return response.body().string();
             } catch (IOException ioe) {
-                ioe.printStackTrace();
+                Log.e("Exception", "Currency request failed: " + ioe.toString());
                 return "";
             }
         }
@@ -246,9 +267,10 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 }
+
                 writeToFile();
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("Exception", "Failed to retrieve rates: " + e.toString());
             }
         }
     }
