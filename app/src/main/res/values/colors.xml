@@ -12,6 +12,7 @@
     <color name="green_text">#4F9D1B</color>
     <color name="light_blue">#43ABC9</color>
     <color name="dark_blue">#107896</color>
+    <color name="red_logo">#FF5757</color>
 
     <color name="background">#FFFFFF</color>
     <color name="background_contrast">#FDFDFD</color>
