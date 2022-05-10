@@ -7,8 +7,8 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 
 public class BottomSheetListView extends ListView {
-    public BottomSheetListView (Context context, AttributeSet p_attrs) {
-        super (context, p_attrs);
+    public BottomSheetListView(Context context, AttributeSet p_attrs) {
+        super(context, p_attrs);
     }
 
     @Override
@@ -24,14 +24,13 @@ public class BottomSheetListView extends ListView {
         return super.onTouchEvent(ev);
     }
 
-    public boolean canScrollVertically (AbsListView view) {
+    public boolean canScrollVertically(AbsListView view) {
         boolean canScroll = false;
 
-        if (view !=null && view.getChildCount ()> 0) {
+        if (view != null && view.getChildCount() > 0) {
             boolean isOnTop = view.getFirstVisiblePosition() != 0 || view.getChildAt(0).getTop() != 0;
-            boolean isAllItemsVisible = isOnTop && view.getLastVisiblePosition() == view.getChildCount();
 
-            if (isOnTop || isAllItemsVisible) {
+            if (isOnTop) {
                 canScroll = true;
             }
         }

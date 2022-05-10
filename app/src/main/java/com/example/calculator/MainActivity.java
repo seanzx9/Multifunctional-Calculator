@@ -80,58 +80,48 @@ public class MainActivity extends AppCompatActivity {
         //initialize bottom nav
         bnv = findViewById(R.id.bnv);
         bnv.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @SuppressLint("NonConstantResourceId")
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.basic:
-                                openFragment(BasicFragment.newInstance());
-                                curFragmentId = R.id.basic;
-                                return true;
-                            case R.id.tip:
-                                openFragment(TipsFragment.newInstance());
-                                curFragmentId = R.id.tip;
-                                return true;
-                            case R.id.stocks:
-                                openFragment(StocksFragment.newInstance());
-                                curFragmentId = R.id.stocks;
-                                return true;
-                            case R.id.bitwise:
-                                openFragment(BitwiseFragment.newInstance());
-                                curFragmentId = R.id.bitwise;
-                                return true;
-                            case R.id.convert:
-                                openFragment(ConvertFragment.newInstance());
-                                curFragmentId = R.id.convert;
-                                return true;
-                        }
-                        return false;
+                item -> {
+                    switch (item.getItemId()) {
+                        case R.id.basic:
+                            openFragment(BasicFragment.newInstance());
+                            curFragmentId = R.id.basic;
+                            return true;
+                        case R.id.tip:
+                            openFragment(TipsFragment.newInstance());
+                            curFragmentId = R.id.tip;
+                            return true;
+                        case R.id.stocks:
+                            openFragment(StocksFragment.newInstance());
+                            curFragmentId = R.id.stocks;
+                            return true;
+                        case R.id.bitwise:
+                            openFragment(BitwiseFragment.newInstance());
+                            curFragmentId = R.id.bitwise;
+                            return true;
+                        case R.id.convert:
+                            openFragment(ConvertFragment.newInstance());
+                            curFragmentId = R.id.convert;
+                            return true;
                     }
+                    return false;
                 });
 
         //start with basic calculator
         bnv.setSelectedItemId(R.id.basic);
 
         //disable reselection
-        bnv.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
-            @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
-                //do nothing
-            }
+        bnv.setOnNavigationItemReselectedListener(item -> {
+            //do nothing
         });
 
         //load currency rates
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (isInternetAvailable()) {
-                    curList = new HashMap<>();
-                    CurrencyRequest request = new CurrencyRequest();
-                    request.execute();
-                } else {
-                    Log.e("Exception", "Internet not available");
-                }
+        new Thread(() -> {
+            if (isInternetAvailable()) {
+                curList = new HashMap<>();
+                CurrencyRequest request = new CurrencyRequest();
+                request.execute();
+            } else {
+                Log.e("Exception", "Internet not available");
             }
         }).start();
     }
@@ -143,8 +133,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (fragments.isEmpty() || curFragmentId == R.id.basic) {
             finish();
-        }
-        else {
+        } else {
             int id = fragments.pop();
             backPressed = true;
             bnv.setSelectedItemId(id);
@@ -155,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Checks if the user allowed certain permissions.
      *
-     * @param context current context
+     * @param context     current context
      * @param permissions permissions to check
      * @return true if allowed, false if not
      */
@@ -182,8 +171,7 @@ public class MainActivity extends AppCompatActivity {
         if (first) {
             transaction.setCustomAnimations(R.anim.slide_from_bottom, 0);
             first = false;
-        }
-        else {
+        } else {
             transaction.setCustomAnimations(R.anim.enter_fragment, 0);
         }
 
@@ -203,19 +191,9 @@ public class MainActivity extends AppCompatActivity {
      * @return true if internet is available and false otherwise
      */
     public boolean isInternetAvailable() {
-        /*
-        Runtime runtime = Runtime.getRuntime();
-        try {
-            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-            int exitValue = ipProcess.waitFor();
-            return exitValue == 0;
-        } catch (Exception e) { return false; }
-         */
         try {
             InetAddress ipAddr = InetAddress.getByName("google.com");
-            //You can replace it with your name
             return !ipAddr.equals("");
-
         } catch (Exception e) {
             return false;
         }
@@ -239,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
                 assert response.body() != null;
                 return response.body().string();
             } catch (IOException ioe) {
-                Log.e("Exception", "Currency request failed: " + ioe.toString());
+                Log.e("Exception", "Currency request failed: " + ioe);
                 return "";
             }
         }
@@ -268,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
 
                 writeToFile();
             } catch (Exception e) {
-                Log.e("Exception", "Failed to retrieve rates: " + e.toString());
+                Log.e("Exception", "Failed to retrieve rates: " + e);
             }
         }
     }
@@ -288,9 +266,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e);
         }
     }
 }

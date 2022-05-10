@@ -3,11 +3,11 @@
     android:id="@android:id/text1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:singleLine="true"
+    android:background="@drawable/spinner"
     android:ellipsize="marquee"
-    android:textSize="18sp"
-    android:textColor="@color/text"
-    android:typeface="sans"
     android:paddingHorizontal="5dp"
     android:paddingVertical="10dp"
-    android:background="@drawable/spinner" />
+    android:singleLine="true"
+    android:textColor="@color/text"
+    android:textSize="18sp"
+    android:typeface="sans" />

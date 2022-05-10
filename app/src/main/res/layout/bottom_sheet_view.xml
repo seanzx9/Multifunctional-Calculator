@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@drawable/rounded_dialog">
+    android:background="@drawable/rounded_dialog"
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,12 +13,12 @@
         <View
             android:layout_width="40dp"
             android:layout_height="5dp"
-            app:layout_constraintVertical_bias="0.65"
-            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/rounded_bar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:background="@drawable/rounded_bar" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.65" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -27,10 +27,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:scrollbars="none"
-        android:background="@drawable/rounded_dialog" />
+        android:background="@drawable/rounded_dialog"
+        android:scrollbars="none" />
 
-    <Space
+    <View
         android:layout_width="match_parent"
         android:layout_height="5dp" />
 

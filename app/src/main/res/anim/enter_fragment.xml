@@ -4,17 +4,17 @@
     <alpha
         android:duration="200"
         android:fromAlpha="0.0"
-        android:toAlpha="1.0"
-        android:interpolator="@android:anim/decelerate_interpolator" />
+        android:interpolator="@android:anim/decelerate_interpolator"
+        android:toAlpha="1.0" />
 
     <scale
         android:duration="200"
         android:fromXScale="98%"
         android:fromYScale="98%"
-        android:toXScale="100%"
-        android:toYScale="100%"
+        android:interpolator="@android:anim/decelerate_interpolator"
         android:pivotX="50%"
         android:pivotY="100%"
-        android:interpolator="@android:anim/decelerate_interpolator" />
+        android:toXScale="100%"
+        android:toYScale="100%" />
 
 </set>

@@ -1,5 +1,7 @@
 package com.example.calculator;
 
+import static android.content.Context.VIBRATOR_SERVICE;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -8,7 +10,6 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,9 +26,6 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import java.text.NumberFormat;
-import java.util.Objects;
-
-import static android.content.Context.VIBRATOR_SERVICE;
 
 public class TipsFragment extends Fragment implements View.OnTouchListener {
     private TextView total, tip;
@@ -38,7 +36,8 @@ public class TipsFragment extends Fragment implements View.OnTouchListener {
     private Button resetButton;
     private Animation buttonPress;
 
-    public TipsFragment() {}
+    public TipsFragment() {
+    }
 
     public static TipsFragment newInstance() {
         return new TipsFragment();
@@ -54,63 +53,52 @@ public class TipsFragment extends Fragment implements View.OnTouchListener {
         View view = inflater.inflate(R.layout.fragment_tips, container, false);
 
         //initialize total
-        total = (TextView) view.findViewById(R.id.total);
+        total = view.findViewById(R.id.total);
         String totalAmount = "$0.00";
         total.setText(totalAmount);
 
         //handle total long press
-        total.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                vibrate(40, 50);
+        total.setOnLongClickListener(view1 -> {
+            vibrate(40, 200);
 
-                ClipboardManager cm = (ClipboardManager) Objects
-                        .requireNonNull(getContext())
-                        .getSystemService(Context.CLIPBOARD_SERVICE);
-                assert cm != null;
-                cm.setPrimaryClip(ClipData.newPlainText("Total", total.getText().toString().trim()));
+            ClipboardManager cm = (ClipboardManager) requireContext()
+                    .getSystemService(Context.CLIPBOARD_SERVICE);
+            assert cm != null;
+            cm.setPrimaryClip(ClipData.newPlainText("Total", total.getText().toString().trim()));
 
-                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
 
-                return true;
-            }
+            return true;
         });
 
         //initialize tip
-        tip = (TextView) view.findViewById(R.id.tip);
+        tip = view.findViewById(R.id.tip);
         String tipAmount = "$0.00";
         tip.setText(tipAmount);
 
         //handle tip long press
-        tip.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                vibrate(40, 50);
-                ClipboardManager cm = (ClipboardManager) Objects
-                        .requireNonNull(getContext())
-                        .getSystemService(Context.CLIPBOARD_SERVICE);
-                assert cm != null;
-                cm.setPrimaryClip(ClipData.newPlainText("Tip", tip.getText().toString().trim()));
+        tip.setOnLongClickListener(view12 -> {
+            vibrate(40, 200);
+            ClipboardManager cm = (ClipboardManager) requireContext()
+                    .getSystemService(Context.CLIPBOARD_SERVICE);
+            assert cm != null;
+            cm.setPrimaryClip(ClipData.newPlainText("Tip", tip.getText().toString().trim()));
 
-                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
 
-                return true;
-            }
+            return true;
         });
 
         //initialize bill
-        bill = (EditText) view.findViewById(R.id.bill);
+        bill = view.findViewById(R.id.bill);
         billAmount = "$0.00";
         bill.setText(billAmount);
 
         //handle Done button on bill keyboard
-        bill.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE)
-                    bill.clearFocus();
-                return false;
-            }
+        bill.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE)
+                bill.clearFocus();
+            return false;
         });
 
         //add numbers to bill
@@ -131,18 +119,15 @@ public class TipsFragment extends Fragment implements View.OnTouchListener {
         });
 
         //initialize tip percent
-        tipPercent = (EditText) view.findViewById(R.id.tip_percent);
+        tipPercent = view.findViewById(R.id.tip_percent);
         tipPercentAmount = "15%";
         tipPercent.setText(tipPercentAmount);
 
         //handle Done button on tip percent keyboard
-        tipPercent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE)
-                    tipPercent.clearFocus();
-                return false;
-            }
+        tipPercent.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE)
+                tipPercent.clearFocus();
+            return false;
         });
 
         //add numbers to percent
@@ -163,30 +148,27 @@ public class TipsFragment extends Fragment implements View.OnTouchListener {
         });
 
         //initialize tip buttons
-        tipLeft = (ImageButton) view.findViewById(R.id.tip_left);
+        tipLeft = view.findViewById(R.id.tip_left);
         tipLeft.setOnTouchListener(this);
         tipRight = view.findViewById(R.id.tip_right);
         tipRight.setOnTouchListener(this);
 
         //initialize split
-        split = (EditText) view.findViewById(R.id.split);
+        split = view.findViewById(R.id.split);
         splitAmount = "1";
         split.setText(splitAmount);
 
         //initialize split buttons
-        splitLeft = (ImageButton) view.findViewById(R.id.split_left);
+        splitLeft = view.findViewById(R.id.split_left);
         splitLeft.setOnTouchListener(this);
-        splitRight = (ImageButton) view.findViewById(R.id.split_right);
+        splitRight = view.findViewById(R.id.split_right);
         splitRight.setOnTouchListener(this);
 
         //handle Done button on split keyboard
-        split.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE)
-                    split.clearFocus();
-                return false;
-            }
+        split.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE)
+                split.clearFocus();
+            return false;
         });
 
         //add numbers to split
@@ -207,7 +189,7 @@ public class TipsFragment extends Fragment implements View.OnTouchListener {
         });
 
         //initialize reset button
-        resetButton = (Button) view.findViewById(R.id.reset);
+        resetButton = view.findViewById(R.id.reset);
         resetButton.setOnTouchListener(this);
 
         //initialize animation
@@ -223,40 +205,40 @@ public class TipsFragment extends Fragment implements View.OnTouchListener {
      */
     @Override
     public boolean onTouch(View view, MotionEvent event) {
-        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
             switch (view.getId()) {
                 //decrement tip percent button
                 case R.id.tip_left:
                     decTip();
                     calculate();
-                    vibrate(5, 75);
+                    vibrate(8, 200);
                     break;
                 //increment tip button
                 case R.id.tip_right:
                     incTip();
                     calculate();
-                    vibrate(5, 75);
+                    vibrate(8, 200);
                     break;
                 //decrement split button
                 case R.id.split_left:
                     decSplit();
                     calculate();
-                    vibrate(5, 75);
+                    vibrate(8, 200);
                     break;
                 //increment split button
                 case R.id.split_right:
                     incSplit();
                     calculate();
-                    vibrate(5, 75);
+                    vibrate(8, 200);
                     break;
                 //reset button
                 case R.id.reset:
                     reset();
-                    vibrate(100, 50);
+                    vibrate(80, 200);
                     break;
             }
         }
-        
+
         return true;
     }
 
@@ -413,7 +395,7 @@ public class TipsFragment extends Fragment implements View.OnTouchListener {
      * @param amplitude amplitude of vibration
      */
     private void vibrate(int length, int amplitude) {
-        ((Vibrator) Objects.requireNonNull(Objects.requireNonNull(getActivity())
+        ((Vibrator) (requireActivity()
                 .getSystemService(VIBRATOR_SERVICE)))
                 .vibrate(VibrationEffect.createOneShot(length, amplitude));
     }

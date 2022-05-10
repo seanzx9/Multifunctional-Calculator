@@ -1,5 +1,7 @@
 package com.example.calculator;
 
+import static android.content.Context.VIBRATOR_SERVICE;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -8,7 +10,6 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,18 +26,18 @@ import androidx.fragment.app.Fragment;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Objects;
-
-import static android.content.Context.VIBRATOR_SERVICE;
 
 public class StocksFragment extends Fragment {
     private TextView change, percentChange;
     private EditText quantity, original, newVal;
     private String quantityAmount, originalAmount, newValAmount;
 
-    public StocksFragment() {}
+    public StocksFragment() {
+    }
 
-    public static StocksFragment newInstance() { return new StocksFragment(); }
+    public static StocksFragment newInstance() {
+        return new StocksFragment();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,63 +46,54 @@ public class StocksFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_stocks, container, false);
+        View view = inflater.inflate(R.layout.fragment_stocks, container, false);
 
         //initialize change amount
-        change = (TextView) view.findViewById(R.id.change);
+        change = view.findViewById(R.id.change);
         String changeAmount = "$0.00";
         change.setText(changeAmount);
-        change.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
+        change.setTextColor(ContextCompat.getColor(requireContext(), R.color.text));
 
         //handle change amount long press
-        change.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                vibrate(40, 50);
+        change.setOnLongClickListener(view1 -> {
+            vibrate(40);
 
-                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("Change", change.getText().toString().trim()));
+            ClipboardManager cm = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            cm.setPrimaryClip(ClipData.newPlainText("Change", change.getText().toString().trim()));
 
-                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
 
-                return true;
-            }
+            return true;
         });
 
         //initialize percent change amount
-        percentChange = (TextView) view.findViewById(R.id.percent_change);
+        percentChange = view.findViewById(R.id.percent_change);
         String percentChangeAmount = "0%";
         percentChange.setText(percentChangeAmount);
-        percentChange.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
+        percentChange.setTextColor(ContextCompat.getColor(requireContext(), R.color.text));
 
         //handle percent change long press
-        percentChange.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                vibrate(40, 50);
+        percentChange.setOnLongClickListener(view12 -> {
+            vibrate(40);
 
-                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("Percent Change", percentChange.getText().toString().trim()));
+            ClipboardManager cm = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            cm.setPrimaryClip(ClipData.newPlainText("Percent Change", percentChange.getText().toString().trim()));
 
-                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
 
-                return true;
-            }
+            return true;
         });
 
         //initialize quantity
-        quantity = (EditText) view.findViewById(R.id.quantity);
+        quantity = view.findViewById(R.id.quantity);
         quantityAmount = "1";
         quantity.setText(quantityAmount);
 
         //handle Done button on quantity keyboard
-        quantity.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE)
-                    quantity.clearFocus();
-                return false;
-            }
+        quantity.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE)
+                quantity.clearFocus();
+            return false;
         });
 
         //add numbers to quantity
@@ -113,25 +105,24 @@ public class StocksFragment extends Fragment {
             }
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+            }
         });
 
         //initialize original
-        original = (EditText) view.findViewById(R.id.original);
+        original = view.findViewById(R.id.original);
         originalAmount = "$0.00";
         original.setText(originalAmount);
 
         //handle Done button on original keyboard
-        original.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE)
-                    original.clearFocus();
-                return false;
-            }
+        original.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE)
+                original.clearFocus();
+            return false;
         });
 
         //add numbers to original
@@ -143,25 +134,24 @@ public class StocksFragment extends Fragment {
             }
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+            }
         });
 
         //initialize newVal
-        newVal = (EditText) view.findViewById(R.id.new_val);
+        newVal = view.findViewById(R.id.new_val);
         newValAmount = "$0.00";
         newVal.setText(newValAmount);
 
         //handle Done button on new keyboard
-        newVal.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE)
-                    newVal.clearFocus();
-                return false;
-            }
+        newVal.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE)
+                newVal.clearFocus();
+            return false;
         });
 
         //add numbers to new
@@ -173,20 +163,19 @@ public class StocksFragment extends Fragment {
             }
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+            }
         });
 
         //initialize reset button
-        final Button resetButton = (Button) view.findViewById(R.id.reset);
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                reset(resetButton);
-                vibrate(100, 50);
-            }
+        final Button resetButton = view.findViewById(R.id.reset);
+        resetButton.setOnClickListener(view13 -> {
+            reset(resetButton);
+            vibrate(80);
         });
 
         return view;
@@ -213,17 +202,15 @@ public class StocksFragment extends Fragment {
 
         //change color based on change
         if (result == 0) {
-            change.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
-            percentChange.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
-        }
-        else if (result > 0) {
-            change.setTextColor(ContextCompat.getColor(getContext(), R.color.green_text));
-            percentChange.setTextColor(ContextCompat.getColor(getContext(), R.color.green_text));
+            change.setTextColor(ContextCompat.getColor(requireContext(), R.color.text));
+            percentChange.setTextColor(ContextCompat.getColor(requireContext(), R.color.text));
+        } else if (result > 0) {
+            change.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_text));
+            percentChange.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_text));
 
-        }
-        else {
-            change.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
-            percentChange.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+        } else {
+            change.setTextColor(ContextCompat.getColor(requireContext(), R.color.red));
+            percentChange.setTextColor(ContextCompat.getColor(requireContext(), R.color.red));
         }
 
         result = Math.abs(result);
@@ -238,13 +225,13 @@ public class StocksFragment extends Fragment {
      * Add number to quantity.
      *
      * @param charSequence EditText content
-     * @param textWatcher current TextWatcher
+     * @param textWatcher  current TextWatcher
      */
     private void updateQuantity(CharSequence charSequence, TextWatcher textWatcher) {
         quantity.removeTextChangedListener(textWatcher);
 
         String str = charSequence.toString();
-        int x = (str.equals(""))? 0 : Integer.parseInt(str) % 100000000;
+        int x = (str.equals("")) ? 0 : Integer.parseInt(str) % 100000000;
         quantityAmount = Integer.toString(x);
 
         quantity.setText(quantityAmount);
@@ -257,7 +244,7 @@ public class StocksFragment extends Fragment {
      * Add number to original.
      *
      * @param charSequence EditText content
-     * @param textWatcher current TextWatcher
+     * @param textWatcher  current TextWatcher
      */
     private void updateOriginal(CharSequence charSequence, TextWatcher textWatcher) {
         original.removeTextChangedListener(textWatcher);
@@ -276,7 +263,7 @@ public class StocksFragment extends Fragment {
      * Add number to new.
      *
      * @param charSequence EditText content
-     * @param textWatcher current TextWatcher
+     * @param textWatcher  current TextWatcher
      */
     private void updateNew(CharSequence charSequence, TextWatcher textWatcher) {
         newVal.removeTextChangedListener(textWatcher);
@@ -304,13 +291,12 @@ public class StocksFragment extends Fragment {
 
     /**
      * Vibrates for certain length and amplitude.
+     *  @param length    length in ms
      *
-     * @param length length in ms
-     * @param amplitude amplitude of vibration
      */
-    private void vibrate(int length, int amplitude) {
-        ((Vibrator) Objects.requireNonNull(Objects.requireNonNull(getActivity())
+    private void vibrate(int length) {
+        ((Vibrator) (requireActivity()
                 .getSystemService(VIBRATOR_SERVICE)))
-                .vibrate(VibrationEffect.createOneShot(length,amplitude));
+                .vibrate(VibrationEffect.createOneShot(length, 200));
     }
 }

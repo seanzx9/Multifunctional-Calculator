@@ -1,5 +1,7 @@
 package com.example.calculator;
 
+import static android.content.Context.VIBRATOR_SERVICE;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -31,8 +33,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.text.NumberFormat;
 import java.util.Objects;
 
-import static android.content.Context.VIBRATOR_SERVICE;
-
 public class BitwiseFragment extends Fragment {
     private TextView dec, bin, hex;
     private TextInputEditText input1, input2;
@@ -51,7 +51,7 @@ public class BitwiseFragment extends Fragment {
             radioRow2.clearCheck();
             radioRow2.setOnCheckedChangeListener(row2);
 
-            vibrate(5, 75);
+            vibrate(8, 200);
 
             switch (i) {
                 case R.id.con:
@@ -71,7 +71,7 @@ public class BitwiseFragment extends Fragment {
                     break;
             }
 
-            RadioButton bt = (RadioButton) view.findViewById(radioRow1.getCheckedRadioButtonId());
+            RadioButton bt = view.findViewById(radioRow1.getCheckedRadioButtonId());
             bt.startAnimation(buttonPress);
             calculate();
         }
@@ -84,7 +84,7 @@ public class BitwiseFragment extends Fragment {
             radioRow1.clearCheck();
             radioRow1.setOnCheckedChangeListener(row1);
 
-            vibrate(5, 75);
+            vibrate(8, 200);
 
             switch (i) {
                 case R.id.and:
@@ -104,7 +104,7 @@ public class BitwiseFragment extends Fragment {
                     break;
             }
 
-            RadioButton bt = (RadioButton) view.findViewById(radioRow2.getCheckedRadioButtonId());
+            RadioButton bt = view.findViewById(radioRow2.getCheckedRadioButtonId());
             bt.startAnimation(buttonPress);
 
             calculate();
@@ -115,7 +115,7 @@ public class BitwiseFragment extends Fragment {
         public void onCheckedChanged(RadioGroup radioGroup, int i) {
             RadioButton bt;
 
-            vibrate(5, 75);
+            vibrate(8, 200);
 
             switch (i) {
                 case R.id.dec_type2:
@@ -126,7 +126,7 @@ public class BitwiseFragment extends Fragment {
                     else
                         input2.setInputType(InputType.TYPE_CLASS_DATETIME);
 
-                    bt = (RadioButton) view.findViewById(radioType2.getCheckedRadioButtonId());
+                    bt = view.findViewById(radioType2.getCheckedRadioButtonId());
                     bt.startAnimation(buttonPress);
 
                     calculate();
@@ -137,7 +137,7 @@ public class BitwiseFragment extends Fragment {
 
                     input2.setInputType(InputType.TYPE_CLASS_DATETIME);
 
-                    bt = (RadioButton) view.findViewById(radioType2.getCheckedRadioButtonId());
+                    bt = view.findViewById(radioType2.getCheckedRadioButtonId());
                     bt.startAnimation(buttonPress);
 
                     calculate();
@@ -148,7 +148,7 @@ public class BitwiseFragment extends Fragment {
 
                     input2.setInputType(InputType.TYPE_CLASS_TEXT);
 
-                    bt = (RadioButton) view.findViewById(radioType2.getCheckedRadioButtonId());
+                    bt = view.findViewById(radioType2.getCheckedRadioButtonId());
                     bt.startAnimation(buttonPress);
 
                     calculate();
@@ -158,9 +158,12 @@ public class BitwiseFragment extends Fragment {
         }
     };
 
-    public BitwiseFragment() {}
+    public BitwiseFragment() {
+    }
 
-    public static BitwiseFragment newInstance() { return new BitwiseFragment(); }
+    public static BitwiseFragment newInstance() {
+        return new BitwiseFragment();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -172,54 +175,45 @@ public class BitwiseFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_bitwise, container, false);
 
         //initialize result panels and long click listeners
-        dec = (TextView) view.findViewById(R.id.dec_result);
-        dec.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                vibrate(40, 50);
+        dec = view.findViewById(R.id.dec_result);
+        dec.setOnLongClickListener(view -> {
+            vibrate(40, 200);
 
-                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("Dec", dec.getText().toString().trim().replaceAll(",", "")));
+            ClipboardManager cm = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            cm.setPrimaryClip(ClipData.newPlainText("Dec", dec.getText().toString().trim().replaceAll(",", "")));
 
-                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
 
-                return true;
-            }
+            return true;
         });
 
-        bin = (TextView) view.findViewById(R.id.bin_result);
-        bin.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                vibrate(40, 50);
+        bin = view.findViewById(R.id.bin_result);
+        bin.setOnLongClickListener(view -> {
+            vibrate(40, 200);
 
-                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("Bin", bin.getText().toString().trim().replaceAll(" ", "")));
+            ClipboardManager cm = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            cm.setPrimaryClip(ClipData.newPlainText("Bin", bin.getText().toString().trim().replaceAll(" ", "")));
 
-                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
 
-                return true;
-            }
+            return true;
         });
 
-        hex = (TextView) view.findViewById(R.id.hex_result);
-        hex.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                vibrate(40, 50);
+        hex = view.findViewById(R.id.hex_result);
+        hex.setOnLongClickListener(view -> {
+            vibrate(40, 200);
 
-                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("Hex", hex.getText().toString().trim().replaceAll(" ", "")));
+            ClipboardManager cm = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            cm.setPrimaryClip(ClipData.newPlainText("Hex", hex.getText().toString().trim().replaceAll(" ", "")));
 
-                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
 
-                return true;
-            }
+            return true;
         });
 
         //initialize inputs
         //start as dec
-        input1 = (TextInputEditText) view.findViewById(R.id.input1_edit);
+        input1 = view.findViewById(R.id.input1_edit);
         input1.setInputType(InputType.TYPE_CLASS_DATETIME);
         type1 = 0;
 
@@ -233,71 +227,67 @@ public class BitwiseFragment extends Fragment {
             }
 
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
-        });
-
-        //handle Done button
-        input1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE)
-                    input1.clearFocus();
-                return false;
+            public void afterTextChanged(Editable editable) {
             }
         });
 
+        //handle Done button
+        input1.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE)
+                input1.clearFocus();
+            return false;
+        });
+
         //handle type from radio group
-        radioType1 = (RadioGroup) view.findViewById(R.id.input1_type);
-        radioType1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioButton bt;
+        radioType1 = view.findViewById(R.id.input1_type);
+        radioType1.setOnCheckedChangeListener((radioGroup, i) -> {
+            RadioButton bt;
 
-                vibrate(5, 75);
+            vibrate(8, 200);
 
-                switch (i) {
-                    case R.id.dec_type1:
-                        type1 = 0;
+            switch (i) {
+                case R.id.dec_type1:
+                    type1 = 0;
 
-                        if (twoCom.isChecked())
-                            input1.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-                        else
-                            input1.setInputType(InputType.TYPE_CLASS_DATETIME);
-
-                        bt = (RadioButton) view.findViewById(radioType1.getCheckedRadioButtonId());
-                        bt.startAnimation(buttonPress);
-
-                        calculate();
-                        break;
-                    case R.id.bin_type1:
-                        type1 = 1;
-
+                    if (twoCom.isChecked())
+                        input1.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+                    else
                         input1.setInputType(InputType.TYPE_CLASS_DATETIME);
 
-                        bt = (RadioButton) view.findViewById(radioType1.getCheckedRadioButtonId());
-                        bt.startAnimation(buttonPress);
+                    bt = view.findViewById(radioType1.getCheckedRadioButtonId());
+                    bt.startAnimation(buttonPress);
 
-                        calculate();
-                        break;
-                    case R.id.hex_type1:
-                        type1 = 2;
+                    calculate();
+                    break;
+                case R.id.bin_type1:
+                    type1 = 1;
 
-                        input1.setInputType(InputType.TYPE_CLASS_TEXT);
+                    input1.setInputType(InputType.TYPE_CLASS_DATETIME);
 
-                        bt = (RadioButton) view.findViewById(radioType1.getCheckedRadioButtonId());
-                        bt.startAnimation(buttonPress);
+                    bt = view.findViewById(radioType1.getCheckedRadioButtonId());
+                    bt.startAnimation(buttonPress);
 
-                        calculate();
-                        break;
-                }
+                    calculate();
+                    break;
+                case R.id.hex_type1:
+                    type1 = 2;
+
+                    input1.setInputType(InputType.TYPE_CLASS_TEXT);
+
+                    bt = view.findViewById(radioType1.getCheckedRadioButtonId());
+                    bt.startAnimation(buttonPress);
+
+                    calculate();
+                    break;
             }
         });
 
         //start as dec
-        input2 = (TextInputEditText) view.findViewById(R.id.input2_edit);
+        input2 = view.findViewById(R.id.input2_edit);
         input2.setInputType(InputType.TYPE_CLASS_DATETIME);
         type2 = 0;
 
@@ -313,50 +303,45 @@ public class BitwiseFragment extends Fragment {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
-        });
-
-        //handle Done button
-        input2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE)
-                    input2.clearFocus();
-                return false;
+            public void afterTextChanged(Editable editable) {
             }
         });
 
+        //handle Done button
+        input2.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE)
+                input2.clearFocus();
+            return false;
+        });
+
         //handle type from radio group
-        radioType2 = (RadioGroup) view.findViewById(R.id.input2_type);
+        radioType2 = view.findViewById(R.id.input2_type);
         radioType2.setOnCheckedChangeListener(type2List);
 
         //initialize radio groups for operation
         operation = 0;
-        radioRow1 = (RadioGroup) view.findViewById(R.id.radio_row1);
-        radioRow2 = (RadioGroup) view.findViewById(R.id.radio_row2);
+        radioRow1 = view.findViewById(R.id.radio_row1);
+        radioRow2 = view.findViewById(R.id.radio_row2);
 
         //initialize animations
         buttonPress = AnimationUtils.loadAnimation(getContext(), R.anim.button_press);
 
         //initialize 2's compliment
-        twoCom = (ToggleButton) view.findViewById(R.id.com);
-        twoCom.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                twoCom.startAnimation(buttonPress);
+        twoCom = view.findViewById(R.id.com);
+        twoCom.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            twoCom.startAnimation(buttonPress);
 
-                vibrate(5, 75);
+            vibrate(8, 200);
 
-                if (twoCom.isChecked()) {
-                    input1.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-                    input2.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-                }
-                else {
-                    input1.setInputType(InputType.TYPE_CLASS_DATETIME);
-                    input2.setInputType(InputType.TYPE_CLASS_DATETIME);
-                }
-
-                calculate();
+            if (twoCom.isChecked()) {
+                input1.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+                input2.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+            } else {
+                input1.setInputType(InputType.TYPE_CLASS_DATETIME);
+                input2.setInputType(InputType.TYPE_CLASS_DATETIME);
             }
+
+            calculate();
         });
 
         //set listeners and start convert operation
@@ -372,11 +357,11 @@ public class BitwiseFragment extends Fragment {
      */
     private void enableInput2() {
         input2.setEnabled(true);
-        input2.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
+        input2.setTextColor(ContextCompat.getColor(requireContext(), R.color.text));
         input2.setClickable(true);
 
-        TextView title = (TextView) view.findViewById(R.id.input2_title);
-        title.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
+        TextView title = view.findViewById(R.id.input2_title);
+        title.setTextColor(ContextCompat.getColor(requireContext(), R.color.text));
 
         for (int i = 0; i < radioType2.getChildCount(); i++)
             radioType2.getChildAt(i).setEnabled(true);
@@ -391,12 +376,12 @@ public class BitwiseFragment extends Fragment {
      * Disable input 2 panel.
      */
     private void disableInput2() {
-        input2.setTextColor(ContextCompat.getColor(getContext(), R.color.toggle_off));
+        input2.setTextColor(ContextCompat.getColor(requireContext(), R.color.toggle_off));
         input2.setEnabled(false);
         input2.setClickable(false);
 
-        TextView title = (TextView) view.findViewById(R.id.input2_title);
-        title.setTextColor(ContextCompat.getColor(getContext(), R.color.toggle_off));
+        TextView title = view.findViewById(R.id.input2_title);
+        title.setTextColor(ContextCompat.getColor(requireContext(), R.color.toggle_off));
 
         radioType2.setOnCheckedChangeListener(null);
         radioType2.clearCheck();
@@ -410,9 +395,9 @@ public class BitwiseFragment extends Fragment {
      */
     private void calculate() {
         try {
-            dec.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
-            bin.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
-            hex.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
+            dec.setTextColor(ContextCompat.getColor(requireContext(), R.color.text));
+            bin.setTextColor(ContextCompat.getColor(requireContext(), R.color.text));
+            hex.setTextColor(ContextCompat.getColor(requireContext(), R.color.text));
 
             switch (operation) {
                 case 0:
@@ -457,24 +442,23 @@ public class BitwiseFragment extends Fragment {
                     break;
             }
         } catch (Exception e) {
-            boolean inputsNotEmpty = !input1.getText().toString().trim().equals("") &&
-                                  !input2.getText().toString().trim().equals("") &&
-                                  !input1.getText().toString().trim().equals("-")&&
-                                  !input2.getText().toString().trim().equals("-");
+            boolean inputsNotEmpty = !Objects.requireNonNull(input1.getText()).toString().trim().equals("") &&
+                    !Objects.requireNonNull(input2.getText()).toString().trim().equals("") &&
+                    !input1.getText().toString().trim().equals("-") &&
+                    !input2.getText().toString().trim().equals("-");
             if (inputsNotEmpty) {
                 dec.setTextSize(25);
-                dec.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                dec.setTextColor(ContextCompat.getColor(requireContext(), R.color.red));
                 dec.setText(R.string.error);
 
                 bin.setTextSize(25);
-                bin.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                bin.setTextColor(ContextCompat.getColor(requireContext(), R.color.red));
                 bin.setText(R.string.error);
 
                 hex.setTextSize(25);
-                hex.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                hex.setTextColor(ContextCompat.getColor(requireContext(), R.color.red));
                 hex.setText(R.string.error);
-            }
-            else {
+            } else {
                 dec.setText("");
                 bin.setText("");
                 hex.setText("");
@@ -488,7 +472,7 @@ public class BitwiseFragment extends Fragment {
      * Converts value in input1.
      */
     private void convert() {
-        String n = input1.getText().toString().toLowerCase().replace(" ", "");
+        String n = Objects.requireNonNull(input1.getText()).toString().toLowerCase().replace(" ", "");
         String decimal = "", binary = "", hexadecimal = "";
 
         switch (type1) {
@@ -500,19 +484,16 @@ public class BitwiseFragment extends Fragment {
                         decimal = NumberFormat.getInstance().format(Integer.parseInt(n));
                         binary = Integer.toBinaryString(0xFFFF & Integer.parseInt(n));
                         hexadecimal = Integer.toHexString(0xFFFF & Integer.parseInt(n)).toUpperCase();
-                    }
-                    else if (num >= Integer.MIN_VALUE && num < 0) {
+                    } else if (num >= Integer.MIN_VALUE && num < 0) {
                         decimal = NumberFormat.getInstance().format(Integer.parseInt(n));
                         binary = Integer.toBinaryString(Integer.parseInt(n));
                         hexadecimal = Integer.toHexString(Integer.parseInt(n)).toUpperCase();
-                    }
-                    else {
+                    } else {
                         decimal = NumberFormat.getInstance().format(Long.parseLong(n));
                         binary = Long.toBinaryString(Long.parseLong(n));
                         hexadecimal = Long.toHexString(Long.parseLong(n)).toUpperCase();
                     }
-                }
-                else {
+                } else {
                     decimal = NumberFormat.getInstance().format(Long.parseLong(n));
                     binary = Long.toBinaryString(Long.parseLong(n));
                     hexadecimal = Long.toHexString(Long.parseLong(n)).toUpperCase();
@@ -525,8 +506,7 @@ public class BitwiseFragment extends Fragment {
                         decimal = "-" + (NumberFormat.getInstance().format(Long.parseLong(twosCompliment(n), 2)));
                     else
                         decimal = NumberFormat.getInstance().format(Long.parseLong(n, 2));
-                }
-                else {
+                } else {
                     decimal = NumberFormat.getInstance().format(Long.parseLong(n, 2));
                 }
 
@@ -543,8 +523,7 @@ public class BitwiseFragment extends Fragment {
                         decimal = "-" + (NumberFormat.getInstance().format(Long.parseLong(twosCompliment(binary), 2)));
                     else
                         decimal = NumberFormat.getInstance().format(Long.parseLong(binary, 2));
-                }
-                else {
+                } else {
                     decimal = NumberFormat.getInstance().format(Long.parseLong(n, 16));
                 }
 
@@ -552,8 +531,8 @@ public class BitwiseFragment extends Fragment {
         }
 
         //adjust text sizes to fit
-        bin.setTextSize((binary.length() > 16)? 18 : 25);
-        dec.setTextSize((decimal.length() > 20)? 20 : 25);
+        bin.setTextSize((binary.length() > 16) ? 18 : 25);
+        dec.setTextSize((decimal.length() > 20) ? 20 : 25);
 
         dec.setText(decimal);
         bin.setText(groupBinary(binary));
@@ -566,9 +545,9 @@ public class BitwiseFragment extends Fragment {
      * @param operation operation to perform
      */
     private void arithmetic(String operation) {
-        String i0 = input1.getText().toString().toLowerCase().replace(" ", "");
-        String i1 = input2.getText().toString().toLowerCase().replace(" ", "");
-        long v0 = 0, v1 = 0,  res = 0;
+        String i0 = Objects.requireNonNull(input1.getText()).toString().toLowerCase().replace(" ", "");
+        String i1 = Objects.requireNonNull(input2.getText()).toString().toLowerCase().replace(" ", "");
+        long v0 = 0, v1 = 0, res = 0;
         String decimal, binary, hexadecimal;
 
         switch (type1) {
@@ -578,8 +557,7 @@ public class BitwiseFragment extends Fragment {
             case 1:
                 if (twoCom.isChecked() && i0.charAt(0) == '1') {
                     v0 = (-1 * Long.parseLong(twosCompliment(i0), 2));
-                }
-                else {
+                } else {
                     v0 = Long.parseLong(i0, 2);
                 }
 
@@ -590,12 +568,10 @@ public class BitwiseFragment extends Fragment {
 
                     if (tempBin.charAt(0) == '1') {
                         v0 = (-1 * Long.parseLong(twosCompliment(tempBin), 2));
-                    }
-                    else {
+                    } else {
                         v0 = Long.parseLong(tempBin, 2);
                     }
-                }
-                else {
+                } else {
                     v0 = Long.parseLong(i0, 16);
                 }
 
@@ -609,8 +585,7 @@ public class BitwiseFragment extends Fragment {
             case 1:
                 if (twoCom.isChecked() && i1.charAt(0) == '1') {
                     v1 = (-1 * Long.parseLong(twosCompliment(i1), 2));
-                }
-                else {
+                } else {
                     v1 = Long.parseLong(i1, 2);
                 }
 
@@ -621,12 +596,10 @@ public class BitwiseFragment extends Fragment {
 
                     if (tempBin.charAt(0) == '1') {
                         v1 = (-1 * Long.parseLong(twosCompliment(tempBin), 2));
-                    }
-                    else {
+                    } else {
                         v1 = Long.parseLong(tempBin, 2);
                     }
-                }
-                else {
+                } else {
                     v1 = Long.parseLong(i1, 16);
                 }
 
@@ -659,7 +632,7 @@ public class BitwiseFragment extends Fragment {
                 res = v0 << v1;
                 break;
             case "rShift":
-                res = (twoCom.isChecked())? (v0 >> v1) : (v0 >>> v1);
+                res = (twoCom.isChecked()) ? (v0 >> v1) : (v0 >>> v1);
                 break;
         }
 
@@ -667,21 +640,19 @@ public class BitwiseFragment extends Fragment {
             decimal = NumberFormat.getInstance().format(res);
             binary = Integer.toBinaryString(0xFFFF & Math.toIntExact(res));
             hexadecimal = Integer.toHexString(0xFFFF & Math.toIntExact(res)).toUpperCase();
-        }
-        else if (res >= Integer.MIN_VALUE && res < 0) {
+        } else if (res >= Integer.MIN_VALUE && res < 0) {
             decimal = NumberFormat.getInstance().format(Math.toIntExact(res));
             binary = Integer.toBinaryString(Math.toIntExact(res));
             hexadecimal = Integer.toHexString(Math.toIntExact(res)).toUpperCase();
-        }
-        else {
+        } else {
             decimal = NumberFormat.getInstance().format(res);
             binary = Long.toBinaryString(res);
             hexadecimal = Long.toHexString(res).toUpperCase();
         }
 
         //adjust text sizes to fit
-        bin.setTextSize((binary.length() > 16)? 18 : 25);
-        dec.setTextSize((decimal.length() > 20)? 20 : 25);
+        bin.setTextSize((binary.length() > 16) ? 18 : 25);
+        dec.setTextSize((decimal.length() > 20) ? 20 : 25);
 
         dec.setText(decimal);
         bin.setText(groupBinary(binary));
@@ -696,7 +667,7 @@ public class BitwiseFragment extends Fragment {
      */
     private String groupBinary(String binary) {
         StringBuilder sb = new StringBuilder();
-        int n = (binary.length() > 16)? 8 : 4;
+        int n = (binary.length() > 16) ? 8 : 4;
 
         if (binary.length() <= 4)
             binary = String.format("%4s", binary).replaceAll(" ", "0");
@@ -783,8 +754,7 @@ public class BitwiseFragment extends Fragment {
         for (int i = ones.length() - 1; i > 0; i--) {
             if (ones.charAt(i) == '1') {
                 builder.setCharAt(i, '0');
-            }
-            else {
+            } else {
                 builder.setCharAt(i, '1');
                 b = true;
                 break;
@@ -812,12 +782,12 @@ public class BitwiseFragment extends Fragment {
     /**
      * Vibrates for certain length and amplitude.
      *
-     * @param length length in ms
+     * @param length    length in ms
      * @param amplitude amplitude of vibration
      */
     private void vibrate(int length, int amplitude) {
-        ((Vibrator) Objects.requireNonNull(Objects.requireNonNull(getActivity())
+        ((Vibrator) (requireActivity()
                 .getSystemService(VIBRATOR_SERVICE)))
-                .vibrate(VibrationEffect.createOneShot(length,amplitude));
+                .vibrate(VibrationEffect.createOneShot(length, amplitude));
     }
 }

@@ -1,5 +1,7 @@
 package com.example.calculator;
 
+import static android.content.Context.VIBRATOR_SERVICE;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -9,7 +11,6 @@ import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,6 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -35,14 +35,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static android.content.Context.VIBRATOR_SERVICE;
-
 public class ConvertFragment extends Fragment {
-    private final int ROUNDING_MODE = BigDecimal.ROUND_HALF_EVEN;
+    private final RoundingMode ROUNDING_MODE = RoundingMode.HALF_EVEN;
     private final MathContext RANGE = MathContext.DECIMAL128;
     private int operation;
     private View view;
@@ -54,7 +53,7 @@ public class ConvertFragment extends Fragment {
     private Animation buttonPress;
 
     //radio group listeners
-    private RadioGroup.OnCheckedChangeListener row1 = new RadioGroup.OnCheckedChangeListener() {
+    private final RadioGroup.OnCheckedChangeListener row1 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup radioGroup, int i) {
             //remove other checked box if checked
@@ -65,7 +64,7 @@ public class ConvertFragment extends Fragment {
             radioRow2.setOnCheckedChangeListener(row2);
             radioRow3.setOnCheckedChangeListener(row3);
 
-            vibrate(5, 75);
+            vibrate(8, 200);
 
             switch (i) {
                 case R.id.temperature:
@@ -119,11 +118,11 @@ public class ConvertFragment extends Fragment {
                     break;
             }
 
-            RadioButton bt = (RadioButton) view.findViewById(radioRow1.getCheckedRadioButtonId());
+            RadioButton bt = view.findViewById(radioRow1.getCheckedRadioButtonId());
             bt.startAnimation(buttonPress);
         }
     };
-    private RadioGroup.OnCheckedChangeListener row2 = new RadioGroup.OnCheckedChangeListener() {
+    private final RadioGroup.OnCheckedChangeListener row2 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup radioGroup, int i) {
             //remove other checked box if checked
@@ -134,7 +133,7 @@ public class ConvertFragment extends Fragment {
             radioRow1.setOnCheckedChangeListener(row1);
             radioRow3.setOnCheckedChangeListener(row3);
 
-            vibrate(5, 75);
+            vibrate(8, 200);
 
             switch (i) {
                 case R.id.length:
@@ -188,11 +187,11 @@ public class ConvertFragment extends Fragment {
 
                     break;
             }
-            RadioButton bt = (RadioButton) view.findViewById(radioRow2.getCheckedRadioButtonId());
+            RadioButton bt = view.findViewById(radioRow2.getCheckedRadioButtonId());
             bt.startAnimation(buttonPress);
         }
     };
-    private RadioGroup.OnCheckedChangeListener row3 = new RadioGroup.OnCheckedChangeListener() {
+    private final RadioGroup.OnCheckedChangeListener row3 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup radioGroup, int i) {
             //remove other checked box if checked
@@ -203,7 +202,7 @@ public class ConvertFragment extends Fragment {
             radioRow1.setOnCheckedChangeListener(row1);
             radioRow2.setOnCheckedChangeListener(row2);
 
-            vibrate(5, 75);
+            vibrate(8, 200);
 
             switch (i) {
                 case R.id.speed:
@@ -257,7 +256,7 @@ public class ConvertFragment extends Fragment {
                     break;
             }
 
-            RadioButton bt = (RadioButton) view.findViewById(radioRow3.getCheckedRadioButtonId());
+            RadioButton bt = view.findViewById(radioRow3.getCheckedRadioButtonId());
             bt.startAnimation(buttonPress);
         }
     };
@@ -271,10 +270,12 @@ public class ConvertFragment extends Fragment {
         }
 
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
 
         @Override
-        public void afterTextChanged(Editable editable) {}
+        public void afterTextChanged(Editable editable) {
+        }
     };
     private final TextWatcher input2List = new TextWatcher() {
         @Override
@@ -284,15 +285,20 @@ public class ConvertFragment extends Fragment {
         }
 
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
 
         @Override
-        public void afterTextChanged(Editable editable) {}
+        public void afterTextChanged(Editable editable) {
+        }
     };
 
-    public ConvertFragment() {}
+    public ConvertFragment() {
+    }
 
-    public static ConvertFragment newInstance() { return new ConvertFragment(); }
+    public static ConvertFragment newInstance() {
+        return new ConvertFragment();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -307,18 +313,18 @@ public class ConvertFragment extends Fragment {
         loadRatesFromXml();
 
         //initialize radio groups
-        radioRow1 = (RadioGroup) view.findViewById(R.id.radio_row1);
-        radioRow2 = (RadioGroup) view.findViewById(R.id.radio_row2);
-        radioRow3 = (RadioGroup) view.findViewById(R.id.radio_row3);
+        radioRow1 = view.findViewById(R.id.radio_row1);
+        radioRow2 = view.findViewById(R.id.radio_row2);
+        radioRow3 = view.findViewById(R.id.radio_row3);
 
         //initialize input 1 spinner
-        input1Type = (Spinner) view.findViewById(R.id.input1_type);
+        input1Type = view.findViewById(R.id.input1_type);
         adapter = ArrayAdapter.createFromResource(getContext(), R.array.temperature, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         input1Type.setAdapter(adapter);
 
         //initialize input 2 spinner
-        input2Type = (Spinner) view.findViewById(R.id.input2_type);
+        input2Type = view.findViewById(R.id.input2_type);
         adapter = ArrayAdapter.createFromResource(getContext(), R.array.temperature, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         input2Type.setAdapter(adapter);
@@ -333,59 +339,47 @@ public class ConvertFragment extends Fragment {
         radioRow3.setOnCheckedChangeListener(row3);
 
         //initialize input1
-        input1 = (TextInputEditText) view.findViewById(R.id.input1_edit);
+        input1 = view.findViewById(R.id.input1_edit);
 
         //set Done button on input1 keyboard
-        input1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE)
-                    input1.clearFocus();
-                return false;
-            }
+        input1.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE)
+                input1.clearFocus();
+            return false;
         });
 
         //handle input1 long press
-        input1.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                vibrate(40, 50);
+        input1.setOnLongClickListener(view -> {
+            vibrate(40, 200);
 
-                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("Value", input1.getText().toString().trim()));
+            ClipboardManager cm = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            cm.setPrimaryClip(ClipData.newPlainText("Value", Objects.requireNonNull(input1.getText()).toString().trim()));
 
-                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
 
-                return true;
-            }
+            return true;
         });
 
         //initialize input2
-        input2 = (TextInputEditText) view.findViewById(R.id.input2_edit);
+        input2 = view.findViewById(R.id.input2_edit);
 
         //set Done button on input2 keyboard
-        input2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE)
-                    input2.clearFocus();
-                return false;
-            }
+        input2.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE)
+                input2.clearFocus();
+            return false;
         });
 
         //handle input2 long press
-        input2.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                vibrate(40, 50);
+        input2.setOnLongClickListener(view -> {
+            vibrate(40, 200);
 
-                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("Value", input2.getText().toString().trim()));
+            ClipboardManager cm = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            cm.setPrimaryClip(ClipData.newPlainText("Value", Objects.requireNonNull(input2.getText()).toString().trim()));
 
-                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
 
-                return true;
-            }
+            return true;
         });
 
         //listen for changing text on inputs
@@ -400,7 +394,8 @@ public class ConvertFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {}
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
 
         });
 
@@ -412,7 +407,8 @@ public class ConvertFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {}
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
         });
 
         //start with temp conversion
@@ -427,7 +423,7 @@ public class ConvertFragment extends Fragment {
      * Adds text to input1.
      *
      * @param charSequence EditText content
-     * @param textWatcher current TextWatcher
+     * @param textWatcher  current TextWatcher
      */
     private void updateInput1(CharSequence charSequence, TextWatcher textWatcher) {
         input1.removeTextChangedListener(textWatcher);
@@ -437,10 +433,9 @@ public class ConvertFragment extends Fragment {
         if (str.equals("")) {
             input1.setText("0");
             input1.setSelection(1);
-        }
-        else if (str.charAt(0) == '0' && (str.length() > 1 && str.charAt(1) != '.')) {
+        } else if (str.charAt(0) == '0' && (str.length() > 1 && str.charAt(1) != '.')) {
             input1.setText(charSequence.toString().substring(1));
-            input1.setSelection(input1.getText().toString().length());
+            input1.setSelection(Objects.requireNonNull(input1.getText()).toString().length());
         }
 
         input1.addTextChangedListener(textWatcher);
@@ -450,7 +445,7 @@ public class ConvertFragment extends Fragment {
      * Adds text to input2.
      *
      * @param charSequence EditText content
-     * @param textWatcher current TextWatcher
+     * @param textWatcher  current TextWatcher
      */
     private void updateInput2(CharSequence charSequence, TextWatcher textWatcher) {
         input2.removeTextChangedListener(textWatcher);
@@ -460,10 +455,9 @@ public class ConvertFragment extends Fragment {
         if (str.equals("")) {
             input2.setText("0");
             input2.setSelection(1);
-        }
-        else if (str.charAt(0) == '0' && (str.length() > 1 && str.charAt(1) != '.')) {
+        } else if (str.charAt(0) == '0' && (str.length() > 1 && str.charAt(1) != '.')) {
             input2.setText(charSequence.toString().substring(1));
-            input2.setSelection(input2.getText().toString().length());
+            input2.setSelection(Objects.requireNonNull(input2.getText()).toString().length());
         }
 
         input2.addTextChangedListener(textWatcher);
@@ -522,13 +516,13 @@ public class ConvertFragment extends Fragment {
         //if input1 is being changed
         if (editTextId == R.id.input1) {
             //value inside input
-            orig = new BigDecimal(input1.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input1.getText()).toString());
 
             //convert all inputs to C
             switch (input1Type.getSelectedItem().toString()) {
                 case "Fahrenheit":
                     mid = (orig.subtract(BigDecimal.valueOf(32.0), RANGE))
-                               .multiply(BigDecimal.valueOf(5.0 / 9.0), RANGE);
+                            .multiply(BigDecimal.valueOf(5.0 / 9.0), RANGE);
                     break;
                 case "Celsius":
                     mid = orig;
@@ -542,7 +536,7 @@ public class ConvertFragment extends Fragment {
             switch (input2Type.getSelectedItem().toString()) {
                 case "Fahrenheit":
                     con = (mid.multiply(BigDecimal.valueOf(9.0 / 5.0), RANGE))
-                               .add(BigDecimal.valueOf(32.0), RANGE);
+                            .add(BigDecimal.valueOf(32.0), RANGE);
                     break;
                 case "Celsius":
                     con = mid;
@@ -555,19 +549,18 @@ public class ConvertFragment extends Fragment {
             //display in opposite EditText
             input2.removeTextChangedListener(input2List);
             BigDecimal ans = new BigDecimal(con.toString()).setScale(2, ROUNDING_MODE);
-            input2.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input2.setTextSize((ans.toString().length() > 15) ? 35 : 40);
             input2.setText(String.format("%s", ans.stripTrailingZeros().toPlainString()));
             input2.addTextChangedListener(input2List);
-        }
-        else {
+        } else {
             //value inside input
-            orig = new BigDecimal(input2.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input2.getText()).toString());
 
             //convert all inputs to C
             switch (input2Type.getSelectedItem().toString()) {
                 case "Fahrenheit":
                     mid = (orig.subtract(BigDecimal.valueOf(32.0), RANGE))
-                               .multiply(BigDecimal.valueOf(5.0 / 9.0), RANGE);
+                            .multiply(BigDecimal.valueOf(5.0 / 9.0), RANGE);
                     break;
                 case "Celsius":
                     mid = orig;
@@ -581,7 +574,7 @@ public class ConvertFragment extends Fragment {
             switch (input1Type.getSelectedItem().toString()) {
                 case "Fahrenheit":
                     con = (mid.multiply(BigDecimal.valueOf(9.0 / 5.0), RANGE))
-                               .add(BigDecimal.valueOf(32.0), RANGE);
+                            .add(BigDecimal.valueOf(32.0), RANGE);
                     break;
                 case "Celsius":
                     con = mid;
@@ -594,7 +587,7 @@ public class ConvertFragment extends Fragment {
             //display in opposite EditText
             input1.removeTextChangedListener(input1List);
             BigDecimal ans = new BigDecimal(con.toString()).setScale(2, ROUNDING_MODE);
-            input1.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input1.setTextSize((ans.toString().length() > 15) ? 35 : 40);
             input1.setText(String.format("%s", ans.stripTrailingZeros().toPlainString()));
             input1.addTextChangedListener(input1List);
         }
@@ -612,7 +605,7 @@ public class ConvertFragment extends Fragment {
         //if input1 is being changed
         if (editTextId == R.id.input1) {
             //value inside input
-            orig = Double.parseDouble(input1.getText().toString());
+            orig = Double.parseDouble(Objects.requireNonNull(input1.getText()).toString());
 
             if (input1Type.getSelectedItemPosition() != input2Type.getSelectedItemPosition()) {
                 switch (input1Type.getSelectedItem().toString()) {
@@ -624,18 +617,16 @@ public class ConvertFragment extends Fragment {
                         con = Math.toRadians(orig);
                         break;
                 }
-            }
-            else con = orig;
+            } else con = orig;
 
             //display in opposite edit text
             input2.removeTextChangedListener(input2List);
-            input2.setTextSize((df.format(con).length() > 15)? 35 : 40);
+            input2.setTextSize((df.format(con).length() > 15) ? 35 : 40);
             input2.setText(df.format(con));
             input2.addTextChangedListener(input2List);
-        }
-        else {
+        } else {
             //value inside input
-            orig = Double.parseDouble(input2.getText().toString());
+            orig = Double.parseDouble(Objects.requireNonNull(input2.getText()).toString());
 
             if (input1Type.getSelectedItemPosition() != input2Type.getSelectedItemPosition()) {
                 switch (input2Type.getSelectedItem().toString()) {
@@ -647,12 +638,11 @@ public class ConvertFragment extends Fragment {
                         con = Math.toRadians(orig);
                         break;
                 }
-            }
-            else con = orig;
+            } else con = orig;
 
             //display in opposite edit text
             input1.removeTextChangedListener(input1List);
-            input1.setTextSize((df.format(con).length() > 15)? 35 : 40);
+            input1.setTextSize((df.format(con).length() > 15) ? 35 : 40);
             input1.setText(df.format(con));
             input1.addTextChangedListener(input1List);
         }
@@ -669,7 +659,7 @@ public class ConvertFragment extends Fragment {
         //if input1 is being changed
         if (editTextId == R.id.input1) {
             //value inside input
-            orig = new BigDecimal(input1.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input1.getText()).toString());
 
             //convert all inputs to kg
             switch (input1Type.getSelectedItem().toString()) {
@@ -738,18 +728,17 @@ public class ConvertFragment extends Fragment {
             else
                 ans = new BigDecimal(con.toString()).setScale(10, ROUNDING_MODE);
 
-            input2.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input2.setTextSize((ans.toString().length() > 15) ? 35 : 40);
 
             input2.setText((ans.compareTo(BigDecimal.valueOf(999999)) > 0 ||
-                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0)?
-                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()):
+                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0) ?
+                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()) :
                     String.format("%s", ans.stripTrailingZeros().toPlainString()));
 
             input2.addTextChangedListener(input2List);
-        }
-        else {
+        } else {
             //value inside input
-            orig = new BigDecimal(input2.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input2.getText()).toString());
 
             //convert all inputs to kg
             switch (input2Type.getSelectedItem().toString()) {
@@ -818,11 +807,11 @@ public class ConvertFragment extends Fragment {
             else
                 ans = new BigDecimal(con.toString()).setScale(10, ROUNDING_MODE);
 
-            input1.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input1.setTextSize((ans.toString().length() > 15) ? 35 : 40);
 
             input1.setText((ans.compareTo(BigDecimal.valueOf(999999)) > 0 ||
-                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0)?
-                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()):
+                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0) ?
+                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()) :
                     String.format("%s", ans.stripTrailingZeros().toPlainString()));
 
             input1.addTextChangedListener(input1List);
@@ -840,7 +829,7 @@ public class ConvertFragment extends Fragment {
         //if input1 is being changed
         if (editTextId == R.id.input1) {
             //value inside input
-            orig = new BigDecimal(input1.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input1.getText()).toString());
 
             //convert all inputs to meter
             switch (input1Type.getSelectedItem().toString()) {
@@ -927,18 +916,17 @@ public class ConvertFragment extends Fragment {
             else
                 ans = new BigDecimal(con.toString()).setScale(10, ROUNDING_MODE);
 
-            input2.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input2.setTextSize((ans.toString().length() > 15) ? 35 : 40);
 
             input2.setText((ans.compareTo(BigDecimal.valueOf(999999)) > 0 ||
-                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0)?
-                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()):
+                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0) ?
+                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()) :
                     String.format("%s", ans.stripTrailingZeros().toPlainString()));
 
             input2.addTextChangedListener(input2List);
-        }
-        else {
+        } else {
             //value inside input
-            orig = new BigDecimal(input2.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input2.getText()).toString());
 
             //convert all inputs to meter
             switch (input2Type.getSelectedItem().toString()) {
@@ -1025,11 +1013,11 @@ public class ConvertFragment extends Fragment {
             else
                 ans = new BigDecimal(con.toString()).setScale(10, ROUNDING_MODE);
 
-            input1.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input1.setTextSize((ans.toString().length() > 15) ? 35 : 40);
 
             input1.setText((ans.compareTo(BigDecimal.valueOf(999999)) > 0 ||
-                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0)?
-                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()):
+                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0) ?
+                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()) :
                     String.format("%s", ans.stripTrailingZeros().toPlainString()));
 
             input1.addTextChangedListener(input1List);
@@ -1047,7 +1035,7 @@ public class ConvertFragment extends Fragment {
         //if input1 is being changed
         if (editTextId == R.id.input1) {
             //value inside input
-            orig = new BigDecimal(input1.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input1.getText()).toString());
 
             //convert all inputs to square meter
             switch (input1Type.getSelectedItem().toString()) {
@@ -1116,18 +1104,17 @@ public class ConvertFragment extends Fragment {
             else
                 ans = new BigDecimal(con.toString()).setScale(10, ROUNDING_MODE);
 
-            input2.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input2.setTextSize((ans.toString().length() > 15) ? 35 : 40);
 
             input2.setText((ans.compareTo(BigDecimal.valueOf(999999)) > 0 ||
-                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0)?
-                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()):
+                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0) ?
+                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()) :
                     String.format("%s", ans.stripTrailingZeros().toPlainString()));
 
             input2.addTextChangedListener(input2List);
-        }
-        else {
+        } else {
             //value inside input
-            orig = new BigDecimal(input2.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input2.getText()).toString());
 
             //convert all inputs to square meter
             switch (input2Type.getSelectedItem().toString()) {
@@ -1196,11 +1183,11 @@ public class ConvertFragment extends Fragment {
             else
                 ans = new BigDecimal(con.toString()).setScale(10, ROUNDING_MODE);
 
-            input1.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input1.setTextSize((ans.toString().length() > 15) ? 35 : 40);
 
             input1.setText((ans.compareTo(BigDecimal.valueOf(999999)) > 0 ||
-                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0)?
-                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()):
+                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0) ?
+                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()) :
                     String.format("%s", ans.stripTrailingZeros().toPlainString()));
 
             input1.addTextChangedListener(input1List);
@@ -1218,7 +1205,7 @@ public class ConvertFragment extends Fragment {
         //if input1 is being changed
         if (editTextId == R.id.input1) {
             //value inside input
-            orig = new BigDecimal(input1.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input1.getText()).toString());
 
             //convert all inputs to cubic meter
             switch (input1Type.getSelectedItem().toString()) {
@@ -1317,18 +1304,17 @@ public class ConvertFragment extends Fragment {
             else
                 ans = new BigDecimal(con.toString()).setScale(10, ROUNDING_MODE);
 
-            input2.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input2.setTextSize((ans.toString().length() > 15) ? 35 : 40);
 
             input2.setText((ans.compareTo(BigDecimal.valueOf(999999)) > 0 ||
-                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0)?
-                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()):
+                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0) ?
+                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()) :
                     String.format("%s", ans.stripTrailingZeros().toPlainString()));
 
             input2.addTextChangedListener(input2List);
-        }
-        else {
+        } else {
             //value inside input
-            orig = new BigDecimal(input2.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input2.getText()).toString());
 
             //convert all inputs to cubic meter
             switch (input2Type.getSelectedItem().toString()) {
@@ -1427,11 +1413,11 @@ public class ConvertFragment extends Fragment {
             else
                 ans = new BigDecimal(con.toString()).setScale(10, ROUNDING_MODE);
 
-            input1.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input1.setTextSize((ans.toString().length() > 15) ? 35 : 40);
 
             input1.setText((ans.compareTo(BigDecimal.valueOf(999999)) > 0 ||
-                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0)?
-                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()):
+                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0) ?
+                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()) :
                     String.format("%s", ans.stripTrailingZeros().toPlainString()));
 
             input1.addTextChangedListener(input1List);
@@ -1449,7 +1435,7 @@ public class ConvertFragment extends Fragment {
         //if input1 is being changed
         if (editTextId == R.id.input1) {
             //value inside input
-            orig = new BigDecimal(input1.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input1.getText()).toString());
 
             //convert all inputs to kph
             switch (input1Type.getSelectedItem().toString()) {
@@ -1500,18 +1486,17 @@ public class ConvertFragment extends Fragment {
             else
                 ans = new BigDecimal(con.toString()).setScale(10, ROUNDING_MODE);
 
-            input2.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input2.setTextSize((ans.toString().length() > 15) ? 35 : 40);
 
             input2.setText((ans.compareTo(BigDecimal.valueOf(999999)) > 0 ||
-                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0)?
-                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()):
+                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0) ?
+                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()) :
                     String.format("%s", ans.stripTrailingZeros().toPlainString()));
 
             input2.addTextChangedListener(input2List);
-        }
-        else {
+        } else {
             //value inside input
-            orig = new BigDecimal(input2.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input2.getText()).toString());
 
             //convert all inputs to kph
             switch (input2Type.getSelectedItem().toString()) {
@@ -1562,11 +1547,11 @@ public class ConvertFragment extends Fragment {
             else
                 ans = new BigDecimal(con.toString()).setScale(10, ROUNDING_MODE);
 
-            input1.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input1.setTextSize((ans.toString().length() > 15) ? 35 : 40);
 
             input1.setText((ans.compareTo(BigDecimal.valueOf(999999)) > 0 ||
-                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0)?
-                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()):
+                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0) ?
+                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()) :
                     String.format("%s", ans.stripTrailingZeros().toPlainString()));
 
             input1.addTextChangedListener(input1List);
@@ -1584,7 +1569,7 @@ public class ConvertFragment extends Fragment {
         //if input1 is being changed
         if (editTextId == R.id.input1) {
             //value inside input
-            orig = new BigDecimal(input1.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input1.getText()).toString());
 
             //convert all inputs to seconds
             switch (input1Type.getSelectedItem().toString()) {
@@ -1677,18 +1662,17 @@ public class ConvertFragment extends Fragment {
             else
                 ans = new BigDecimal(con.toString()).setScale(15, ROUNDING_MODE);
 
-            input2.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input2.setTextSize((ans.toString().length() > 15) ? 35 : 40);
 
             input2.setText((ans.compareTo(BigDecimal.valueOf(999999)) > 0 ||
-                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0)?
-                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()):
+                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0) ?
+                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()) :
                     String.format("%s", ans.stripTrailingZeros().toPlainString()));
 
             input2.addTextChangedListener(input2List);
-        }
-        else {
+        } else {
             //value inside input
-            orig = new BigDecimal(input2.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input2.getText()).toString());
 
             //convert all inputs to seconds
             switch (input2Type.getSelectedItem().toString()) {
@@ -1781,11 +1765,11 @@ public class ConvertFragment extends Fragment {
             else
                 ans = new BigDecimal(con.toString()).setScale(15, ROUNDING_MODE);
 
-            input1.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input1.setTextSize((ans.toString().length() > 15) ? 35 : 40);
 
             input1.setText((ans.compareTo(BigDecimal.valueOf(999999)) > 0 ||
-                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0)?
-                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()):
+                    ans.compareTo(BigDecimal.valueOf(0.001)) < 0) ?
+                    String.format("%s", ans.stripTrailingZeros().toString().toLowerCase()) :
                     String.format("%s", ans.stripTrailingZeros().toPlainString()));
 
             input1.addTextChangedListener(input1List);
@@ -1809,75 +1793,75 @@ public class ConvertFragment extends Fragment {
         //if input1 is being changed
         if (editTextId == R.id.input1) {
             //value inside input
-            orig = new BigDecimal(input1.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input1.getText()).toString());
 
             //convert all inputs to EUR
             switch (input1Type.getSelectedItem().toString()) {
                 case "US Dollar (USD)":
-                    mid = (curList.get("USD") != null)? orig.divide(curList.get("USD"), RANGE) :
-                                                        BigDecimal.valueOf(-1);
+                    mid = (curList.get("USD") != null) ? orig.divide(curList.get("USD"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
                 case "Euro (EUR)":
                     mid = orig;
                     break;
                 case "British Pound (GBP)":
-                    mid = (curList.get("GBP") != null)? orig.divide(curList.get("GBP"), RANGE) :
+                    mid = (curList.get("GBP") != null) ? orig.divide(curList.get("GBP"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Canadian Dollar (CAD)":
-                    mid = (curList.get("CAD") != null)? orig.divide(curList.get("CAD"), RANGE) :
+                    mid = (curList.get("CAD") != null) ? orig.divide(curList.get("CAD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Mexican Peso (MXN)":
-                    mid = (curList.get("MXN") != null)? orig.divide(curList.get("MXN"), RANGE) :
+                    mid = (curList.get("MXN") != null) ? orig.divide(curList.get("MXN"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Australian Dollar (AUD)":
-                    mid = (curList.get("AUD") != null)? orig.divide(curList.get("AUD"), RANGE) :
+                    mid = (curList.get("AUD") != null) ? orig.divide(curList.get("AUD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Japanese Yen (JPY)":
-                    mid = (curList.get("JPY") != null)? orig.divide(curList.get("JPY"), RANGE) :
+                    mid = (curList.get("JPY") != null) ? orig.divide(curList.get("JPY"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Chinese Yuan (CNY)":
-                    mid = (curList.get("CNY") != null)? orig.divide(curList.get("CNY"), RANGE) :
+                    mid = (curList.get("CNY") != null) ? orig.divide(curList.get("CNY"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Korean Won (KRW)":
-                    mid = (curList.get("KRW") != null)? orig.divide(curList.get("KRW"), RANGE) :
+                    mid = (curList.get("KRW") != null) ? orig.divide(curList.get("KRW"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Hong Kong Dollar (HKD)":
-                    mid = (curList.get("HKD") != null)? orig.divide(curList.get("HKD"), RANGE) :
+                    mid = (curList.get("HKD") != null) ? orig.divide(curList.get("HKD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Singapore Dollar (SGD)":
-                    mid = (curList.get("SGD") != null)? orig.divide(curList.get("SGD"), RANGE) :
+                    mid = (curList.get("SGD") != null) ? orig.divide(curList.get("SGD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Indian Rupee (INR)":
-                    mid = (curList.get("INR") != null)? orig.divide(curList.get("INR"), RANGE) :
+                    mid = (curList.get("INR") != null) ? orig.divide(curList.get("INR"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Russian Ruble (RUB)":
-                    mid = (curList.get("RUB") != null)? orig.divide(curList.get("RUB"), RANGE) :
+                    mid = (curList.get("RUB") != null) ? orig.divide(curList.get("RUB"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Swiss Franc (CHF)":
-                    mid = (curList.get("CHF") != null)? orig.divide(curList.get("CHF"), RANGE) :
+                    mid = (curList.get("CHF") != null) ? orig.divide(curList.get("CHF"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Vietnamese Dong (VND)":
-                    mid = (curList.get("VND") != null)? orig.divide(curList.get("VND"), RANGE) :
+                    mid = (curList.get("VND") != null) ? orig.divide(curList.get("VND"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "New Zealand Dollar (NZD)":
-                    mid = (curList.get("NZD") != null)? orig.divide(curList.get("NZD"), RANGE) :
+                    mid = (curList.get("NZD") != null) ? orig.divide(curList.get("NZD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "South African Rand (ZAR)":
-                    mid = (curList.get("ZAR") != null)? orig.divide(curList.get("ZAR"), RANGE) :
+                    mid = (curList.get("ZAR") != null) ? orig.divide(curList.get("ZAR"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
             }
@@ -1885,70 +1869,70 @@ public class ConvertFragment extends Fragment {
             //convert to desired
             switch (input2Type.getSelectedItem().toString()) {
                 case "US Dollar (USD)":
-                    con = (curList.get("USD") != null)? mid.multiply(curList.get("USD"), RANGE) :
+                    con = (curList.get("USD") != null) ? mid.multiply(curList.get("USD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Euro (EUR)":
                     con = mid;
                     break;
                 case "British Pound (GBP)":
-                    con = (curList.get("GBP") != null)? mid.multiply(curList.get("GBP"), RANGE) :
+                    con = (curList.get("GBP") != null) ? mid.multiply(curList.get("GBP"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Canadian Dollar (CAD)":
-                    con = (curList.get("CAD") != null)? mid.multiply(curList.get("CAD"), RANGE) :
+                    con = (curList.get("CAD") != null) ? mid.multiply(curList.get("CAD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Mexican Peso (MXN)":
-                    con = (curList.get("MXN") != null)? mid.multiply(curList.get("MXN"), RANGE) :
+                    con = (curList.get("MXN") != null) ? mid.multiply(curList.get("MXN"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Australian Dollar (AUD)":
-                    con = (curList.get("AUD") != null)? mid.multiply(curList.get("AUD"), RANGE) :
+                    con = (curList.get("AUD") != null) ? mid.multiply(curList.get("AUD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Japanese Yen (JPY)":
-                    con = (curList.get("JPY") != null)? mid.multiply(curList.get("JPY"), RANGE) :
+                    con = (curList.get("JPY") != null) ? mid.multiply(curList.get("JPY"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Chinese Yuan (CNY)":
-                    con = (curList.get("CNY") != null)? mid.multiply(curList.get("CNY"), RANGE) :
+                    con = (curList.get("CNY") != null) ? mid.multiply(curList.get("CNY"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Korean Won (KRW)":
-                    con = (curList.get("KRW") != null)? mid.multiply(curList.get("KRW"), RANGE) :
+                    con = (curList.get("KRW") != null) ? mid.multiply(curList.get("KRW"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Hong Kong Dollar (HKD)":
-                    con = (curList.get("HKD") != null)? mid.multiply(curList.get("HKD"), RANGE) :
+                    con = (curList.get("HKD") != null) ? mid.multiply(curList.get("HKD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Singapore Dollar (SGD)":
-                    con = (curList.get("SGD") != null)? mid.multiply(curList.get("SGD"), RANGE) :
+                    con = (curList.get("SGD") != null) ? mid.multiply(curList.get("SGD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Indian Rupee (INR)":
-                    con = (curList.get("INR") != null)? mid.multiply(curList.get("INR"), RANGE) :
+                    con = (curList.get("INR") != null) ? mid.multiply(curList.get("INR"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Russian Ruble (RUB)":
-                    con = (curList.get("RUB") != null)? mid.multiply(curList.get("RUB"), RANGE) :
+                    con = (curList.get("RUB") != null) ? mid.multiply(curList.get("RUB"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Swiss Franc (CHF)":
-                    con = (curList.get("CHF") != null)? mid.multiply(curList.get("CHF"), RANGE) :
+                    con = (curList.get("CHF") != null) ? mid.multiply(curList.get("CHF"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Vietnamese Dong (VND)":
-                    con = (curList.get("VND") != null)? mid.multiply(curList.get("VND"), RANGE) :
+                    con = (curList.get("VND") != null) ? mid.multiply(curList.get("VND"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "New Zealand Dollar (NZD)":
-                    con = (curList.get("NZD") != null)? mid.multiply(curList.get("NZD"), RANGE) :
+                    con = (curList.get("NZD") != null) ? mid.multiply(curList.get("NZD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "South African Rand (ZAR)":
-                    con = (curList.get("ZAR") != null)? mid.multiply(curList.get("ZAR"), RANGE) :
+                    con = (curList.get("ZAR") != null) ? mid.multiply(curList.get("ZAR"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
             }
@@ -1956,81 +1940,80 @@ public class ConvertFragment extends Fragment {
             //display in opposite edit text
             input2.removeTextChangedListener(input2List);
             BigDecimal ans = new BigDecimal(con.toString()).setScale(2, ROUNDING_MODE);
-            input2.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input2.setTextSize((ans.toString().length() > 15) ? 35 : 40);
             input2.setText(String.format("%s", ans.toPlainString()));
             input2.addTextChangedListener(input2List);
-        }
-        else {
+        } else {
             //value inside input
-            orig = new BigDecimal(input2.getText().toString());
+            orig = new BigDecimal(Objects.requireNonNull(input2.getText()).toString());
 
             //convert all inputs to usd
             switch (input2Type.getSelectedItem().toString()) {
                 case "US Dollar (USD)":
-                    mid = (curList.get("USD") != null)? orig.divide(curList.get("USD"), RANGE) :
+                    mid = (curList.get("USD") != null) ? orig.divide(curList.get("USD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Euro (EUR)":
                     mid = orig;
                     break;
                 case "British Pound (GBP)":
-                    mid = (curList.get("GBP") != null)? orig.divide(curList.get("GBP"), RANGE) :
+                    mid = (curList.get("GBP") != null) ? orig.divide(curList.get("GBP"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Canadian Dollar (CAD)":
-                    mid = (curList.get("CAD") != null)? orig.divide(curList.get("CAD"), RANGE) :
+                    mid = (curList.get("CAD") != null) ? orig.divide(curList.get("CAD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Mexican Peso (MXN)":
-                    mid = (curList.get("MXN") != null)? orig.divide(curList.get("MXN"), RANGE) :
+                    mid = (curList.get("MXN") != null) ? orig.divide(curList.get("MXN"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Australian Dollar (AUD)":
-                    mid = (curList.get("AUD") != null)? orig.divide(curList.get("AUD"), RANGE) :
+                    mid = (curList.get("AUD") != null) ? orig.divide(curList.get("AUD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Japanese Yen (JPY)":
-                    mid = (curList.get("JPY") != null)? orig.divide(curList.get("JPY"), RANGE) :
+                    mid = (curList.get("JPY") != null) ? orig.divide(curList.get("JPY"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Chinese Yuan (CNY)":
-                    mid = (curList.get("CNY") != null)? orig.divide(curList.get("CNY"), RANGE) :
+                    mid = (curList.get("CNY") != null) ? orig.divide(curList.get("CNY"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Korean Won (KRW)":
-                    mid = (curList.get("KRW") != null)? orig.divide(curList.get("KRW"), RANGE) :
+                    mid = (curList.get("KRW") != null) ? orig.divide(curList.get("KRW"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Hong Kong Dollar (HKD)":
-                    mid = (curList.get("HKD") != null)? orig.divide(curList.get("HKD"), RANGE) :
+                    mid = (curList.get("HKD") != null) ? orig.divide(curList.get("HKD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Singapore Dollar (SGD)":
-                    mid = (curList.get("SGD") != null)? orig.divide(curList.get("SGD"), RANGE) :
+                    mid = (curList.get("SGD") != null) ? orig.divide(curList.get("SGD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Indian Rupee (INR)":
-                    mid = (curList.get("INR") != null)? orig.divide(curList.get("INR"), RANGE) :
+                    mid = (curList.get("INR") != null) ? orig.divide(curList.get("INR"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Russian Ruble (RUB)":
-                    mid = (curList.get("RUB") != null)? orig.divide(curList.get("RUB"), RANGE) :
+                    mid = (curList.get("RUB") != null) ? orig.divide(curList.get("RUB"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Swiss Franc (CHF)":
-                    mid = (curList.get("CHF") != null)? orig.divide(curList.get("CHF"), RANGE) :
+                    mid = (curList.get("CHF") != null) ? orig.divide(curList.get("CHF"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Vietnamese Dong (VND)":
-                    mid = (curList.get("VND") != null)? orig.divide(curList.get("VND"), RANGE) :
+                    mid = (curList.get("VND") != null) ? orig.divide(curList.get("VND"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "New Zealand Dollar (NZD)":
-                    mid = (curList.get("NZD") != null)? orig.divide(curList.get("NZD"), RANGE) :
+                    mid = (curList.get("NZD") != null) ? orig.divide(curList.get("NZD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "South African Rand (ZAR)":
-                    mid = (curList.get("ZAR") != null)? orig.divide(curList.get("ZAR"), RANGE) :
+                    mid = (curList.get("ZAR") != null) ? orig.divide(curList.get("ZAR"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
             }
@@ -2038,78 +2021,78 @@ public class ConvertFragment extends Fragment {
             //convert to desired
             switch (input1Type.getSelectedItem().toString()) {
                 case "US Dollar (USD)":
-                    con = (curList.get("USD") != null)? mid.multiply(curList.get("USD"), RANGE) :
+                    con = (curList.get("USD") != null) ? mid.multiply(curList.get("USD"), RANGE) :
                             BigDecimal.valueOf(-1);
                     break;
                 case "Euro (EUR)":
                     con = mid;
                     break;
                 case "British Pound (GBP)":
-                    con = (curList.get("GBP") != null)? mid.multiply(curList.get("GBP"), RANGE) :
-                    BigDecimal.valueOf(-1);
+                    con = (curList.get("GBP") != null) ? mid.multiply(curList.get("GBP"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
                 case "Canadian Dollar (CAD)":
-                    con = (curList.get("CAD") != null)? mid.multiply(curList.get("CAD"), RANGE) :
-                    BigDecimal.valueOf(-1);
+                    con = (curList.get("CAD") != null) ? mid.multiply(curList.get("CAD"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
                 case "Mexican Peso (MXN)":
-                    con = (curList.get("MXN") != null)? mid.multiply(curList.get("MXN"), RANGE) :
-                    BigDecimal.valueOf(-1);
+                    con = (curList.get("MXN") != null) ? mid.multiply(curList.get("MXN"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
                 case "Australian Dollar (AUD)":
-                    con = (curList.get("AUD") != null)? mid.multiply(curList.get("AUD"), RANGE) :
-                    BigDecimal.valueOf(-1);
+                    con = (curList.get("AUD") != null) ? mid.multiply(curList.get("AUD"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
                 case "Japanese Yen (JPY)":
-                    con = (curList.get("JPY") != null)? mid.multiply(curList.get("JPY"), RANGE) :
-                    BigDecimal.valueOf(-1);
+                    con = (curList.get("JPY") != null) ? mid.multiply(curList.get("JPY"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
                 case "Chinese Yuan (CNY)":
-                    con = (curList.get("CNY") != null)? mid.multiply(curList.get("CNY"), RANGE) :
-                    BigDecimal.valueOf(-1);
+                    con = (curList.get("CNY") != null) ? mid.multiply(curList.get("CNY"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
                 case "Korean Won (KRW)":
-                    con = (curList.get("KRW") != null)? mid.multiply(curList.get("KRW"), RANGE) :
-                    BigDecimal.valueOf(-1);
+                    con = (curList.get("KRW") != null) ? mid.multiply(curList.get("KRW"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
                 case "Hong Kong Dollar (HKD)":
-                    con = (curList.get("HKD") != null)? mid.multiply(curList.get("HKD"), RANGE) :
-                    BigDecimal.valueOf(-1);
+                    con = (curList.get("HKD") != null) ? mid.multiply(curList.get("HKD"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
                 case "Singapore Dollar (SGD)":
-                    con = (curList.get("SGD") != null)? mid.multiply(curList.get("SGD"), RANGE) :
-                    BigDecimal.valueOf(-1);
+                    con = (curList.get("SGD") != null) ? mid.multiply(curList.get("SGD"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
                 case "Indian Rupee (INR)":
-                    con = (curList.get("INR") != null)? mid.multiply(curList.get("INR"), RANGE) :
-                    BigDecimal.valueOf(-1);
+                    con = (curList.get("INR") != null) ? mid.multiply(curList.get("INR"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
                 case "Russian Ruble (RUB)":
-                    con = (curList.get("RUB") != null)? mid.multiply(curList.get("RUB"), RANGE) :
-                    BigDecimal.valueOf(-1);
+                    con = (curList.get("RUB") != null) ? mid.multiply(curList.get("RUB"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
                 case "Swiss Franc (CHF)":
-                    con = (curList.get("CHF") != null)? mid.multiply(curList.get("CHF"), RANGE) :
-                    BigDecimal.valueOf(-1);
+                    con = (curList.get("CHF") != null) ? mid.multiply(curList.get("CHF"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
                 case "Vietnamese Dong (VND)":
-                    con = (curList.get("VND") != null)? mid.multiply(curList.get("VND"), RANGE) :
-                    BigDecimal.valueOf(-1);
+                    con = (curList.get("VND") != null) ? mid.multiply(curList.get("VND"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
                 case "New Zealand Dollar (NZD)":
-                    con = (curList.get("NZD") != null)? mid.multiply(curList.get("NZD"), RANGE) :
-                    BigDecimal.valueOf(-1);
+                    con = (curList.get("NZD") != null) ? mid.multiply(curList.get("NZD"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
                 case "South African Rand (ZAR)":
-                    con = (curList.get("ZAR") != null)? mid.multiply(curList.get("ZAR"), RANGE) :
-                    BigDecimal.valueOf(-1);
+                    con = (curList.get("ZAR") != null) ? mid.multiply(curList.get("ZAR"), RANGE) :
+                            BigDecimal.valueOf(-1);
                     break;
             }
 
             //display in opposite edit text
             input1.removeTextChangedListener(input1List);
             BigDecimal ans = new BigDecimal(con.toString()).setScale(2, ROUNDING_MODE);
-            input1.setTextSize((ans.toString().length() > 15)? 35 : 40);
+            input1.setTextSize((ans.toString().length() > 15) ? 35 : 40);
             input1.setText(String.format("%s", ans.toPlainString()));
             input1.addTextChangedListener(input1List);
         }
@@ -2117,7 +2100,6 @@ public class ConvertFragment extends Fragment {
 
     /**
      * Places initial value in edit text.
-     *
      */
     private void handleEmpty(String val) {
         input1.removeTextChangedListener(input1List);
@@ -2128,13 +2110,13 @@ public class ConvertFragment extends Fragment {
     /**
      * Vibrates for certain length and amplitude.
      *
-     * @param length length in ms
+     * @param length    length in ms
      * @param amplitude amplitude of vibration
      */
     private void vibrate(int length, int amplitude) {
-        ((Vibrator) Objects.requireNonNull(Objects.requireNonNull(getActivity())
+        ((Vibrator) (requireActivity()
                 .getSystemService(VIBRATOR_SERVICE)))
-                .vibrate(VibrationEffect.createOneShot(length,amplitude));
+                .vibrate(VibrationEffect.createOneShot(length, amplitude));
     }
 
     /**
@@ -2150,7 +2132,7 @@ public class ConvertFragment extends Fragment {
      */
     private void readFromFile() {
         try {
-            InputStream inputStream = getContext().openFileInput("rates.txt");
+            InputStream inputStream = requireContext().openFileInput("rates.txt");
 
             if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -2167,9 +2149,9 @@ public class ConvertFragment extends Fragment {
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
-            Log.e("Exception", "File 'rates.txt' not found: " + e.toString());
+            Log.e("Exception", "File 'rates.txt' not found: " + e);
         } catch (IOException e) {
-            Log.e("Exception", "Can not read file: " + e.toString());
+            Log.e("Exception", "Can not read file: " + e);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.example.calculator;
 
+import static android.content.Context.VIBRATOR_SERVICE;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -13,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,10 +39,9 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static android.content.Context.VIBRATOR_SERVICE;
-
 public class BasicFragment extends Fragment implements View.OnTouchListener {
-    private final int SCALE = 16, ROUNDING_MODE = BigDecimal.ROUND_HALF_EVEN;
+    private final int SCALE = 16;
+    private final RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;
     private final MathContext RANGE = MathContext.DECIMAL64;
     private EditText result;
     private TextView pendingResult;
@@ -49,15 +49,18 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
     private ArrayList<String> history;
     private Animation buttonPress;
     private Button b00, b01, b02, b03,
-                   b10, b11, b12, b13,
-                   b20, b21, b22, b23,
-                   b30, b31, b32, b33,
-                   b40, b41, b42, b43,
-                   b50, b51, b52, b53;
+            b10, b11, b12, b13,
+            b20, b21, b22, b23,
+            b30, b31, b32, b33,
+            b40, b41, b42, b43,
+            b50, b51, b52, b53;
 
-    public BasicFragment() {}
+    public BasicFragment() {
+    }
 
-    public static BasicFragment newInstance() { return new BasicFragment(); }
+    public static BasicFragment newInstance() {
+        return new BasicFragment();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,39 +72,33 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
         View view = inflater.inflate(R.layout.fragment_basic, container, false);
 
         //equation and results edit text
-        result = (EditText) view.findViewById(R.id.result);
+        result = view.findViewById(R.id.result);
         result.setShowSoftInputOnFocus(false);
         solved = false;
 
         //ensures that the error message is not computed
-        result.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (result.getText().toString().equals("ERROR")) result.setText("");
+        result.setOnClickListener(view1 -> {
+            if (result.getText().toString().equals("ERROR")) result.setText("");
 
-                result.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
+            result.setTextColor(ContextCompat.getColor(requireContext(), R.color.text));
 
-                solved = false;
-            }
+            solved = false;
         });
 
         //copies current results text to clipboard
-        result.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setPrimaryClip(ClipData.newPlainText("Result", result.getText().toString().trim()));
+        result.setOnLongClickListener(view12 -> {
+            ClipboardManager cm = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            cm.setPrimaryClip(ClipData.newPlainText("Result", result.getText().toString().trim()));
 
-                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
 
-                vibrate(40, 75);
+            vibrate(40, 200);
 
-                return true;
-            }
+            return true;
         });
 
         //hinted result
-        pendingResult = (TextView) view.findViewById(R.id.pending_result);
+        pendingResult = view.findViewById(R.id.pending_result);
 
         //initialize history array
         history = new ArrayList<>();
@@ -109,118 +106,115 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
 
         //buttons
         mode = true;
-        b00 = (Button) view.findViewById(R.id.b00);
+        b00 = view.findViewById(R.id.b00);
         b00.setOnTouchListener(this);
         b00.setText(R.string.clear);
         b00.setTextSize(27);
-        b00.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
-        b01 = (Button) view.findViewById(R.id.b01);
+        b00.setTextColor(ContextCompat.getColor(requireContext(), R.color.red));
+        b01 = view.findViewById(R.id.b01);
         b01.setOnTouchListener(this);
         b01.setText(R.string.second);
         b01.setTextSize(25);
-        b02 = (Button) view.findViewById(R.id.b02);
+        b02 = view.findViewById(R.id.b02);
         b02.setOnTouchListener(this);
         b02.setText(R.string.answer);
         b02.setTextSize(25);
-        b03 = (Button) view.findViewById(R.id.b03);
+        b03 = view.findViewById(R.id.b03);
         b03.setOnTouchListener(this);
         b03.setText(R.string.delete);
         b03.setTextSize(25);
-        b10 = (Button) view.findViewById(R.id.b10);
+        b10 = view.findViewById(R.id.b10);
         b10.setOnTouchListener(this);
         b10.setText(R.string.exponent);
         b10.setTextSize(25);
-        b11 = (Button) view.findViewById(R.id.b11);
+        b11 = view.findViewById(R.id.b11);
         b11.setOnTouchListener(this);
         b11.setText(R.string.ee);
         b11.setTextSize(25);
-        b12 = (Button) view.findViewById(R.id.b12);
+        b12 = view.findViewById(R.id.b12);
         b12.setOnTouchListener(this);
         b12.setText(R.string.parentheses);
         b12.setTextSize(25);
-        b13 = (Button) view.findViewById(R.id.b13);
+        b13 = view.findViewById(R.id.b13);
         b13.setOnTouchListener(this);
         b13.setText(R.string.div_symbol);
         b13.setTextSize(35);
-        b20 = (Button) view.findViewById(R.id.b20);
+        b20 = view.findViewById(R.id.b20);
         b20.setOnTouchListener(this);
         b20.setText(R.string.seven);
         b20.setTextSize(35);
-        b21 = (Button) view.findViewById(R.id.b21);
+        b21 = view.findViewById(R.id.b21);
         b21.setOnTouchListener(this);
         b21.setText(R.string.eight);
         b21.setTextSize(35);
-        b22 = (Button) view.findViewById(R.id.b22);
+        b22 = view.findViewById(R.id.b22);
         b22.setOnTouchListener(this);
         b22.setText(R.string.nine);
         b22.setTextSize(35);
-        b23 = (Button) view.findViewById(R.id.b23);
+        b23 = view.findViewById(R.id.b23);
         b23.setOnTouchListener(this);
         b23.setText(R.string.mul_symbol);
         b23.setTextSize(35);
-        b30 = (Button) view.findViewById(R.id.b30);
+        b30 = view.findViewById(R.id.b30);
         b30.setOnTouchListener(this);
         b30.setText(R.string.four);
         b30.setTextSize(35);
-        b31 = (Button) view.findViewById(R.id.b31);
+        b31 = view.findViewById(R.id.b31);
         b31.setOnTouchListener(this);
         b31.setText(R.string.five);
         b31.setTextSize(35);
-        b32 = (Button) view.findViewById(R.id.b32);
+        b32 = view.findViewById(R.id.b32);
         b32.setOnTouchListener(this);
         b32.setText(R.string.six);
         b32.setTextSize(35);
-        b33 = (Button) view.findViewById(R.id.b33);
+        b33 = view.findViewById(R.id.b33);
         b33.setOnTouchListener(this);
         b33.setText(R.string.sub_symbol);
         b33.setTextSize(45);
-        b40 = (Button) view.findViewById(R.id.b40);
+        b40 = view.findViewById(R.id.b40);
         b40.setOnTouchListener(this);
         b40.setText(R.string.one);
         b40.setTextSize(35);
-        b41 = (Button) view.findViewById(R.id.b41);
+        b41 = view.findViewById(R.id.b41);
         b41.setOnTouchListener(this);
         b41.setText(R.string.two);
         b41.setTextSize(35);
-        b42 = (Button) view.findViewById(R.id.b42);
+        b42 = view.findViewById(R.id.b42);
         b42.setOnTouchListener(this);
         b42.setText(R.string.three);
         b42.setTextSize(35);
-        b43 = (Button) view.findViewById(R.id.b43);
+        b43 = view.findViewById(R.id.b43);
         b43.setOnTouchListener(this);
         b43.setText(R.string.add_symbol);
         b43.setTextSize(35);
-        b50 = (Button) view.findViewById(R.id.b50);
+        b50 = view.findViewById(R.id.b50);
         b50.setOnTouchListener(this);
         b50.setText(R.string.pos_neg);
         b50.setTextSize(30);
-        b51 = (Button) view.findViewById(R.id.b51);
+        b51 = view.findViewById(R.id.b51);
         b51.setOnTouchListener(this);
         b51.setText(R.string.zero);
         b51.setTextSize(35);
-        b52 = (Button) view.findViewById(R.id.b52);
+        b52 = view.findViewById(R.id.b52);
         b52.setOnTouchListener(this);
         b52.setText(R.string.decimal);
         b52.setTextSize(40);
-        b53 = (Button) view.findViewById(R.id.b53);
+        b53 = view.findViewById(R.id.b53);
         b53.setOnTouchListener(this);
         b53.setText(R.string.equal_symbol);
         b53.setTextSize(40);
-        b53.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-        b53.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.green));
+        b53.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+        b53.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), R.color.green));
 
         //clear history on long press
-        b02.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (mode) {
-                    history.clear();
-                    writeToFile();
-                    Toast.makeText(getContext(), "History cleared", Toast.LENGTH_SHORT).show();
-                    vibrate(40, 75);
-                }
-                return true;
+        b02.setOnLongClickListener(view13 -> {
+            if (mode) {
+                history.clear();
+                writeToFile();
+                Toast.makeText(getContext(), "History cleared", Toast.LENGTH_SHORT).show();
+                vibrate(40, 200);
             }
+            return true;
         });
 
         //initialize animation
@@ -235,9 +229,9 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
      * @param view current view
      */
     @Override
-    public boolean onTouch(View view,  MotionEvent event) {
-        if(event.getAction() == MotionEvent.ACTION_DOWN) {
-            vibrate(5, 75);
+    public boolean onTouch(View view, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            vibrate(8, 200);
 
             view.findViewById(view.getId()).startAnimation(buttonPress);
 
@@ -468,7 +462,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
     private void switchMode() {
         if (mode) {
             b00.setText(R.string.clear);
-            b00.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+            b00.setTextColor(ContextCompat.getColor(requireContext(), R.color.red));
             b00.setTextSize(27);
             b01.setText(R.string.second);
             b01.setTextSize(25);
@@ -516,12 +510,11 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
             b52.setTextSize(40);
             b53.setText(R.string.equal_symbol);
             b53.setTextSize(40);
-            b53.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-            b53.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.green));
-        }
-        else {
+            b53.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+            b53.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), R.color.green));
+        } else {
             b00.setText(R.string.sqrt);
-            b00.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
+            b00.setTextColor(ContextCompat.getColor(requireContext(), R.color.text));
             b00.setTextSize(25);
             b01.setText(R.string.cbrt);
             b01.setTextSize(25);
@@ -569,9 +562,9 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
             b52.setTextSize(25);
             b53.setText(R.string.pico);
             b53.setTextSize(25);
-            b53.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
+            b53.setTextColor(ContextCompat.getColor(requireContext(), R.color.text));
             b53.setBackgroundTintList(ContextCompat.getColorStateList(
-                    getContext(), R.color.button_background));
+                    requireContext(), R.color.button_background));
         }
     }
 
@@ -584,20 +577,17 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
             return;
         }
 
-        final BottomSheetDialog dialog = new BottomSheetDialog(getContext());
+        final BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
         dialog.setContentView(R.layout.bottom_sheet_view);
         dialog.getWindow().setDimAmount((float) 0.25);
 
-        BottomSheetListView lv = (BottomSheetListView) dialog.findViewById(R.id.listViewBtmSheet);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (!history.get(i).equals("")) {
-                    vibrate(5, 50);
-                    String ans = history.get(i).substring(history.get(i).indexOf("\n") + 1);
-                    addStr(ans, 0);
-                    dialog.dismiss();
-                }
+        BottomSheetListView lv = dialog.findViewById(R.id.listViewBtmSheet);
+        Objects.requireNonNull(lv).setOnItemClickListener((adapterView, view, i, l) -> {
+            if (!history.get(i).equals("")) {
+                vibrate(8, 200);
+                String ans = history.get(i).substring(history.get(i).indexOf("\n") + 1);
+                addStr(ans, 0);
+                dialog.dismiss();
             }
         });
         lv.setAdapter(new ArrayAdapter<>(getContext(), R.layout.listview_wrapper, R.id.listview_item, history));
@@ -608,20 +598,20 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
     /**
      * Vibrates for certain length and amplitude.
      *
-     * @param length length in ms
+     * @param length    length in ms
      * @param amplitude amplitude of vibration
      */
     private void vibrate(int length, int amplitude) {
-        ((Vibrator) Objects.requireNonNull(Objects.requireNonNull(getActivity())
+        ((Vibrator) (requireActivity()
                 .getSystemService(VIBRATOR_SERVICE)))
-                .vibrate(VibrationEffect.createOneShot(length,amplitude));
+                .vibrate(VibrationEffect.createOneShot(length, amplitude));
     }
 
     /**
      * Adds character at cursor.
      *
      * @param string The character to add.
-     * @param type 0 for digit, 1 for basic operation, 2 for others
+     * @param type   0 for digit, 1 for basic operation, 2 for others
      */
     private void addStr(String string, int type) {
         //if previous answer in edit text
@@ -640,25 +630,23 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
             //check for parenthesis
             char prevChar = str.charAt(index - 1);
             if (string.equals("(") && getParenCount(str) > 0 &&
-               ((prevChar >= '0' && prevChar <= '9') || prevChar == ')' || prevChar == '\u03c0' ||
-                 prevChar == 'k' || prevChar == 'M' || prevChar == 'G' || prevChar == 'T' ||
-                 prevChar == 'm' || prevChar == '\u00b5' || prevChar == 'n' || prevChar == 'p'))
+                    ((prevChar >= '0' && prevChar <= '9') || prevChar == ')' || prevChar == '\u03c0' ||
+                            prevChar == 'k' || prevChar == 'M' || prevChar == 'G' || prevChar == 'T' ||
+                            prevChar == 'm' || prevChar == '\u00b5' || prevChar == 'n' || prevChar == 'p'))
                 string = ")";
-            //check if multiplication sign is needed before
+                //check if multiplication sign is needed before
             else if ((prevChar != '+' && prevChar != '-' && prevChar != '%' &&
                     prevChar != '\u00d7' && prevChar != '\u00f7' && prevChar != 'E') &&
                     (string.equals("(") && getParenCount(str) == 0) ||
                     (type == 2 && prevChar >= '0' && prevChar <= '9') ||
                     (type == 0 && prevChar == '\u03c0'))
                 string = sb.append("\u00d7").append(string).toString();
-            //add leading 0 to '.'
+                //add leading 0 to '.'
             else if (string.equals(".") && !(prevChar >= '0' && prevChar <= '9'))
                 string = "0.";
-        }
-        else if (string.equals(".")) { //add leading 0
+        } else if (string.equals(".")) { //add leading 0
             string = "0.";
-        }
-        else if (type == 1) { //use last ans
+        } else if (type == 1) { //use last ans
             String lastAns = history.get(0).substring(history.get(0).indexOf("\n") + 1);
             if (!lastAns.equals(""))
                 string = sb.append(lastAns).append(string).toString();
@@ -673,13 +661,12 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
         //adjust font size depending on length of string
         if (str.length() <= 16) {
             result.setText(str);
-            result.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
+            result.setTextColor(ContextCompat.getColor(requireContext(), R.color.text));
             result.setSelection(index + string.length());
             result.setTextSize(40);
-        }
-        else {
+        } else {
             result.setText(str);
-            result.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
+            result.setTextColor(ContextCompat.getColor(requireContext(), R.color.text));
             result.setSelection(index + string.length());
             result.setTextSize(31);
         }
@@ -707,12 +694,11 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
 
                 //remove decimals if none needed
                 boolean isWhole = num % 1 == 0 && num < Math.pow(10, 9);
-                String ans = (isWhole)? Integer.toString((int)(num)) : Double.toString(num);
+                String ans = (isWhole) ? Integer.toString((int) (num)) : Double.toString(num);
 
                 //update pending result
                 pendingResult.setText(ans);
-            }
-            else {
+            } else {
                 pendingResult.setText("");
             }
         } catch (Exception e) {
@@ -732,7 +718,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
         for (int i = 0; i < str.length(); i++)
             if (str.charAt(i) == '(')
                 count++;
-            else if (str.charAt(i) ==')')
+            else if (str.charAt(i) == ')')
                 count--;
 
         return count;
@@ -747,7 +733,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
         if (index > 0) {
             String str = result.getText().toString();
             str = str.substring(0, index - 1) + str.substring(index);
-            result.setTextSize((str.length() <= 16)? 40 : 31);
+            result.setTextSize((str.length() <= 16) ? 40 : 31);
             result.setText(str);
             result.setSelection(index - 1);
         }
@@ -766,7 +752,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
 
             if (!evalStr.trim().equals("")) {
                 //try BigDecimal calculation
-                double num = evalLow(evalStr).setScale(15, ROUNDING_MODE).doubleValue();
+                double num = evalLow(evalStr).setScale(SCALE, ROUNDING_MODE).doubleValue();
 
                 //if value is large
                 if (num >= Integer.MAX_VALUE)
@@ -777,13 +763,13 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
 
                 //remove decimals if none needed
                 boolean isWhole = num % 1 == 0 && num < Math.pow(10, 9);
-                String ans = (isWhole)? Integer.toString((int)(num)) : Double.toString(num);
+                String ans = (isWhole) ? Integer.toString((int) (num)) : Double.toString(num);
 
                 //add to edit text and history array
-                result.setTextSize((ans.length() <= 16)? 40 : 31);
+                result.setTextSize((ans.length() <= 16) ? 40 : 31);
                 result.setText(ans);
                 pendingResult.setText("");
-                result.setTextColor(ContextCompat.getColor(getContext(), R.color.green_text));
+                result.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_text));
                 result.setSelection(ans.length());
 
                 solved = true;
@@ -795,7 +781,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
             }
         } catch (Exception e) {
             result.setText(R.string.error);
-            result.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+            result.setTextColor(ContextCompat.getColor(requireContext(), R.color.red));
             solved = true;
         }
     }
@@ -868,7 +854,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
             int pos = -1, ch;
 
             void nextChar() {
-                ch = (++pos < str.length())? str.charAt(pos) : -1;
+                ch = (++pos < str.length()) ? str.charAt(pos) : -1;
             }
 
             boolean eat(int charToEat) {
@@ -885,7 +871,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
             BigDecimal parse() {
                 nextChar();
                 BigDecimal x = parseExpression();
-                if (pos < str.length()) throw new RuntimeException("Unexpected: " + (char)ch);
+                if (pos < str.length()) throw new RuntimeException("Unexpected: " + (char) ch);
                 return x;
             }
 
@@ -918,31 +904,51 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
                 if (eat('(')) { //parentheses
                     x = parseExpression();
                     eat(')');
-                }
-                else if ((ch >= '0' && ch <= '9') || ch == '.') {
+                } else if ((ch >= '0' && ch <= '9') || ch == '.') {
                     while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
                     x = BigDecimal.valueOf(Double.parseDouble(str.substring(startPos, this.pos)));
-                }
-                else if (ch >= 'a' && ch <= 'z') { // functions
+                } else if (ch >= 'a' && ch <= 'z') { // functions
                     while (ch >= 'a' && ch <= 'z') nextChar();
                     String func = str.substring(startPos, this.pos);
                     x = parseFactor();
                     switch (func) {
-                        case "sqrt": x = sqrt(x); break;
-                        case "cbrt": x = cbrt(x); break;
-                        case "log": x = log10(x); break;
-                        case "ln": x = ln(x, SCALE); break;
-                        case "exp": x = exp(x, SCALE); break;
-                        case "sin": x = sin(x); break;
-                        case "cos": x = cos(x); break;
-                        case "tan": x = tan(x); break;
-                        case "asin": x = BigDecimal.valueOf(Math.asin(x.doubleValue())); break;
-                        case "acos": x = BigDecimal.valueOf(Math.acos(x.doubleValue())); break;
-                        case "atan": x = BigDecimal.valueOf(Math.atan(x.doubleValue())); break;
-                        default: throw new RuntimeException("Unknown function: " + func);
+                        case "sqrt":
+                            x = sqrt(x);
+                            break;
+                        case "cbrt":
+                            x = cbrt(x);
+                            break;
+                        case "log":
+                            x = log10(x);
+                            break;
+                        case "ln":
+                            x = ln(x, SCALE);
+                            break;
+                        case "exp":
+                            x = exp(x, SCALE);
+                            break;
+                        case "sin":
+                            x = sin(x);
+                            break;
+                        case "cos":
+                            x = cos(x);
+                            break;
+                        case "tan":
+                            x = tan(x);
+                            break;
+                        case "asin":
+                            x = BigDecimal.valueOf(Math.asin(x.doubleValue()));
+                            break;
+                        case "acos":
+                            x = BigDecimal.valueOf(Math.acos(x.doubleValue()));
+                            break;
+                        case "atan":
+                            x = BigDecimal.valueOf(Math.atan(x.doubleValue()));
+                            break;
+                        default:
+                            throw new RuntimeException("Unknown function: " + func);
                     }
-                }
-                else throw new RuntimeException("Unexpected: " + (char)ch);
+                } else throw new RuntimeException("Unexpected: " + (char) ch);
 
                 if (eat('^')) x = pow(x, parseFactor()); //exponents
                 else if (eat('E')) x = x.multiply(
@@ -956,13 +962,13 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
                 else if (eat('T')) x = x.multiply(
                         BigDecimal.valueOf(Math.pow(10, 12))); //Terra
                 else if (eat('m')) x = x.divide(
-                        BigDecimal.valueOf(Math.pow(10, 3))); //milli
+                        BigDecimal.valueOf(Math.pow(10, 3)), ROUNDING_MODE); //milli
                 else if (eat('\u00b5')) x = x.divide(
-                        BigDecimal.valueOf(Math.pow(10, 6))); //micro
+                        BigDecimal.valueOf(Math.pow(10, 6)), ROUNDING_MODE); //micro
                 else if (eat('n')) x = x.divide(
-                        BigDecimal.valueOf(Math.pow(10, 9))); //nano
+                        BigDecimal.valueOf(Math.pow(10, 9)), ROUNDING_MODE); //nano
                 else if (eat('p')) x = x.divide(
-                        BigDecimal.valueOf(Math.pow(10, 12))); //pico
+                        BigDecimal.valueOf(Math.pow(10, 12)), ROUNDING_MODE); //pico
 
                 return x;
             }
@@ -979,7 +985,9 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
         return new Object() {
             int pos = -1, ch;
 
-            void nextChar() { ch = (++pos < str.length()) ? str.charAt(pos) : -1; }
+            void nextChar() {
+                ch = (++pos < str.length()) ? str.charAt(pos) : -1;
+            }
 
             boolean eat(int charToEat) {
                 while (ch == ' ') nextChar();
@@ -995,7 +1003,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
             double parse() {
                 nextChar();
                 double x = parseExpression();
-                if (pos < str.length()) throw new RuntimeException("Unexpected: " + (char)ch);
+                if (pos < str.length()) throw new RuntimeException("Unexpected: " + (char) ch);
                 return x;
             }
 
@@ -1036,31 +1044,51 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
                 if (eat('(')) { // parentheses
                     x = parseExpression();
                     eat(')');
-                }
-                else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
+                } else if ((ch >= '0' && ch <= '9') || ch == '.') { // numbers
                     while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
                     x = Double.parseDouble(str.substring(startPos, this.pos));
-                }
-                else if (ch >= 'a' && ch <= 'z') { // functions
+                } else if (ch >= 'a' && ch <= 'z') { // functions
                     while (ch >= 'a' && ch <= 'z') nextChar();
                     String func = str.substring(startPos, this.pos);
                     x = parseFactor();
                     switch (func) {
-                        case "sqrt": x = Math.sqrt(x); break;
-                        case "cbrt": x = Math.cbrt(x); break;
-                        case "log": x = Math.log10(x); break;
-                        case "ln": x = Math.log(x); break;
-                        case "exp": x = Math.exp(x); break;
-                        case "sin": x = Math.sin(x); break;
-                        case "cos": x = Math.cos(x); break;
-                        case "tan": x = Math.tan(x); break;
-                        case "asin": x = Math.asin(x); break;
-                        case "acos": x = Math.acos(x); break;
-                        case "atan": x = Math.atan(x); break;
-                        default: throw new RuntimeException("Unknown function: " + func);
+                        case "sqrt":
+                            x = Math.sqrt(x);
+                            break;
+                        case "cbrt":
+                            x = Math.cbrt(x);
+                            break;
+                        case "log":
+                            x = Math.log10(x);
+                            break;
+                        case "ln":
+                            x = Math.log(x);
+                            break;
+                        case "exp":
+                            x = Math.exp(x);
+                            break;
+                        case "sin":
+                            x = Math.sin(x);
+                            break;
+                        case "cos":
+                            x = Math.cos(x);
+                            break;
+                        case "tan":
+                            x = Math.tan(x);
+                            break;
+                        case "asin":
+                            x = Math.asin(x);
+                            break;
+                        case "acos":
+                            x = Math.acos(x);
+                            break;
+                        case "atan":
+                            x = Math.atan(x);
+                            break;
+                        default:
+                            throw new RuntimeException("Unknown function: " + func);
                     }
-                }
-                else throw new RuntimeException("Unexpected: " + (char)ch);
+                } else throw new RuntimeException("Unexpected: " + (char) ch);
 
                 if (eat('^')) x = Math.pow(x, parseFactor());
                 if (eat('E')) x *= Math.pow(10, parseFactor());
@@ -1105,8 +1133,8 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
 
         for (int i = 0; i < 1000; i++)
             x = x.subtract(x.pow(3, mc).subtract(b, mc)
-                 .divide(new BigDecimal("3", mc)
-                 .multiply(x.pow(2, mc), mc), mc), mc);
+                    .divide(new BigDecimal("3", mc)
+                            .multiply(x.pow(2, mc), mc), mc), mc);
 
         return x;
     }
@@ -1114,7 +1142,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
     /**
      * Helper method to calculate the natural log of a BigDecimal.
      *
-     * @param x number to calculate
+     * @param x     number to calculate
      * @param scale scale of ln
      * @return natural log of the input
      */
@@ -1125,14 +1153,13 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
 
         if (magnitude < 3) {
             return lnNewton(x, scale);
-        }
-        else {
+        } else {
             BigDecimal root = intRoot(x, magnitude, scale);
             BigDecimal lnRoot = lnNewton(root, scale);
             return BigDecimal
-                   .valueOf(magnitude)
-                   .multiply(lnRoot)
-                   .setScale(scale, BigDecimal.ROUND_HALF_EVEN);
+                    .valueOf(magnitude)
+                    .multiply(lnRoot)
+                    .setScale(scale, ROUNDING_MODE);
         }
     }
 
@@ -1147,8 +1174,9 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
         MathContext mc = new MathContext(NUM_OF_DIGITS, RoundingMode.HALF_EVEN);
 
         if (b.signum() <= 0) throw new ArithmeticException("log of a negative number! (or zero)");
-        else if(b.compareTo(BigDecimal.ONE) == 0) return BigDecimal.ZERO;
-        else if(b.compareTo(BigDecimal.ONE) < 0) return (log10((BigDecimal.ONE).divide(b,mc))).negate();
+        else if (b.compareTo(BigDecimal.ONE) == 0) return BigDecimal.ZERO;
+        else if (b.compareTo(BigDecimal.ONE) < 0)
+            return (log10((BigDecimal.ONE).divide(b, mc))).negate();
 
         StringBuilder sb = new StringBuilder();
         int leftDigits = b.precision() - b.scale();
@@ -1163,7 +1191,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
         }
 
         BigDecimal ans = new BigDecimal(sb.toString());
-        ans = ans.round(new MathContext(ans.precision() - ans.scale() + SCALE, RoundingMode.HALF_EVEN));
+        ans = ans.round(new MathContext(ans.precision() - ans.scale() + SCALE, ROUNDING_MODE));
 
         return ans;
     }
@@ -1171,7 +1199,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
     /**
      * Helper method that use's Newton's algorithm to calculate ln.
      *
-     * @param x input as a BigDecimal
+     * @param x     input as a BigDecimal
      * @param scale scale of ln
      * @return result of the algorithm
      */
@@ -1183,18 +1211,18 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
 
         do {
             BigDecimal eToX = exp(x, sp1);
-            term = eToX.subtract(n).divide(eToX, sp1, BigDecimal.ROUND_DOWN);
+            term = eToX.subtract(n).divide(eToX, sp1, RoundingMode.DOWN);
             x = x.subtract(term);
             Thread.yield();
         } while (term.compareTo(tolerance) > 0);
 
-        return x.setScale(scale, BigDecimal.ROUND_HALF_EVEN);
+        return x.setScale(scale, ROUNDING_MODE);
     }
 
     /**
      * Helper method to calculate integral root using Newton's algorithm.
      *
-     * @param x input as a BigDecimal
+     * @param x     input as a BigDecimal
      * @param index index of integral root value
      * @param scale scale of result
      * @return integral root of the input
@@ -1205,19 +1233,19 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
         int sp1 = scale + 1;
         BigDecimal n = x;
         BigDecimal i = BigDecimal.valueOf(index);
-        BigDecimal im1 = BigDecimal.valueOf(index-1);
+        BigDecimal im1 = BigDecimal.valueOf(index - 1);
         BigDecimal tolerance = BigDecimal.valueOf(5).movePointLeft(sp1);
         BigDecimal xPrev;
 
-        x = x.divide(i, scale, BigDecimal.ROUND_HALF_EVEN);
+        x = x.divide(i, scale, ROUNDING_MODE);
 
         do {
-            BigDecimal xToIm1 = intPower(x, index-1, sp1);
-            BigDecimal xToI = x.multiply(xToIm1).setScale(sp1, BigDecimal.ROUND_HALF_EVEN);
-            BigDecimal numerator = n.add(im1.multiply(xToI)).setScale(sp1, BigDecimal.ROUND_HALF_EVEN);
-            BigDecimal denominator = i.multiply(xToIm1).setScale(sp1, BigDecimal.ROUND_HALF_EVEN);
+            BigDecimal xToIm1 = intPower(x, index - 1, sp1);
+            BigDecimal xToI = x.multiply(xToIm1).setScale(sp1, ROUNDING_MODE);
+            BigDecimal numerator = n.add(im1.multiply(xToI)).setScale(sp1, ROUNDING_MODE);
+            BigDecimal denominator = i.multiply(xToIm1).setScale(sp1, ROUNDING_MODE);
             xPrev = x;
-            x = numerator.divide(denominator, sp1, BigDecimal.ROUND_DOWN);
+            x = numerator.divide(denominator, sp1, RoundingMode.DOWN);
             Thread.yield();
         } while (x.subtract(xPrev).abs().compareTo(tolerance) > 0);
 
@@ -1227,22 +1255,22 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
     /**
      * Helper method to calculate x^exponent.
      *
-     * @param x root of exponent
+     * @param x        root of exponent
      * @param exponent power to raise to
-     * @param scale scale of the result
+     * @param scale    scale of the result
      * @return result of the inputs
      */
     private BigDecimal intPower(BigDecimal x, long exponent, int scale) {
         if (exponent < 0) {
-            return BigDecimal.valueOf(1).divide(intPower(x, -exponent, scale), scale, BigDecimal.ROUND_HALF_EVEN);
+            return BigDecimal.valueOf(1).divide(intPower(x, -exponent, scale), scale, ROUNDING_MODE);
         }
         BigDecimal power = BigDecimal.valueOf(1);
 
         while (exponent > 0) {
             if ((exponent & 1) == 1)
-                power = power.multiply(x).setScale(scale, BigDecimal.ROUND_HALF_EVEN);
+                power = power.multiply(x).setScale(scale, ROUNDING_MODE);
 
-            x = x.multiply(x).setScale(scale, BigDecimal.ROUND_HALF_EVEN);
+            x = x.multiply(x).setScale(scale, ROUNDING_MODE);
             exponent >>= 1;
             Thread.yield();
         }
@@ -1254,7 +1282,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
      * Helper method to calculate the power of a BigDecimal.
      *
      * @param savedValue base
-     * @param value exponent
+     * @param value      exponent
      * @return result of the inputs
      */
     private BigDecimal pow(BigDecimal savedValue, BigDecimal value) {
@@ -1264,7 +1292,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
     /**
      * Helper method to calculate e^x of a BigDecimal using Taylor's formula.
      *
-     * @param x power to raise to
+     * @param x     power to raise to
      * @param scale scale of the result
      * @return result of the input
      */
@@ -1272,36 +1300,36 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
         if (x.signum() == 0) return BigDecimal.valueOf(1);
 
         else if (x.signum() == -1) {
-            return BigDecimal.valueOf(1).divide(exp(x.negate(), scale), scale, BigDecimal.ROUND_HALF_EVEN);
+            return BigDecimal.valueOf(1).divide(exp(x.negate(), scale), scale, ROUNDING_MODE);
         }
 
-        BigDecimal xWhole = x.setScale(0, BigDecimal.ROUND_DOWN);
+        BigDecimal xWhole = x.setScale(0, RoundingMode.DOWN);
 
         if (xWhole.signum() == 0) return expTaylor(x, scale);
 
         BigDecimal xFraction = x.subtract(xWhole);
         BigDecimal z = BigDecimal.valueOf(1)
-                .add(xFraction.divide(xWhole, scale, BigDecimal.ROUND_HALF_EVEN));
+                .add(xFraction.divide(xWhole, scale, ROUNDING_MODE));
         BigDecimal t = expTaylor(z, scale);
         BigDecimal maxLong = BigDecimal.valueOf(Long.MAX_VALUE);
-        BigDecimal result  = BigDecimal.valueOf(1);
+        BigDecimal result = BigDecimal.valueOf(1);
 
         while (xWhole.compareTo(maxLong) >= 0) {
             result = result.multiply(
-                    intPower(t, Long.MAX_VALUE, scale))
-                    .setScale(scale, BigDecimal.ROUND_HALF_EVEN);
+                            intPower(t, Long.MAX_VALUE, scale))
+                    .setScale(scale, ROUNDING_MODE);
             xWhole = xWhole.subtract(maxLong);
             Thread.yield();
         }
         return result
-               .multiply(intPower(t, xWhole.longValue(), scale))
-               .setScale(scale, BigDecimal.ROUND_HALF_EVEN);
+                .multiply(intPower(t, xWhole.longValue(), scale))
+                .setScale(scale, ROUNDING_MODE);
     }
 
     /**
      * Helper method using Taylor series.
      *
-     * @param x value as a BigDecimal
+     * @param x     value as a BigDecimal
      * @param scale scale of result
      * @return result of series
      */
@@ -1309,13 +1337,13 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
         BigDecimal factorial = BigDecimal.valueOf(1);
         BigDecimal xPower = x;
         BigDecimal sumPrev;
-        BigDecimal sum  = x.add(BigDecimal.valueOf(1));
+        BigDecimal sum = x.add(BigDecimal.valueOf(1));
         int i = 2;
 
         do {
-            xPower = xPower.multiply(x).setScale(scale, BigDecimal.ROUND_HALF_EVEN);
+            xPower = xPower.multiply(x).setScale(scale, ROUNDING_MODE);
             factorial = factorial.multiply(BigDecimal.valueOf(i));
-            BigDecimal term = xPower.divide(factorial, scale, BigDecimal.ROUND_HALF_EVEN);
+            BigDecimal term = xPower.divide(factorial, scale, ROUNDING_MODE);
             sumPrev = sum;
             sum = sum.add(term);
             ++i;
@@ -1344,7 +1372,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
             int z = 2 * i + 3;
             denominator = denominator.multiply(BigDecimal.valueOf(z));
             denominator = denominator.multiply(BigDecimal.valueOf(z - 1));
-            numerator   = numerator.multiply(xSquared);
+            numerator = numerator.multiply(xSquared);
             BigDecimal term = numerator.divide(denominator, SCALE + 5, ROUNDING_MODE);
             if (i % 2 == 0) currentValue = currentValue.subtract(term);
             else currentValue = currentValue.add(term);
@@ -1372,7 +1400,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
             int z = 2 * i + 2;
             denominator = denominator.multiply(BigDecimal.valueOf(z));
             denominator = denominator.multiply(BigDecimal.valueOf(z - 1));
-            numerator   = numerator.multiply(xSquared);
+            numerator = numerator.multiply(xSquared);
             BigDecimal term = numerator.divide(denominator, SCALE + 5, ROUNDING_MODE);
             if (i % 2 == 0) currentValue = currentValue.subtract(term);
             else currentValue = currentValue.add(term);
@@ -1391,7 +1419,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
     private BigDecimal tan(BigDecimal x) {
         BigDecimal sin = sin(x);
         BigDecimal cos = cos(x);
-        return sin.divide(cos, SCALE, BigDecimal.ROUND_HALF_UP);
+        return sin.divide(cos, SCALE, RoundingMode.HALF_UP);
     }
 
     /**
@@ -1399,7 +1427,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
      */
     private void writeToFile() {
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(getContext().openFileOutput("history.txt", Context.MODE_PRIVATE));
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(requireContext().openFileOutput("history.txt", Context.MODE_PRIVATE));
 
             for (String data : history) {
                 if (data.equals("")) break;
@@ -1408,7 +1436,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
 
             outputStreamWriter.close();
         } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
+            Log.e("Exception", "File write failed: " + e);
         }
     }
 
@@ -1417,7 +1445,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
      */
     private void readFromFile() {
         try {
-            InputStream inputStream = getContext().openFileInput("history.txt");
+            InputStream inputStream = requireContext().openFileInput("history.txt");
 
             if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -1436,9 +1464,9 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
-            Log.e("Exception", "File not found: " + e.toString());
+            Log.e("Exception", "File not found: " + e);
         } catch (IOException e) {
-            Log.e("Exception", "Can not read file: " + e.toString());
+            Log.e("Exception", "Can not read file: " + e);
         }
     }
 }
