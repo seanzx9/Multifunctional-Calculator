@@ -51,7 +51,7 @@ public class BitwiseFragment extends Fragment {
             radioRow2.clearCheck();
             radioRow2.setOnCheckedChangeListener(row2);
 
-            vibrate(8, 200);
+            vibrate(6, 150);
 
             switch (i) {
                 case R.id.con:
@@ -84,7 +84,7 @@ public class BitwiseFragment extends Fragment {
             radioRow1.clearCheck();
             radioRow1.setOnCheckedChangeListener(row1);
 
-            vibrate(8, 200);
+            vibrate(6, 150);
 
             switch (i) {
                 case R.id.and:
@@ -115,7 +115,7 @@ public class BitwiseFragment extends Fragment {
         public void onCheckedChanged(RadioGroup radioGroup, int i) {
             RadioButton bt;
 
-            vibrate(8, 200);
+            vibrate(6, 150);
 
             switch (i) {
                 case R.id.dec_type2:
@@ -177,7 +177,7 @@ public class BitwiseFragment extends Fragment {
         //initialize result panels and long click listeners
         dec = view.findViewById(R.id.dec_result);
         dec.setOnLongClickListener(view -> {
-            vibrate(40, 200);
+            vibrate(40, 150);
 
             ClipboardManager cm = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
             cm.setPrimaryClip(ClipData.newPlainText("Dec", dec.getText().toString().trim().replaceAll(",", "")));
@@ -189,7 +189,7 @@ public class BitwiseFragment extends Fragment {
 
         bin = view.findViewById(R.id.bin_result);
         bin.setOnLongClickListener(view -> {
-            vibrate(40, 200);
+            vibrate(40, 150);
 
             ClipboardManager cm = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
             cm.setPrimaryClip(ClipData.newPlainText("Bin", bin.getText().toString().trim().replaceAll(" ", "")));
@@ -201,7 +201,7 @@ public class BitwiseFragment extends Fragment {
 
         hex = view.findViewById(R.id.hex_result);
         hex.setOnLongClickListener(view -> {
-            vibrate(40, 200);
+            vibrate(40, 150);
 
             ClipboardManager cm = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
             cm.setPrimaryClip(ClipData.newPlainText("Hex", hex.getText().toString().trim().replaceAll(" ", "")));
@@ -247,7 +247,7 @@ public class BitwiseFragment extends Fragment {
         radioType1.setOnCheckedChangeListener((radioGroup, i) -> {
             RadioButton bt;
 
-            vibrate(8, 200);
+            vibrate(6, 150);
 
             switch (i) {
                 case R.id.dec_type1:
@@ -331,7 +331,7 @@ public class BitwiseFragment extends Fragment {
         twoCom.setOnCheckedChangeListener((buttonView, isChecked) -> {
             twoCom.startAnimation(buttonPress);
 
-            vibrate(8, 200);
+            vibrate(6, 150);
 
             if (twoCom.isChecked()) {
                 input1.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);

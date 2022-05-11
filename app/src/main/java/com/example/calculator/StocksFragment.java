@@ -297,6 +297,6 @@ public class StocksFragment extends Fragment {
     private void vibrate(int length) {
         ((Vibrator) (requireActivity()
                 .getSystemService(VIBRATOR_SERVICE)))
-                .vibrate(VibrationEffect.createOneShot(length, 200));
+                .vibrate(VibrationEffect.createOneShot(length, 150));
     }
 }

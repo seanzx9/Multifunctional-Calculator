@@ -92,7 +92,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
 
             Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
 
-            vibrate(40, 200);
+            vibrate(40, 150);
 
             return true;
         });
@@ -212,7 +212,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
                 history.clear();
                 writeToFile();
                 Toast.makeText(getContext(), "History cleared", Toast.LENGTH_SHORT).show();
-                vibrate(40, 200);
+                vibrate(40, 150);
             }
             return true;
         });
@@ -231,7 +231,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            vibrate(8, 200);
+            vibrate(6, 150);
 
             view.findViewById(view.getId()).startAnimation(buttonPress);
 
@@ -584,7 +584,7 @@ public class BasicFragment extends Fragment implements View.OnTouchListener {
         BottomSheetListView lv = dialog.findViewById(R.id.listViewBtmSheet);
         Objects.requireNonNull(lv).setOnItemClickListener((adapterView, view, i, l) -> {
             if (!history.get(i).equals("")) {
-                vibrate(8, 200);
+                vibrate(6, 150);
                 String ans = history.get(i).substring(history.get(i).indexOf("\n") + 1);
                 addStr(ans, 0);
                 dialog.dismiss();

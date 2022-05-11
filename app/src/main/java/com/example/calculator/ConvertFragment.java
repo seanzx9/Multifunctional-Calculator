@@ -64,7 +64,7 @@ public class ConvertFragment extends Fragment {
             radioRow2.setOnCheckedChangeListener(row2);
             radioRow3.setOnCheckedChangeListener(row3);
 
-            vibrate(8, 200);
+            vibrate(6, 150);
 
             switch (i) {
                 case R.id.temperature:
@@ -133,7 +133,7 @@ public class ConvertFragment extends Fragment {
             radioRow1.setOnCheckedChangeListener(row1);
             radioRow3.setOnCheckedChangeListener(row3);
 
-            vibrate(8, 200);
+            vibrate(6, 150);
 
             switch (i) {
                 case R.id.length:
@@ -202,7 +202,7 @@ public class ConvertFragment extends Fragment {
             radioRow1.setOnCheckedChangeListener(row1);
             radioRow2.setOnCheckedChangeListener(row2);
 
-            vibrate(8, 200);
+            vibrate(6, 150);
 
             switch (i) {
                 case R.id.speed:
@@ -350,7 +350,7 @@ public class ConvertFragment extends Fragment {
 
         //handle input1 long press
         input1.setOnLongClickListener(view -> {
-            vibrate(40, 200);
+            vibrate(40, 150);
 
             ClipboardManager cm = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
             cm.setPrimaryClip(ClipData.newPlainText("Value", Objects.requireNonNull(input1.getText()).toString().trim()));
@@ -372,7 +372,7 @@ public class ConvertFragment extends Fragment {
 
         //handle input2 long press
         input2.setOnLongClickListener(view -> {
-            vibrate(40, 200);
+            vibrate(40, 150);
 
             ClipboardManager cm = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
             cm.setPrimaryClip(ClipData.newPlainText("Value", Objects.requireNonNull(input2.getText()).toString().trim()));

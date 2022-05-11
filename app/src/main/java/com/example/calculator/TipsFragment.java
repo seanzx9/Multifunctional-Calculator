@@ -59,7 +59,7 @@ public class TipsFragment extends Fragment implements View.OnTouchListener {
 
         //handle total long press
         total.setOnLongClickListener(view1 -> {
-            vibrate(40, 200);
+            vibrate(40, 150);
 
             ClipboardManager cm = (ClipboardManager) requireContext()
                     .getSystemService(Context.CLIPBOARD_SERVICE);
@@ -78,7 +78,7 @@ public class TipsFragment extends Fragment implements View.OnTouchListener {
 
         //handle tip long press
         tip.setOnLongClickListener(view12 -> {
-            vibrate(40, 200);
+            vibrate(40, 150);
             ClipboardManager cm = (ClipboardManager) requireContext()
                     .getSystemService(Context.CLIPBOARD_SERVICE);
             assert cm != null;
@@ -211,30 +211,30 @@ public class TipsFragment extends Fragment implements View.OnTouchListener {
                 case R.id.tip_left:
                     decTip();
                     calculate();
-                    vibrate(8, 200);
+                    vibrate(6, 150);
                     break;
                 //increment tip button
                 case R.id.tip_right:
                     incTip();
                     calculate();
-                    vibrate(8, 200);
+                    vibrate(6, 150);
                     break;
                 //decrement split button
                 case R.id.split_left:
                     decSplit();
                     calculate();
-                    vibrate(8, 200);
+                    vibrate(6, 150);
                     break;
                 //increment split button
                 case R.id.split_right:
                     incSplit();
                     calculate();
-                    vibrate(8, 200);
+                    vibrate(6, 150);
                     break;
                 //reset button
                 case R.id.reset:
                     reset();
-                    vibrate(80, 200);
+                    vibrate(80, 150);
                     break;
             }
         }
