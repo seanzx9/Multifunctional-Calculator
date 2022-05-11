@@ -291,8 +291,8 @@ public class StocksFragment extends Fragment {
 
     /**
      * Vibrates for certain length and amplitude.
-     *  @param length    length in ms
      *
+     * @param length length in ms
      */
     private void vibrate(int length) {
         ((Vibrator) (requireActivity()
